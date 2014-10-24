@@ -17,3 +17,8 @@ dependencies[] = location_generate
 dependencies[] = location_phone
 dependencies[] = location_search
 dependencies[] = location_taxonomy
+
+; FAQ 7.x-2.x-dev
+dependencies[] = faq
+dependencies[] = faq_expert
+dependencies[] = faq_content
