@@ -4,4 +4,16 @@ core = 7.x
 dependencies[] = block
 dependencies[] = dblog
 
-
+; Location 7.x-3.x-dev
+dependencies[] = location
+dependencies[] = location_node
+dependencies[] = location_user
+dependencies[] = location_addanother
+dependencies[] = location_cck
+dependencies[] = location_email
+dependencies[] = location_entity
+dependencies[] = location_fax
+dependencies[] = location_generate
+dependencies[] = location_phone
+dependencies[] = location_search
+dependencies[] = location_taxonomy
