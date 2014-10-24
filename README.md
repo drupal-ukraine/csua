@@ -1,7 +1,7 @@
 drupal project
 ======
 
-Drupal project is for SPS
+Drupal project is for CodeSprintUA 2014
 
 For obtaining development environment locally You should install vagrant and puppet and from console ran
 ```sh
