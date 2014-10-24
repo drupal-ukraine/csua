@@ -76,6 +76,14 @@ function faq_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'faq' => 'faq',
   );
+  /* Filter criterion: Content translation: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
 
   /* Display: Block - Recent FAQs */
   $handler = $view->new_display('block', 'Block - Recent FAQs', 'faq_recent');

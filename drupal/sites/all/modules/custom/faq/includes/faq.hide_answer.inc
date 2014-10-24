@@ -2,41 +2,30 @@
 
 /**
  * @file
- * FAQ page callbacks for the "questions inline" layouts.
+ * FAQ page callbacks for the "hide answer" layouts.
  */
 
 /**
- * Create the FAQ page if set to show the questions inline.
+ * Create FAQ page if set to show/hide answer when question is clicked.
  *
  * @param &$variables
  *   Array reference of arguments given to the theme() function.
  */
-function template_preprocess_faq_questions_inline(&$variables) {
+function template_preprocess_faq_hide_answer(&$variables) {
   $data = $variables['data'];
+  $this_page = $_GET['q'];
 
   // Fetch configuration.
-  $disable_node_links = variable_get('faq_disable_node_links', FALSE);
   $teaser = variable_get('faq_use_teaser', FALSE);
   $links = variable_get('faq_show_node_links', FALSE);
-
-  // Configure "back to top" link.
-  $this_page = $_GET['q'];
-  $back_to_top = faq_init_back_to_top($this_page);
-
-  // Configure labels.
-  $variables['question_label'] = '';
-  $variables['answer_label'] = '';
-  if (variable_get('faq_qa_mark', FALSE)) {
-    $variables['question_label'] = check_plain(variable_get('faq_question_label', "Q:"));
-    $variables['answer_label'] = check_plain(variable_get('faq_answer_label', "A:"));
-  }
+  $disable_node_links = variable_get('faq_disable_node_links', FALSE);
 
   $nodes = array();
   $count = 0;
   foreach ($data as $node) {
     $anchor = 'n' . $node->nid;
-    faq_view_question($nodes[$count], $node, NULL, $anchor);
-    faq_view_answer($nodes[$count], $node, $back_to_top, $teaser, $links);
+    faq_view_question($nodes[$count], $node, $this_page, $anchor);
+    faq_view_answer($nodes[$count], $node, array(), $teaser, $links);
     $count++;
   }
   $variables['use_teaser'] = $teaser;
@@ -44,12 +33,12 @@ function template_preprocess_faq_questions_inline(&$variables) {
 }
 
 /**
- * Create categorized FAQ page if set to show/hide the questions inline.
+ * Create categorized FAQ page if set to show answer when question is clicked.
  *
  * @param &$variables
  *   Array reference of arguments given to the theme() function.
  */
-function template_preprocess_faq_category_questions_inline(&$variables) {
+function template_preprocess_faq_category_hide_answer(&$variables) {
   $data = $variables['data'];
   $category_display = $variables['category_display'];
   $term = $variables['term'];
@@ -58,6 +47,7 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
 
   // Fetch configuration.
   $teaser = variable_get('faq_use_teaser', FALSE);
+  $variables['use_teaser'] = $teaser;
   $links = variable_get('faq_show_node_links', FALSE);
   $disable_node_links = variable_get('faq_disable_node_links', FALSE);
   $display_faq_count = variable_get('faq_count', FALSE);
@@ -66,7 +56,6 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
   $default_sorting = variable_get('faq_default_sorting', 'DESC');
 
   // Initialise some variables.
-  $variables['use_teaser'] = $teaser;
   $default_weight = 0;
   if ($default_sorting != 'DESC') {
     $default_weight = 1000000;
@@ -87,16 +76,6 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
     $show_term_page_children = TRUE;
   }
 
-  // Configure "back to top" link.
-  $back_to_top = faq_init_back_to_top($this_page);
-
-  // Configure labels.
-  $variables['question_label'] = '';
-  $variables['answer_label'] = '';
-  if (variable_get('faq_qa_mark', FALSE)) {
-    $variables['question_label'] = check_plain(variable_get('faq_question_label', "Q:"));
-    $variables['answer_label'] = check_plain(variable_get('faq_answer_label', "A:"));
-  }
 
   // Get number of questions, and account for hidden sub-categories.
   $count = 0;
@@ -113,6 +92,7 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
 
   // Configure header.
   $variables['category_depth'] = $term->depth;
+  $variables['category_name'] = check_plain(faq_tt("taxonomy:term:$term->tid:name", $term->name));
   if ($category_display == 'hide_qa') {
     $variables['header_title'] = l(faq_tt("taxonomy:term:$term->tid:name", $term->name), "faq/$term->tid");
   }
@@ -121,7 +101,7 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
   }
 
   // Configure category description.
-  $variables['description'] = check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description), $term->format);
+  $variables['description'] = check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description));
 
   // Get list of sub-categories if necessary.
   $child_categories = array();
@@ -142,7 +122,7 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
   // Configure sub-category bodies (theme recursively).
   $variables['subcat_body_list'] = array();
   if (($get_child_terms && $category_display == 'categories_inline') || ((($show_term_page_children && $this_page != 'faq-page') || $hide_child_terms) && $category_display == 'hide_qa')) {
-    $variables['subcat_body_list'] = faq_get_child_categories_faqs($term, 'faq_category_questions_inline', $default_weight, $default_sorting, $category_display, $variables['class'], $parent_term);
+    $variables['subcat_body_list'] = faq_get_child_categories_faqs($term, 'faq_category_hide_answer', $default_weight, $default_sorting, $category_display, $variables['class'], $parent_term);
   }
 
   if (!count($data)) {
@@ -158,8 +138,8 @@ function template_preprocess_faq_category_questions_inline(&$variables) {
     }
     $node_var = array();
     $anchor = 't' . $term->tid . 'n' . $node->nid;
-    faq_view_question($node_var, $node, NULL, $anchor);
-    faq_view_answer($node_var, $node, $back_to_top, $teaser, $links);
+    faq_view_question($node_var, $node, $this_page, $anchor);
+    faq_view_answer($node_var, $node, array(), $teaser, $links);
     $nodes[] = $node_var;
   }
   $variables['nodes'] = $nodes;

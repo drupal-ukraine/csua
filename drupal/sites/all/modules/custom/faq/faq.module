@@ -8,7 +8,6 @@
 
 /**
  * Implements hook_help().
- * @todo rewrite help for 7.x-2.x
  */
 function faq_help($path, $arg) {
   $output = '';
@@ -18,9 +17,7 @@ function faq_help($path, $arg) {
         '<p>' . t("To create a question and answer, the user must create a 'FAQ' node (Create content >> FAQ).  This screen allows the user to edit the question and answer text.  If the 'Taxonomy' module is enabled and there are some terms configured for the FAQ node type, it will also be possible to put the questions into different categories when editing.") . '</p>' .
         '<p>' . t("The 'Frequently Asked Questions' settings configuration screen will allow users with 'administer faq' permissions to specify different layouts of the questions and answers.") . '</p>' .
         '<p>' . t("All users with 'view faq page' permissions will be able to view the generated FAQ page.") . '</p>';
-      // @codingStandardsIgnoreStart
       return $output;
-      // @codingStandardsIgnoreEnd
     case 'admin/modules#description':
       return t('Allows the user to configure the layout of questions and answers on a FAQ page.');
   }
@@ -28,7 +25,6 @@ function faq_help($path, $arg) {
 
 /**
  * Implements hook_permission().
- * @todo 7.x-2.x do we need these permissions?
  */
 function faq_permission() {
   return array(
@@ -47,9 +43,8 @@ function faq_permission() {
 
 /**
  * Implements hook_node_access().
- * @deprecated 7.x-2.x
  */
-function new_faq_node_access($node, $op, $account = NULL) {
+function faq_node_access($node, $op, $account = NULL) {
   global $user;
   if (empty($account)) {
     $account = $user;
@@ -79,7 +74,6 @@ function new_faq_node_access($node, $op, $account = NULL) {
 function faq_menu() {
   $items = array();
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page'] = array(
     'title' => 'Frequently Asked Questions',
     'page callback' => 'faq_page',
@@ -89,7 +83,6 @@ function faq_menu() {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page/list'] = array(
     'title' => 'List',
     'page callback' => 'faq_page',
@@ -99,7 +92,6 @@ function faq_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page/order'] = array(
     'title' => 'Order',
     'description' => 'Allows the user to configure the order of questions and answers on a FAQ page.',
@@ -112,7 +104,6 @@ function faq_menu() {
     'weight' => -8,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page/%'] = array(
     'title' => 'Frequently Asked Questions',
     'page callback' => 'faq_page',
@@ -122,7 +113,6 @@ function faq_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page/%/list'] = array(
     'title' => 'List',
     'page callback' => 'faq_page',
@@ -133,7 +123,6 @@ function faq_menu() {
     'weight' => -10,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['faq-page/%/order'] = array(
     'title' => 'Order',
     'description' => 'Allows the user to configure the order of questions and answers on a FAQ page.',
@@ -146,7 +135,6 @@ function faq_menu() {
     'weight' => -8,
   );
 
-  // @todo 7.x-2.x move this to views display
   $items['admin/config/content/faq'] = array(
     'title' => 'Frequently Asked Questions',
     'description' => 'Allows the user to configure the layout of questions and answers on a FAQ page.',
@@ -194,18 +182,17 @@ function faq_menu() {
 /**
  * Implements hook_node_info().
  *
- * @todo move this to content type feature
- *
  * Defines the FAQ node/content type.
  * @return array
  *   An array, containing the title, module name and the description.
  */
-function new_faq_node_info() {
+function faq_node_info() {
   return array(
     'faq' => array(
       'name' => t('FAQ'),
       'base' => 'faq',
       'description' => t('A frequently asked question and its answer.'),
+      'has_title' => true,
       'title_label' => t('Question'),
     ),
   );
@@ -213,8 +200,6 @@ function new_faq_node_info() {
 
 /**
  * Implements hook_form().
- *
- * @todo 7.x-2.x remove for field api
  *
  * @param &$node object
  *   The node being added or edited.
@@ -224,28 +209,10 @@ function new_faq_node_info() {
  * @return array
  *   The form elements in the $form array.
  */
-function new_faq_form($node, $form_state) {
+function faq_form($node, $form_state) {
   $type = node_type_get_type($node);
-
-  // Set defaults.
-  if (empty($node->detailed_question)) {
-    $node->detailed_question = '';
-  }
-
   $form = node_content_form($node, $form_state);
-
   $form['title']['#description'] = t('Question to be answered.  This will appear in all question listings, such as the FAQ blocks.');
-
-  // Detailed question.
-  if (variable_get('faq_question_long_form', 1) || variable_get('faq_question_length', 'short') == 'long') {
-    $form['detailed_question'] = array(
-      '#type' => 'textarea',
-      '#title' => t('Question details'),
-      '#default_value' => $node->detailed_question,
-      '#rows' => 3,
-      '#description' => t('Longer question text.  This will be displayed in all layouts where the answer appears, in addition to the shorter question text.'),
-    );
-  }
 
   // Answer.
   if (!empty($type->body_label)) {
@@ -256,22 +223,6 @@ function new_faq_form($node, $form_state) {
 }
 
 /**
- * Implements hook_field_extra_fields().
- */
-function new_faq_field_extra_fields() {
-  $extra['node']['faq'] = array(
-    'form' => array(
-      'detailed_question' => array(
-        'label' => t('Question details'),
-        'description' => t('Longer question text'),
-        'weight' => -5,
-      ),
-    ),
-  );
-  return $extra;
-}
-
-/**
  * Implements hook_insert().
  *
  * Inserts the faq node question text into the 'faq_questions' table.
@@ -279,13 +230,14 @@ function new_faq_field_extra_fields() {
  * @param $node
  *   The node object.
  */
-function new_faq_insert($node) {
+function faq_insert($node) {
+  $detailed_question = reset(field_get_items('node', $node, 'field_detailed_question'));
   db_insert('faq_questions')
     ->fields(array(
       'nid' => $node->nid,
       'vid' => $node->vid,
       'question' => $node->title,
-      'detailed_question' => $node->detailed_question,
+      'detailed_question' => $detailed_question['value'],  //$node->field_detailed_question[$node->language][0]['value'],
     ))
     ->execute();
 }
@@ -303,11 +255,15 @@ function faq_update($node) {
     faq_insert($node);
   }
   else {
+    $detailed_question = array('value' => '');  // Empty detailed question as default
+    if ($items = field_get_items('node', $node, 'field_detailed_question')) {
+      $detailed_question = reset($items);
+    }
     // Just to be safe, we do a merge query instead of an update query.
     db_merge('faq_questions')
       ->fields(array(
         'question' => $node->title,
-        'detailed_question' => $node->detailed_question,
+        'detailed_question' => $detailed_question['value'],
       ))
       ->key(array(
         'nid' => $node->nid,
@@ -325,7 +281,7 @@ function faq_update($node) {
  * @param &$node
  *   Which node to delete.
  */
-function new_faq_delete($node) {
+function faq_delete($node) {
   db_delete('faq_weights')
   ->condition('nid', $node->nid)
   ->execute();
@@ -339,11 +295,15 @@ function new_faq_delete($node) {
  *
  * Initialises $node->question using the value in the 'faq_questions' table.
  *
- * @param $nodes
- *   The node object.
+ * @param Array $nodes
+ *   The node objects array.
  */
-function new_faq_load($nodes) {
+function faq_load($nodes) {
+
+  return;
+  /*
   foreach ($nodes as $nid => &$node) {
+    // TODO: change logic to load faq nodes - do not rely on specific faq table
     $result = db_query('SELECT question, detailed_question FROM {faq_questions} WHERE nid = :nid AND vid = :vid', array(
       ':nid' => $node->nid,
       ':vid' => $node->vid,
@@ -361,12 +321,13 @@ function new_faq_load($nodes) {
       $node->$property = $value;
     }
   }
+  */
 }
 
 /**
  * Implements hook_node_revision_delete().
  */
-function new_faq_node_revision_delete($node) {
+function faq_node_revision_delete($node) {
   db_delete('faq_questions')
     ->condition('nid', $node->nid)
     ->condition('vid', $node->vid)
@@ -376,29 +337,45 @@ function new_faq_node_revision_delete($node) {
 /**
  * Implements hook_view().
  */
-function new_faq_view($node, $view_mode) {
+function faq_view($node, $view_mode) {
 
   drupal_add_css(drupal_get_path('module', 'faq') . '/faq.css');
 
-  $language = $node->language;
-  if (isset($node->body[$language]) && $node->body[$language]) {
-    $node->detailed_question = check_markup($node->detailed_question, $node->body[$language][0]['format'], $language);
-    if (!isset($node->body[$language][0])) drupal_set_message('<pre>'.print_r($node->body, TRUE).'</pre>');
-  }
-  else {
-    $node->detailed_question = check_markup($node->detailed_question, NULL, $language);
+  $detailed_question = FALSE;
+  // Get the detailed question
+  if ($field_items = field_get_items('node', $node, 'field_detailed_question')) {
+    $detailed_question = reset($field_items);
   }
 
-  if (   !empty($node->detailed_question)
-      && variable_get('faq_question_length', 'short') == 'both'
-      && (   variable_get('faq_display', 'questions_top') == 'hide_answer'
-          || drupal_match_path($_GET['q'], 'node/' . $node->nid)
-         )
-     ) {
-    $node->content['detailed_question'] = array(
-      '#markup' => '<div class="faq-detailed-question">' . $node->detailed_question . '</div>',
-      '#weight' => '-1',
-    );
+  // Only show the detailed question if there is something to show.
+  if ($detailed_question && !empty($detailed_question['value'])) {
+      $show_question = FALSE;
+
+   if ($view_mode == 'full') {
+       // The detailed question is always shown on the full node.
+       $show_question = TRUE;
+     }
+     else {
+     // On other pages, consider the admin settings.
+       if (variable_get('faq_question_length', 'short') == 'both' && variable_get('faq_display', 'questions_top') == 'hide_answer') {
+          $show_question = TRUE;
+        }
+      }
+
+    // Should be handled by themeing - create field--field_detailed_question.tpl.php
+    if ($show_question) {
+      // We're here if we are showing the question
+      $node->content['field_detailed_question'] = array(
+        '#markup' => theme('field_detailed_question', $detailed_question),
+  //      '#markup' => '<div class="faq-detailed-question">' . $node->field_detailed_question[$node->language][0]['value'] . '</div>',
+  //      '#weight' => '-1',
+      );
+
+    }
+    else {
+      // We switch off the visibility of the detailed question
+      hide($node->content['field_detailed_question']);
+    }
   }
 
   return $node;
@@ -428,7 +405,7 @@ function faq_views_api() {
  *   The output variable which contains an HTML formatted page with FAQ
  *   questions and answers.
  */
-function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
+function faq_page($tid = 0, $faq_display = '', $category_display = '') {
   if (module_exists('pathauto')) {
     module_load_include('inc', 'pathauto');
   }
@@ -457,6 +434,7 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
       faq_set_breadcrumb($current_term);
     }
   }
+
 
   if (empty($faq_display)) {
     $faq_display = variable_get('faq_display', 'questions_top');
@@ -518,9 +496,12 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
       $query->condition('n.language', i18n_select_langcodes());
     }
 
+
     // Only need the nid column.
     $nids = $query->execute()->fetchCol();
+    //dpm($nids);
     $data = node_load_multiple($nids);
+
     switch ($faq_display) {
       case 'questions_top':
         include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.questions_top.inc';
@@ -542,9 +523,9 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
         $output = theme('faq_new_page', array('data' => $data));
         break;
 
-      // End of switch.
-    }
+    } // End of switch.
   }
+
 
   // Categorize questions.
   else {
@@ -566,12 +547,15 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
       }
     }
 
+
     $list_style = variable_get('faq_category_listing', 'ul');
     $vocabularies = taxonomy_get_vocabularies('faq');
     $vocab_omit = variable_get('faq_omit_vocabulary', array());
     $items = array();
     $vocab_items = array();
     $valid_vocab = FALSE;
+
+
     foreach ($vocabularies as $vid => $vobj) {
       if (isset($vocab_omit[$vid]) && $vocab_omit[$vid] != 0) {
         continue;
@@ -591,6 +575,7 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
         else {
           $tree = taxonomy_get_tree($vid, 0, NULL, TRUE);
         }
+
         foreach ($tree as $term) {
           switch ($category_display) {
             case 'hide_qa':
@@ -599,10 +584,12 @@ function new_faq_page($tid = 0, $faq_display = '', $category_display = '') {
                 _display_faq_by_category($faq_display, $category_display, $term, 1, $output, $output_answers);
               }
               break;
-          }
-        }
-      }
-    }
+
+
+          } // End of switch (category_display).
+        } // End of foreach term.
+      } // End of if $category_display != new_page.
+    } // End of foreach vocab.
 
     if ($category_display == "new_page") {
       $output = theme('item_list', array('items' => $items, 'title' => NULL, 'type' => $list_style));
@@ -675,9 +662,11 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
     $query->condition("{$td_alias}.language", i18n_select_langcodes());
   }
 
+
   // We only want the first column, which is nid, so that we can load all
   // related nodes.
   $nids = $query->execute()->fetchCol();
+
   $data = node_load_multiple($nids);
 
   // Handle indenting of categories.
@@ -701,6 +690,7 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
   $faq_path = drupal_get_path('module', 'faq') . '/includes';
 
   switch ($faq_display) {
+
     case 'questions_top':
       include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.questions_top.inc';
       // @todo fix workaround: have to share result.
@@ -708,23 +698,26 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
       $output_answers .= theme('faq_category_questions_top_answers', array('data' => $data, 'display_header' => $display_header, 'category_display' => $category_display, 'term' => $term, 'class' => $faq_class, 'parent_term' => $term));
       break;
 
+
     case 'hide_answer':
       include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.hide_answer.inc';
       $output .= theme('faq_category_hide_answer', array('data' => $data, 'display_header' => $display_header, 'category_display' => $category_display, 'term' => $term, 'class' => $faq_class, 'parent_term' => $term));
       break;
+
 
     case 'questions_inline':
       include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.questions_inline.inc';
       $output .= theme('faq_category_questions_inline', array('data' => $data, 'display_header' => $display_header, 'category_display' => $category_display, 'term' => $term, 'class' => $faq_class, 'parent_term' => $term));
       break;
 
+
     case 'new_page':
       include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.new_page.inc';
       $output .= theme('faq_category_new_page', array('data' => $data, 'display_header' => $display_header, 'category_display' => $category_display, 'term' => $term, 'class' => $faq_class, 'parent_term' => $term));
       break;
 
-    // End of switch (faq_display).
-  }
+  } // End of switch (faq_display).
+
 
   // Handle indenting of categories.
   while ($depth > 0) {
@@ -740,6 +733,9 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
 function faq_theme() {
   $path = drupal_get_path('module', 'faq') . '/includes';
   return array(
+    'field_detailed_question' => array(
+      'render element' => 'element',
+    ),
     'faq_draggable_question_order_table' => array(
       'render element' => 'form',
     ),
@@ -845,9 +841,7 @@ function faq_block_view($delta) {
         }
       }
       break;
-
-    // End switch($delta).
-  }
+  } // End switch($delta).
 
   return $block;
 }
@@ -888,7 +882,7 @@ function _get_indented_faq_terms($vid, $tid) {
       $desc = '';
       if (!empty($term->description)) {
         $desc = '<div class="faq-qa-description">';
-        $desc .= check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description), $term->format) . "</div>";
+        $desc .= check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description)) . "</div>";
       }
 
       // See if this term has any nodes itself, should it be a link?
@@ -1086,9 +1080,24 @@ function faq_view_question(&$data, $node, $path = NULL, $anchor = NULL) {
   }
   $question = '<span datatype="" property="dc:title">' . $question . '</span>';
 
-  if (variable_get('faq_display', 'questions_top') != 'hide_answer' && !empty($node->detailed_question) && variable_get('faq_question_length', 'short') == 'both') {
-    $node->detailed_question = check_markup($node->detailed_question, 'filtered_html', '', FALSE);
-    $question .= '<div class="faq-detailed-question">' . $node->detailed_question . '</div>';
+  // Get the language of the body field
+  $language = 'und';
+  foreach ($node->body as $lang => $values) {
+    if ($values[0]['value']) {
+      $language = $lang;
+    }
+  }
+
+  // Get the detailed question
+  $detailed_question = '';
+  if ($dq = field_get_items('node', $node, 'field_detailed_question')) {
+    $detailed_question = reset($dq);
+  }
+
+  if (  variable_get('faq_display', 'questions_top') != 'hide_answer'
+        && !empty($detailed_question['value'])
+        && variable_get('faq_question_length', 'short') == 'both') {
+    $question .= '<div class="faq-detailed-question">' . $detailed_question['safe_value'] . '</div>';
   }
   $data['question'] = $question;
 }
@@ -1152,8 +1161,7 @@ function faq_view_answer(&$data, $node, $back_to_top, $teaser, $links) {
 
   $node_links = ($links ? $build['links']['node']['#links'] : (!empty($back_to_top) ? array($build['links']['node']['#links']['faq_back_to_top']) : NULL));
   unset($build['links']);
-  // We don't want node title displayed.
-  unset($build['#theme']);
+  unset($build['#theme']); // We don't want node title displayed.
 
   $content = drupal_render($build);
 
@@ -1293,7 +1301,7 @@ function faq_view_child_category_headers($term) {
       }
 
       $term_vars['link'] = l(faq_tt("taxonomy:term:$child_term->tid:name", $child_term->name), "faq-page/$child_term->tid");
-      $term_vars['description'] = check_markup(faq_tt("taxonomy:term:$child_term->tid:description", $child_term->description), $child_term->format);
+      $term_vars['description'] = check_markup(faq_tt("taxonomy:term:$child_term->tid:description", $child_term->description));
       $term_vars['count'] = $term_node_count;
       $term_vars['term_image'] = $term_image;
       $child_categories[] = $term_vars;
@@ -1316,9 +1324,8 @@ function faq_pathauto($op) {
       $settings['patterndefault'] = t('faq-page/[term:tid]');
       $settings['batch_update_callback'] = 'faq_pathauto_bulkupdate';
       $settings['token_type'] = 'term';
-      // @codingStandardsIgnoreStart
+
       return (object) $settings;
-      // @codingStandardsIgnoreEnd
     default:
       break;
   }
@@ -1612,6 +1619,33 @@ function theme_faq_page($variables) {
   $output .= $content;
   $output .= $answers . "</div></div>\n";
   return $output;
+}
+
+/**
+ * Theme function for the detailed questionfield
+ *
+ * @param Array $variables
+ * @return string
+ */
+function theme_field_detailed_question($variables) {
+
+   // Render the label, if it's not hidden.
+   $output = '';
+
+   if (isset($variables['label']) && !$variables['label_hidden'] && $variables['label']) {
+     $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
+   }
+
+   // Render the items.
+   $output .= '<div class="faq-detailed-question">' . $variables['safe_value'] . '</div>';
+
+   // Render the top-level DIV.
+   if (isset($variables['classes']) && isset($variables['attributes'])) {
+     $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+   }
+
+   return $output;
+
 }
 
 /**

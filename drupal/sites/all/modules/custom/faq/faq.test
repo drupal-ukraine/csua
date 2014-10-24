@@ -207,12 +207,21 @@ class CreateFaqTestCase extends FaqTestCase {
 
   /**
    * Test creating a FAQ node
+   *
+   * This test creates a faq with detailed question shown and labeled questions and answers
    */
   function testFaqCreate() {
 
     // Create and log in user with create FAQ permissions
-    $this->admin_user = $this->drupalCreateUser(array('create faq content', 'view faq page'));
     $this->drupalLogin($this->admin_user);
+    // Show the detailed question
+    $this->drupalGet('admin/config/content/faq/questions');
+    // Set faq to allow long question text and labeled questions and answers
+    $this->drupalPost('admin/config/content/faq/questions', array('faq_question_long_form' => '1', 'faq_qa_mark' => '1'), t('Save configuration'));
+    $this->drupalPost('admin/config/content/faq/questions', array('faq_question_length' => 'both'), t('Save configuration'));
+
+    $this->afaq_user = $this->drupalCreateUser(array('create faq content', 'view faq page'));
+    $this->drupalLogin($this->afaq_user);
 
     // Verify that the faq page is visible and available but empty
     $this->drupalGet('faq-page');
@@ -223,18 +232,23 @@ class CreateFaqTestCase extends FaqTestCase {
     $this->faq1 = array();
     $this->faq1['title'] = 'faq1_'. $this->randomName(8);
     $this->faq1[$this->instance['field_name'] . '[' . $langcode .']'] = $this->term->name;
-    $this->faq1['detailed_question'] = $this->randomName(16);
+    $this->faq1["field_detailed_question[$langcode][0][value]"] = $this->randomName(16);
     $this->faq1["body[$langcode][0][value]"] = $this->randomName(16);
     $this->drupalPost('node/add/faq', $this->faq1, t('Save'));
 
+
     // Check that new FAQ node has actually been created
     $this->assertText(t('FAQ @title has been created.', array('@title' => $this->faq1['title'])));
+
+    // Check that faq is found on the correct taxonomy term page too
+    $this->drupalGet('taxonomy/term/' . $this->term->tid);
+    $this->assertText(t('@title', array('@title' => $this->faq1['title'])));
 
     // Fill in the Create FAQ node 2 form and post it
     $this->faq2 = array();
     $this->faq2['title'] = 'faq2_'. $this->randomName(8);
     $this->faq2[$this->instance['field_name'] . '[' . $langcode .']'] = $this->randomName(8); // Add new term
-    $this->faq2['detailed_question'] = $this->randomName(16);
+    $this->faq2["field_detailed_question[$langcode][0][value]"] = $this->randomName(16);
     $this->faq2["body[$langcode][0][value]"] = $this->randomName(16);
     $this->drupalPost('node/add/faq', $this->faq2, t('Save'));
 
@@ -261,7 +275,8 @@ class CreateFaqTestCase extends FaqTestCase {
 
     // Navigate to FAQ node created on FAQ page
     $this->clickLink(t($this->faq1['title']));
-    $this->assertText(t($this->faq1["body[$langcode][0][value]"]));
+    $this->assertText(t($this->faq1["field_detailed_question[$langcode][0][value]"]), t('Detailed question visible')); // Dependant on the question setting
+    $this->assertText(t($this->faq1["body[$langcode][0][value]"]), t('Answer visible'));
 
     // Enable categorisation of FAQ nodes
     // Create and log in user with create and administer FAQ permissions
@@ -317,7 +332,7 @@ class CRAUDFaqTestCase extends FaqTestCase {
     $edit = array();
     $edit['title'] = $this->randomName(8);
     $edit[$this->instance['field_name'] . '['. LANGUAGE_NONE .']'] = $this->randomName(8);
-    $edit['detailed_question'] = $this->randomName(64);
+    $edit['field_detailed_question['. LANGUAGE_NONE .'][0][value]'] = $this->randomName(64);
     $edit['body['. LANGUAGE_NONE .'][0][value]'] = $this->randomString(264);
     $this->drupalPost('node/add/faq', $edit, t('Save'));
     $this->assertText(t('FAQ @title has been created.', array('@title' => $edit['title'])));

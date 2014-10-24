@@ -26,6 +26,7 @@
 <div>
 <?php if (count($nodes)): ?>
   <?php foreach ($nodes as $node): ?>
+    <?php // Cycle through the $nodes array so that we now have a $node variable to work with. ?>
     <br />
     <div class="faq-question">
     <?php if (!empty($question_label)): ?>

@@ -1,9 +1,7 @@
 name = Frequently Asked Questions
 description = "Manages configuration of questions for a FAQ page."
 core = 7.x
-package = FAQ
 
-dependencies[] = views
 files[] = faq.admin.inc
 files[] = faq.install
 files[] = faq.module
@@ -24,9 +22,9 @@ files[] = includes/faq.questions_top.inc
 files[] = views/faq.views.inc
 configure = /admin/config/content/faq
 
-; Information added by Drupal.org packaging script on 2014-10-13
-version = "7.x-2.0-alpha2+4-dev"
+; Information added by Drupal.org packaging script on 2014-01-13
+version = "7.x-1.0-rc2+10-dev"
 core = "7.x"
 project = "faq"
-datestamp = "1413200933"
+datestamp = "1389605309"
 

@@ -593,6 +593,8 @@ function faq_order_settings_form($form, $form_state, $category = NULL) {
       '#submit' => array('faq_order_settings_reorder_form_submit'),
     );
   }
+
+
   return $form;
 }
 

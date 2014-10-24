@@ -51,7 +51,7 @@ function template_preprocess_faq_questions_top(&$variables) {
   $variables['use_teaser'] = $teaser;
   $variables['questions'] = $questions;
   $variables['answers'] = $answers;
-  $variables['questions_list'] = theme('item_list', array('items' => $questions, 'title' => NULL, 'type' => $list_style, 'attributes' => array('class' => array('faq-ul-questions-top'))));
+  $variables['questions_list'] = theme('item_list', array('items' => $questions, 'title' => NULL, 'type' => $list_style, 'attributes' => array("class" => "faq-ul-questions-top")));
 }
 
 /**
@@ -76,7 +76,7 @@ function template_preprocess_faq_category_questions_top(&$variables) {
   $show_term_page_children = variable_get('faq_show_term_page_children', FALSE);
   $group_questions_top = variable_get('faq_group_questions_top', FALSE);
   $default_sorting = variable_get('faq_default_sorting', 'DESC');
-
+  
   // Configure labels.
   $variables['question_label'] = '';
   $variables['answer_label'] = '';
@@ -133,7 +133,7 @@ function template_preprocess_faq_category_questions_top(&$variables) {
   }
 
   // Configure category description.
-  $variables['description'] = check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description), $term->format);
+  $variables['description'] = check_markup(faq_tt("taxonomy:term:$term->tid:description", $term->description));
 
   // Get list of sub-categories if necessary.
   $child_categories = array();
@@ -270,6 +270,7 @@ function template_preprocess_faq_category_questions_top_answers(&$variables) {
   if (($get_child_terms && $category_display == 'categories_inline') || ((($show_term_page_children && $this_page != 'faq-page') || $hide_child_terms) && $category_display == 'hide_qa')) {
     $variables['subcat_body_list'] = faq_get_child_categories_faqs($term, 'faq_category_questions_top_answers', $default_weight, $default_sorting, $category_display, $variables['class'], $parent_term);
   }
+
 
   $nodes = array();
   foreach ($data as $node) {

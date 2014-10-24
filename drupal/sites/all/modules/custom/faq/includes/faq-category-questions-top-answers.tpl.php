@@ -84,6 +84,7 @@ $depth = 0;
 
   <?php if (!$answer_category_name || $display_header): ?>
 
+    <!-- Include subcategories. -->
     <?php if (count($subcat_body_list)): ?>
       <?php foreach ($subcat_body_list as $i => $subcat_html): ?>
         <?php print $subcat_html; ?>
@@ -95,6 +96,7 @@ $depth = 0;
       <div>
     <?php endif; ?>
 
+    <!-- List questions (in title link) and answers (in body). -->
     <?php if (count($nodes)): ?>
       <?php foreach ($nodes as $i => $node): ?>
 
@@ -105,7 +107,7 @@ $depth = 0;
           </strong>
         <?php endif; ?>
         <?php print $node['question']; ?>
-        </div>
+        </div> <!-- Close div: faq-question -->
 
         <div class="faq-answer">
         <?php if (!empty($answer_label)): ?>
@@ -117,21 +119,21 @@ $depth = 0;
         <?php if (isset($node['links'])): ?>
           <?php print $node['links']; ?>
         <?php endif; ?>
-        </div>
+        </div> <!-- Close div: faq-answer -->
 
       <?php endforeach; ?>
     <?php endif; ?>
 
   <?php endif; ?>
 
-  </div>
-  </div>
+  </div> <!-- Close div -->
+  </div> <!-- Close div: faq-category-group -->
   </div>
 
   <?php if ($answer_category_name): ?>
     <?php while ($depth > 0): ?>
-      </div>
+      </div> <!-- Close div: faq-category-indent -->
     <?php $depth--; endwhile; ?>
   <?php endif; ?>
 <?php
-endif;
+endif; // if display_answers

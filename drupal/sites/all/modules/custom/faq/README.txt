@@ -13,7 +13,6 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 Maintainer: Stella Power (http://drupal.org/user/66894)
-Sudev Pradhan (https://drupal.org/user/701164)
 
 Documentation: http://drupal.org/node/129209
 
