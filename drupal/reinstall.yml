@@ -7,7 +7,7 @@
 
   vars:
     drupal_user: admin
-    drupal_pass: propeople
+    drupal_pass: lovecsua
     installation_profile_name: pp
     mysql_user: drupal
     mysql_pass: drupal
