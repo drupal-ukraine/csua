@@ -17,6 +17,7 @@ dependencies[] = location_generate
 dependencies[] = location_phone
 dependencies[] = location_search
 dependencies[] = location_taxonomy
+
 ; Misc Dev tools
 dependencies[] = admin_menu
 dependencies[] = adminimal_admin_menu
