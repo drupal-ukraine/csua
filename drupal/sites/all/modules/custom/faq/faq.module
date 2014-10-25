@@ -202,10 +202,10 @@ function faq_node_info() {
 /**
  * Implements hook_form().
  *
- * @param object &$node
+ * @param object $node
  *   The node being added or edited.
  *
- * @param array &$form_state
+ * @param array $form_state
  *   The hook can set this variable to an associative array of attributes to add
  *   to the enclosing <form> tag.
  *
@@ -1592,6 +1592,7 @@ function faq_taxonomy_term_delete($term) {
  *   The taxonomy term object.
  *
  * @return array|NULL
+ *   Breadcrumbs.
  */
 function faq_set_breadcrumb($term = NULL) {
   $breadcrumb = array();
