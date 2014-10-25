@@ -11,7 +11,7 @@
 function faq_views_default_views() {
   $export = array();
 
-  $view = new view;
+  $view = new view();
   $view->name = 'faq';
   $view->description = 'FAQ listings';
   $view->tag = 'default';
@@ -417,4 +417,3 @@ function faq_views_default_views() {
 
   return $export;
 }
-
