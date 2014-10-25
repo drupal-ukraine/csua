@@ -204,9 +204,11 @@ function faq_node_info() {
  *
  * @param object &$node
  *   The node being added or edited.
+ *
  * @param array &$form_state
  *   The hook can set this variable to an associative array of attributes to add
  *   to the enclosing <form> tag.
+ *
  * @return array
  *   The form elements in the $form array.
  */
@@ -279,9 +281,6 @@ function faq_update($node) {
  * Implements hook_delete().
  *
  * Deletes an FAQ node from the database.
- *
- * @param object &$node
- *   Which node to delete.
  */
 function faq_delete($node) {
   db_delete('faq_weights')
@@ -613,7 +612,13 @@ function faq_page($tid = 0, $faq_display = '', $category_display = '') {
   if ($format) {
     $faq_description = check_markup($faq_description, $format);
   }
-  return theme('faq_page', array('content' => $output, 'answers' => $output_answers, 'description' => $faq_description));
+  return theme('faq_page',
+    array(
+      'content' => $output,
+      'answers' => $output_answers,
+      'description' => $faq_description,
+    )
+  );
 }
 
 /**
@@ -759,7 +764,6 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
       );
       break;
 
-
     case 'new_page':
       include_once DRUPAL_ROOT . '/' . $faq_path . '/faq.new_page.inc';
       $output .= theme('faq_category_new_page',
@@ -773,7 +777,6 @@ function _display_faq_by_category($faq_display, $category_display, $term, $displ
         )
       );
       break;
-
   }
 
   // Handle indenting of categories.
@@ -1398,7 +1401,16 @@ function faq_get_child_categories_faqs($term, $theme_function, $default_weight, 
       $nids = $query->execute()->fetchCol();
       $data = node_load_multiple($nids);
 
-      $output[] = theme($theme_function, array('data' => $data, 'display_header' => 1, 'category_display' => $category_display, 'term' => $child_term, 'class' => $class, 'parent_term' => $parent_term));
+      $output[] = theme($theme_function,
+        array(
+          'data' => $data,
+          'display_header' => 1,
+          'category_display' => $category_display,
+          'term' => $child_term,
+          'class' => $class,
+          'parent_term' => $parent_term,
+        )
+      );
     }
   }
 
@@ -1773,22 +1785,22 @@ function theme_faq_page($variables) {
  *   Markup.
  */
 function theme_field_detailed_question($variables) {
-   // Render the label, if it's not hidden.
-   $output = '';
+  // Render the label, if it's not hidden.
+  $output = '';
 
-   if (isset($variables['label']) && !$variables['label_hidden'] && $variables['label']) {
-     $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
-   }
+  if (isset($variables['label']) && !$variables['label_hidden'] && $variables['label']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
+  }
 
-   // Render the items.
-   $output .= '<div class="faq-detailed-question">' . $variables['safe_value'] . '</div>';
+  // Render the items.
+  $output .= '<div class="faq-detailed-question">' . $variables['safe_value'] . '</div>';
 
-   // Render the top-level DIV.
-   if (isset($variables['classes']) && isset($variables['attributes'])) {
-     $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
-   }
+  // Render the top-level DIV.
+  if (isset($variables['classes']) && isset($variables['attributes'])) {
+    $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+  }
 
-   return $output;
+  return $output;
 }
 
 /**
@@ -1812,7 +1824,13 @@ function theme_faq_draggable_question_order_table($variables) {
       'class' => array('draggable'),
     );
   }
-  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'question-sort')));
+  $output = theme('table',
+    array(
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => array('id' => 'question-sort'),
+    )
+  );
   $output .= drupal_render_children($form);
   return $output;
 }
