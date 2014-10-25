@@ -1,8 +1,14 @@
 name = PP
 description = Start with only a few modules enabled.
 core = 7.x
+
+; Core modules
 dependencies[] = block
 dependencies[] = dblog
+dependencies[] = taxonomy
+
+; Contrib modules
+dependencies[] = libraries
 
 ; Location 7.x-3.x-dev
 dependencies[] = location
@@ -17,3 +23,11 @@ dependencies[] = location_generate
 dependencies[] = location_phone
 dependencies[] = location_search
 dependencies[] = location_taxonomy
+
+; GMap 7.x-2.x-dev
+dependencies[] = gmap
+dependencies[] = gmap_location
+dependencies[] = gmap_macro_builder
+dependencies[] = gmap_style_bubbles
+dependencies[] = location_gmap_find_address
+
