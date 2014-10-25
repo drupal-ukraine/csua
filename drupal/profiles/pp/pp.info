@@ -27,3 +27,5 @@ dependencies[] = fpa
 ;dependencies[] = views_ui
 ;dependencies[] = context_ui
 
+; FAQ 7.x-1.x-dev
+dependencies[] = faq
