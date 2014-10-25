@@ -53,13 +53,15 @@
  *   The sub-categories faqs, recursively themed (by this template).
  */
 
+// @todo should be moved to better place.
+// @codingStandardsIgnoreStart
 if ($category_depth > 0) {
   $hdr = 'h4';
 }
 else {
   $hdr = 'h3';
 }
-
+// @codingStandardsIgnoreEnd
 ?>
 <a id="faq-top"></a>
 <div class="faq-category-group">

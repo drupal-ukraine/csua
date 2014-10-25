@@ -8,7 +8,7 @@
 /**
  * Create FAQ page if set to show/hide answer when question is clicked.
  *
- * @param &$variables
+ * @param array &$variables
  *   Array reference of arguments given to the theme() function.
  */
 function template_preprocess_faq_hide_answer(&$variables) {
@@ -35,7 +35,7 @@ function template_preprocess_faq_hide_answer(&$variables) {
 /**
  * Create categorized FAQ page if set to show answer when question is clicked.
  *
- * @param &$variables
+ * @param array &$variables
  *   Array reference of arguments given to the theme() function.
  */
 function template_preprocess_faq_category_hide_answer(&$variables) {
@@ -145,4 +145,3 @@ function template_preprocess_faq_category_hide_answer(&$variables) {
   $variables['nodes'] = $nodes;
   $variables['question_count'] = $count;
 }
-
