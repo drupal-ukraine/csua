@@ -12,6 +12,11 @@
  * @see system_install()
  */
 function pp_install() {
+  theme_enable(array('adminimal', 'bartik'));
+  variable_set('theme_default', 'bartik');
+  variable_set('admin_theme', 'adminimal');
+  variable_set('node_admin_theme', 1);
+
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
   $values = array(

@@ -18,5 +18,14 @@ dependencies[] = location_phone
 dependencies[] = location_search
 dependencies[] = location_taxonomy
 
+; Misc Dev tools
+dependencies[] = admin_menu
+dependencies[] = adminimal_admin_menu
+dependencies[] = module_filter
+dependencies[] = fpa
+;dependencies[] = field_ui
+;dependencies[] = views_ui
+;dependencies[] = context_ui
+
 ; FAQ 7.x-1.x-dev
 dependencies[] = faq
