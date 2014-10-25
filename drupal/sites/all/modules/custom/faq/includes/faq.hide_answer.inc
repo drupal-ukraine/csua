@@ -76,7 +76,6 @@ function template_preprocess_faq_category_hide_answer(&$variables) {
     $show_term_page_children = TRUE;
   }
 
-
   // Get number of questions, and account for hidden sub-categories.
   $count = 0;
   if ($display_faq_count && $hide_child_terms) {

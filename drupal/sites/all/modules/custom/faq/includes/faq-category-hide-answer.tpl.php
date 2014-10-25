@@ -133,7 +133,5 @@ else {
     <?php endforeach; ?>
   <?php endif; ?>
   </div> <!-- Close div: faq-dl-hide-answer -->
-
   </div> <!-- Close div: faq-qa / faq-qa-hide -->
-
 </div> <!-- Close div: faq-category-group -->

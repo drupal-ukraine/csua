@@ -122,8 +122,5 @@ else {
     </<?php print $question_list_style; ?>>
   </div> <!-- Close div: item-list -->
   <?php endif; ?>
-
-
   </div> <!-- Close div: faq-qa / faq-qa-hide -->
-
 </div> <!-- Close div: faq-category-group -->

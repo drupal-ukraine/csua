@@ -281,7 +281,6 @@ function template_preprocess_faq_category_questions_top_answers(&$variables) {
     $variables['subcat_body_list'] = faq_get_child_categories_faqs($term, 'faq_category_questions_top_answers', $default_weight, $default_sorting, $category_display, $variables['class'], $parent_term);
   }
 
-
   $nodes = array();
   foreach ($data as $node) {
     $node_var = array();
