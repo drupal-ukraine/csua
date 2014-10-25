@@ -8,7 +8,7 @@
 /**
  * Define the 'faq_weights' and 'faq_questions' table structures.
  *
- * @return
+ * @return array
  *   The schema which contains the structure for the faq module's tables.
  */
 function faq_schema() {
@@ -73,7 +73,6 @@ function faq_schema() {
     'primary key' => array('nid', 'vid'),
   );
 
-
   return $schema;
 }
 
@@ -86,7 +85,6 @@ function faq_install() {
   variable_set('node_type_faq', array('status'));
   $t = get_t();
 
-
   // Ensure the FAQ node type is available.
   node_types_rebuild();
   $types = node_type_get_types();
@@ -98,9 +96,10 @@ function faq_install() {
 
   field_update_instance($body_instance);
 
-  _faq_add_custom_fields();    // Add the detailed question field
-  _faq_shift_fields_down();  // Shift all fields below the body field one down and put detailed question field where the body field was
-
+  // Add the detailed question field.
+  _faq_add_custom_fields();
+  // Shift all fields below the body field one down and put detailed question field where the body field was.
+  _faq_shift_fields_down();
 }
 
 /**
@@ -143,13 +142,13 @@ function faq_uninstall() {
   // Block settings.
   variable_del('faq_block_recent_faq_count');
   variable_del('faq_block_random_faq_count');
-  // Custom breadcrumbs control
+  // Custom breadcrumbs control.
   variable_del('faq_custom_breadcrumbs');
 
   // Deprecated.
   variable_del('faq_more_link');
 
-  // Remove content type and the fields created
+  // Remove content type and the fields created.
   $faq_type = 'faq';
   $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
   $result = db_query($sql, array(':type' => $faq_type));
@@ -162,7 +161,7 @@ function faq_uninstall() {
   node_type_delete($faq_type);
   field_purge_batch(500);
 
-  // Remove content type and the fields created
+  // Remove content type and the fields created.
   $faq_type = 'faq';
   $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
   $result = db_query($sql, array(':type' => $faq_type));
@@ -180,8 +179,6 @@ function faq_uninstall() {
   cache_clear_all('*', 'cache_filter', TRUE);
   cache_clear_all('*', 'cache_menu', TRUE);
   cache_clear_all('*', 'cache_page', TRUE);
-
-
 }
 
 /**
@@ -272,7 +269,13 @@ function faq_update_2() {
  */
 function faq_update_6003() {
   $ret = array();
-  db_add_field('faq_questions', 'detailed_question', array('type' => 'text', 'size' => 'normal', 'not null' => TRUE));
+  db_add_field('faq_questions', 'detailed_question',
+    array(
+      'type' => 'text',
+      'size' => 'normal',
+      'not null' => TRUE,
+    )
+  );
 
   db_update('faq_questions')
     ->expression('detailed_question', 'question')
@@ -285,7 +288,13 @@ function faq_update_6003() {
  * Make'detailed_question' column nullable.
  */
 function faq_update_7000() {
-  db_change_field('faq_questions', 'detailed_question', 'detailed_question', array('type' => 'text', 'size' => 'normal', 'not null' => FALSE));
+  db_change_field('faq_questions', 'detailed_question', 'detailed_question',
+    array(
+      'type' => 'text',
+      'size' => 'normal',
+      'not null' => FALSE,
+    )
+  );
   return t('Detailed question field can now be null.');
 }
 
@@ -300,23 +309,24 @@ function faq_update_7001() {
 }
 
 /**
- * Convert old-style detailed questions to new fields
+ * Convert old-style detailed questions to new fields.
  */
 function faq_update_7002(&$sandbox) {
+  // Number of nodes to update each pass.
+  define('BATCH_SIZE_7002', '5');
 
-  define('BATCH_SIZE_7002', '5');  // Number of nodes to update each pass
+  // Do this the first time.
+  if (!isset($sandbox['progress'])) {
 
-  if (!isset($sandbox['progress'])) {  // Do this the first time
-
-    // Initialize sandbox structure for multi-pass update
+    // Initialize sandbox structure for multi-pass update.
     $sandbox['progress'] = 0;
     $sandbox['current_idx'] = 0;
 
-    // Get faq nodes
+    // Get faq nodes and run the query as user 1.
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'faq')
-    ->addMetaData('account', user_load(1)); // Run the query as user 1.
+    ->addMetaData('account', user_load(1));
     $result = $query->execute();
 
     if (isset($result['node'])) {
@@ -328,35 +338,35 @@ function faq_update_7002(&$sandbox) {
       $sandbox['max'] = 0;
     }
 
-    //_faq_delete_custom_fields();  // Remove existing field to make sure the conversion does not fail
-    _faq_add_custom_fields();    // Add the detailed question field
+    // Add the detailed question field.
+    _faq_add_custom_fields();
 
-    // Adjust the weight of the field so that it is above the answer (body)
+    // Adjust the weight of the field so that it is above the answer (body).
     _faq_shift_fields_down();
-
   }
 
   $count = 0;
-  // Convert old-style detailed questions to new full field
+  // Convert old-style detailed questions to new full field.
   while (($nid = $sandbox['faq_items_nids'][$sandbox['current_idx']]) && $count < BATCH_SIZE_7002) {
 
-    // Load the full node to be updated
+    // Load the full node to be updated.
     $node = node_load($nid);
 
-    // Load the detailed question
-    $dq = $node->detailed_question;    // from old field
-    if ($dq == '') {                  // If this field is empty
-      $select = db_select('faq_questions', 'f');    // Fetch from database
+    // Load the detailed question.
+    $dq = $node->detailed_question;
+    if ($dq == '') {
+      $select = db_select('faq_questions', 'f');
       $dq = $select->condition('f.nid', $node->nid)->fields('f', array('detailed_question'))->execute()->fetchField();
     }
 
-    // Get the default text filter format from DB as this might be integer if upgraded site or tekststring if new D7 site
-    $filter_format = reset(array_keys(filter_formats())); // Default filter format: Filtered HTML
+    // Get the default text filter format from DB as this might be integer if upgraded site or tekststring if new D7 site.
+    // Default filter format: Filtered HTML.
+    $filter_format = reset(array_keys(filter_formats()));
 
     // Get the language(s) from the body, making sure we have the same set for detailed question too.
     $langs = array_keys($node->body);
 
-    // Add proper taxonomy fields
+    // Add proper taxonomy fields.
     $txonselect = db_select('taxonomy_index', 't');
     $taxres = $txonselect->fields('t', array('tid'))->condition('t.nid', $node->nid)->execute();
     foreach ($taxres as $taxon) {
@@ -364,41 +374,42 @@ function faq_update_7002(&$sandbox) {
       $vocab = taxonomy_vocabulary_load($term->vid);
 
       foreach ($langs as $language) {
-        // Find out if there is a field added with the vocabulary of this term
+        // Find out if there is a field added with the vocabulary of this term.
         if (isset($node->{$vocab->module . "_" . $vocab->machine_name})) {
-          $node->{$vocab->module . "_" . $vocab->machine_name}[$language][$term->tid] = (array)$term;
+          $node->{$vocab->module . "_" . $vocab->machine_name}[$language][$term->tid] = (array) $term;
         }
       }
     }
 
-    // Add detailed question field for all languages
+    // Add detailed question field for all languages.
     foreach ($langs as $language) {
       $node->field_detailed_question[$language][0]['value'] = $dq;
-      $node->field_detailed_question[$language][0]['format'] = $filter_format; // Filtered HTML
+      $node->field_detailed_question[$language][0]['format'] = $filter_format;
       $node->field_detailed_question[$language][0]['safe_value'] = check_markup($dq, $filter_format, $language);
     }
 
-//    drupal_set_message(t("Converted @nid:@title with <br/>@voc: <strong>@tax</strong>", array('@nid' => $nid, '@title' => $node->title, '@voc' => $voc, '@tax' => implode(',',$tax))));
-
-    // Save resulting node
+    // Save resulting node.
     node_save($node);
 
-    $count++;    // Should not be more than BATCH_SIZE_7002
-    $sandbox['progress']++;    // Progress counter
-    $sandbox['current_idx']++; // Node array index pointer
-
+    // Should not be more than BATCH_SIZE_7002.
+    $count++;
+    // Progress counter.
+    $sandbox['progress']++;
+    // Node array index pointer.
+    $sandbox['current_idx']++;
   }
 
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
 
-  return t('Custom field added, @count questions converted into fields.', array('@count' => $sandbox['max']+1));
+  return t('Custom field added, @count questions converted into fields.', array('@count' => $sandbox['max'] + 1));
 }
 
-//==============================================================
-// Local functions declarations
-// Code examples modified from http://www.sitepoint.com/creating-a-new-drupal-node-type/
-// and http://www.thecarneyeffect.co.uk/creating-custom-content-type-adding-fields-programmatically-drupal-7
-
+/**
+ * Code examples modified.
+ *
+ * @see http://www.sitepoint.com/creating-a-new-drupal-node-type/
+ * @see http://www.thecarneyeffect.co.uk/creating-custom-content-type-adding-fields-programmatically-drupal-7
+ */
 function _faq_add_custom_fields() {
   foreach (_faq_installed_fields() as $field) {
     field_create_field($field);
@@ -411,7 +422,7 @@ function _faq_add_custom_fields() {
 }
 
 /**
- * Return the detailed question field definition
+ * Return the detailed question field definition.
  */
 function _faq_installed_fields() {
   $t = get_t();
@@ -484,15 +495,16 @@ function _faq_installed_fields() {
 }
 
 /**
- * Returns the detailed question field instance
+ * Returns the detailed question field instance.
  */
 function _faq_installed_instances() {
   $t = get_t();
+  // Position in the question and answer page. Body (Answer) is 0 and Question (Title) is -4.
   return array(
     'detailed_question' => array(
       'label' => 'Detailed question',
       'widget' => array(
-        'weight' => '-3',  // Position in the question and answer page. Body (Answer) is 0 and Question (Title) is -4.
+        'weight' => '-3',
         'type' => 'text_textarea',
         'module' => 'text',
         'active' => 1,
@@ -527,11 +539,12 @@ function _faq_installed_instances() {
       'entity_type' => 'node',
       'bundle' => 'page',
       'deleted' => '0',
-      ),
-    );
+    ),
+  );
 }
+
 /**
- * Cleanup custom fields on uninstall
+ * Cleanup custom fields on uninstall.
  */
 function _faq_delete_custom_fields() {
   foreach (array_keys(_faq_installed_fields()) as $field) {
@@ -543,18 +556,20 @@ function _faq_delete_custom_fields() {
   }
 }
 
+/**
+ * Shift fields down.
+ */
 function _faq_shift_fields_down() {
-
-  // Adjust the weight of the field so that it is above the answer (body)
+  // Adjust the weight of the field so that it is above the answer (body).
   $instance = field_read_instance('node', 'field_detailed_question', 'faq');
 
-  // Get all bundle instances
+  // Get all bundle instances.
   $instances = field_info_instances('node', 'faq');
   $body_widget_weight = $instances['body']['widget']['weight'];
   $body_default_weight = $instances['body']['display']['default']['weight'];
   $body_teaser_weight = $instances['body']['display']['teaser']['weight'];
 
-  // move all of them one down so that
+  // Move all of them one down so that.
   foreach ($instances as $field => $settings) {
     if ($settings['widget']['weight'] >= $body_widget_weight) {
       $settings['widget']['weight']++;
@@ -569,12 +584,10 @@ function _faq_shift_fields_down() {
     }
 
     field_update_instance($settings);
-
   }
 
   $instance['widget']['weight'] = $body_widget_weight;
   $instance['display']['default']['weight'] = $body_default_weight;
   $instance['display']['teaser']['weight'] = $body_teaser_weight;
   field_update_instance($instance);
-
 }
