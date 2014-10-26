@@ -39,6 +39,9 @@ function location_province_list_ch() {
   );
 }
 
+/**
+ * Providers.
+ */
 function location_map_link_ch_providers() {
   return array(
     'search' => array(
@@ -54,10 +57,16 @@ function location_map_link_ch_providers() {
   );
 }
 
+/**
+ * Default providers.
+ */
 function location_map_link_ch_default_providers() {
   return array('search', 'google');
 }
 
+/**
+ * Google link.
+ */
 function location_map_link_ch_google($location = array()) {
   $query_params = array();
 
@@ -75,6 +84,9 @@ function location_map_link_ch_google($location = array()) {
   }
 }
 
+/**
+ * Map search.
+ */
 function location_map_link_ch_search($location = array()) {
   $query_param = '';
 
@@ -88,10 +100,16 @@ function location_map_link_ch_search($location = array()) {
   }
 }
 
+/**
+ * Direction link.
+ */
 function location_driving_directions_link_ch($location_a, $location_b) {
   return _location_driving_directions_link_ch_search($location_a, $location_b);
 }
 
+/**
+ * Driving search.
+ */
 function _location_driving_directions_link_ch_search($location_a, $location_b) {
   $query_params_a = array();
   $query_params_b = array();

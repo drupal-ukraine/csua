@@ -30,16 +30,21 @@ function location_province_list_de() {
 }
 
 /**
- * Parameters:
- *   -> $location_a is an associative array that represents a full location where
+ * Map link.
+ *
+ * @param array $location
+ *   Is an associative array that represents a full location where
  *        'street'       => the street portions of the location
  *        'supplemental' => additional street portion of the location
  *        'province'     => the province, state, or territory
  *        'country'      => lower-cased two-letter ISO code (REQUIRED)
- *   -> $location_b is associative array that represents a full location in the same way that
+ *
+ * @param array $hide
+ *   Is associative array that represents a full location in the same way that
  *       parameter $location_b does.
  *
- * Returns: a link to driving directions
+ * @returns string
+ *   A link to driving directions
  */
 function location_map_link_de($location = array(), $hide = array()) {
   $map_links = array();
@@ -53,6 +58,9 @@ function location_map_link_de($location = array(), $hide = array()) {
   return $map_links;
 }
 
+/**
+ * Map link.
+ */
 function _location_map_link_de_suchen($location = array()) {
   $get_query = '?';
   $get_query .= 'where=';
@@ -71,6 +79,9 @@ function _location_map_link_de_suchen($location = array()) {
   return ('http://www.suchen.de/lokalmap' . $get_query);
 }
 
+/**
+ * Providers.
+ */
 function location_map_link_de_providers() {
   return array(
     'suchen' => array(
@@ -86,37 +97,54 @@ function location_map_link_de_providers() {
   );
 }
 
+/**
+ * Default providers.
+ */
 function location_map_link_de_default_providers() {
   return array('google');
 }
 
 /**
- * Parameters:
- *   -> $location_a is an associative array that represents a full location where
- *        'street'       => the street portions of the location
- *        'supplemental' => additional street portion of the location
- *        'province'     => the province, state, or territory
- *        'country'      => lower-cased two-letter ISO code (REQUIRED)
- *   -> $location_b is associative array that represents a full location in the same way that
- *       parameter $location_b does.
- *
- * Returns: a link to driving directions
+ * Directions link.
  *
  * For now, assume site-admin wants driving directions linked to tinfo!
  * Maybe later, we can add some kind of country-specific settings page that allows the site-admin to
  * decide which site to link to for driving directions.
+ *
+ * @param array $location_a
+ *   Is an associative array that represents a full location where
+ *        'street'       => the street portions of the location
+ *        'supplemental' => additional street portion of the location
+ *        'province'     => the province, state, or territory
+ *        'country'      => lower-cased two-letter ISO code (REQUIRED)
+ *
+ * @param array $location_b
+ *   Is associative array that represents a full location in the same way that
+ *       parameter $location_b does.
+ *
+ * @returns string
+ *   A link to driving directions
  */
 function location_driving_directions_link_de($location_a, $location_b) {
   return _location_driving_directions_link_de_suchen($location_a, $location_b);
 }
 
 /**
- * Parameters:
- *    Function that is called by location_driving_directions_link_ca() under assumption that it
- *    is the chosen function
+ * Directions link.
  *
- * Returns:
- *    a URL with HTTP GET variables
+ * @param array $location_a
+ *   Is an associative array that represents a full location where
+ *        'street'       => the street portions of the location
+ *        'supplemental' => additional street portion of the location
+ *        'province'     => the province, state, or territory
+ *        'country'      => lower-cased two-letter ISO code (REQUIRED)
+ *
+ * @param array $location_b
+ *   Is associative array that represents a full location in the same way that
+ *       parameter $location_b does.
+ *
+ * @return string
+ *   URL with HTTP GET variables
  *    Depending on how full the locationes are, the URL will either point to the driving directions
  *    on tinfo! or, if only partial locationes are provided, a URL that points to the *form* for
  *    tinfo! driving directions where the form is filled with whatever fields have been provided
@@ -135,7 +163,7 @@ function _location_driving_directions_link_de_suchen($location_a, $location_b) {
   if ($location_a['country'] == 'de' and $location_b['country'] == 'de') {
     $get_query = '?';
 
-    // VON
+    // VON.
     $query_parts = array();
     if (isset($location_a['street'])) {
       $query_parts[] = $location_a['street'];
@@ -148,7 +176,7 @@ function _location_driving_directions_link_de_suchen($location_a, $location_b) {
     }
     $get_query .= 'route_from=' . urlencode(implode(', ', $query_parts));
 
-    // NACH
+    // NACH.
     $query_parts = array();
     if (isset($location_b['street'])) {
       $query_parts[] = $location_b['street'];
@@ -165,6 +193,9 @@ function _location_driving_directions_link_de_suchen($location_a, $location_b) {
   }
 }
 
+/**
+ * Google link.
+ */
 function location_map_link_de_google($location = array()) {
   $query_params = array();
 
@@ -182,6 +213,9 @@ function location_map_link_de_google($location = array()) {
   }
 }
 
+/**
+ * Theme callback.
+ */
 function theme_location_de($location = array(), $hide = array()) {
   $output = '';
   if (count($location)) {
@@ -232,9 +266,9 @@ function theme_location_de($location = array(), $hide = array()) {
 }
 
 /**
- * Returns a lat/lon pair of the approximate center of the given postal code in the given country
+ * Returns a lat/lon pair of the approximate center of the given postal code in the given country.
  *
- * @param $location
+ * @param array $location
  *   An associative array $location where only postal code and country are necessary, but can have the keys:
  *     'street'       => the street portion of the location
  *     'supplemental' => additional street portion of the location
@@ -242,15 +276,14 @@ function theme_location_de($location = array(), $hide = array()) {
  *     'country'      => lower-cased two-letter ISO code (REQUIRED)
  *     'postal_code'  => the international postal code for this location (REQUIRED)
  *
- * @return
+ * @return array
  *   An associative array where
  *      'lat' => approximate latitude of the center of the postal code's area
  *      'lon' => approximate longitude of the center of the postal code's area
- *
  */
 function location_get_postalcode_data_de($location = array()) {
   $dash_index = strpos($location['postal_code'], '-');
-  // First we strip slash off if we're dealing with a 9-digit US zipcode
+  // First we strip slash off if we're dealing with a 9-digit US zipcode.
   if ($dash_index === FALSE) {
     $location['postal_code'] = substr($location['postal_code'], 0, $dash_index);
   }
@@ -260,7 +293,7 @@ function location_get_postalcode_data_de($location = array()) {
     "SELECT * FROM {zipcodes} where country = :country AND zip = :zip",
     array(
       ':country' => $location['country'],
-      ':zip' => str_pad($location['postal_code'], 5, "0", STR_PAD_LEFT)
+      ':zip' => str_pad($location['postal_code'], 5, "0", STR_PAD_LEFT),
     )
   )->fetchObject();
   if ($row) {
@@ -269,7 +302,7 @@ function location_get_postalcode_data_de($location = array()) {
       'lon' => $row->longitude,
       'city' => $row->city,
       'province' => $row->state,
-      'country' => $row->country
+      'country' => $row->country,
     );
   }
   else {

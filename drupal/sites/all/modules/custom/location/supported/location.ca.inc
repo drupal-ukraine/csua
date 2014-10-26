@@ -26,6 +26,9 @@ function location_province_list_ca() {
   );
 }
 
+/**
+ * Province list.
+ */
 function location_province_list_numeric_ca() {
   return array(
     '001' => 'Alberta',
@@ -46,9 +49,9 @@ function location_province_list_numeric_ca() {
 
 
 /**
- * Returns a lat/lon pair of the approximate center of the given postal code in the given country
+ * Returns a lat/lon pair of the approximate center of the given postal code in the given country.
  *
- * @param $location
+ * @param array $location
  *   An associative array $location where
  *     'street'       => the street portion of the location
  *     'supplemental' => additional street portion of the location
@@ -56,11 +59,10 @@ function location_province_list_numeric_ca() {
  *     'country'      => lower-cased two-letter ISO code (REQUIRED)
  *     'postal_code'  => the international postal code for this location (REQUIRED)
  *
- * @return
+ * @return array
  *   An associative array where
  *      'lat' => approximate latitude of the center of the postal code's area
  *      'lon' => approximate longitude of the center of the postal code's area
- *
  */
 function location_latlon_rough_ca($location = array()) {
   if (!isset($location['postal_code'])) {
@@ -71,7 +73,7 @@ function location_latlon_rough_ca($location = array()) {
     "SELECT latitude, longitude FROM {zipcodes} WHERE country = :country AND zip = :zip",
     array(
       ':country' => $location['country'],
-      ':zip' => $location['postal_code']
+      ':zip' => $location['postal_code'],
     )
   )->fetchObject();
 
@@ -84,9 +86,9 @@ function location_latlon_rough_ca($location = array()) {
 }
 
 /**
- * Returns a lat/lon pair of the approximate center of the given postal code in the given country
+ * Returns a lat/lon pair of the approximate center of the given postal code in the given country.
  *
- * @param $location
+ * @param array $location
  *   An associative array $location where only postal code and country are necessary, but can have the keys:
  *     'street'       => the street portion of the location
  *     'supplemental' => additional street portion of the location
@@ -94,14 +96,13 @@ function location_latlon_rough_ca($location = array()) {
  *     'country'      => lower-cased two-letter ISO code (REQUIRED)
  *     'postal_code'  => the international postal code for this location (REQUIRED)
  *
- * @return
+ * @return array
  *   An associative array where
  *      'lat' => approximate latitude of the center of the postal code's area
  *      'lon' => approximate longitude of the center of the postal code's area
  *      'city'     => the city
  *      'province'     => the province, state, or territory
  *      'country'      => lower-cased two-letter ISO code
- *
  */
 function location_get_postalcode_data_ca($location = array()) {
   // Now we pad the thing and query.
@@ -109,7 +110,7 @@ function location_get_postalcode_data_ca($location = array()) {
     "SELECT * FROM {zipcodes} where country = :country AND zip = :zip",
     array(
       ':country' => $location['country'],
-      ':zip' => $location['postal_code']
+      ':zip' => $location['postal_code'],
     )
   )->fetchObject();
   if ($row) {
@@ -118,7 +119,7 @@ function location_get_postalcode_data_ca($location = array()) {
       'lon' => $row->longitude,
       'city' => $row->city,
       'province' => $row->state,
-      'country' => $row->country
+      'country' => $row->country,
     );
   }
   else {
@@ -127,20 +128,15 @@ function location_get_postalcode_data_ca($location = array()) {
 }
 
 /**
- * Parameters:
- *   An associative array $location where
- *     'street'       => the street portion of the location
- *     'supplemental' => additional street portion of the location
- *     'province'     => the province, state, or territory
- *     'country'      => lower-cased two-letter ISO code (REQUIRED)
- *     'postal_code'  => the international postal code for this location (REQUIRED)
- *
- *
+ * LatLot exact.
  */
 function location_latlon_exact_ca($location = array()) {
-  // return location_geocode_ca_geocoder($location);
+  // @todo return location_geocode_ca_geocoder($location);
 }
 
+/**
+ * Yahoo link.
+ */
 function location_map_link_ca_yahoo($location = array()) {
   $get_query = '?';
   if (isset($location['street'])) {
@@ -154,6 +150,9 @@ function location_map_link_ca_yahoo($location = array()) {
   return ('http://ca.maps.yahoo.com/maps_result' . $get_query);
 }
 
+/**
+ * Google link.
+ */
 function location_map_link_ca_google($location = array()) {
   $query_params = array();
 
@@ -171,7 +170,11 @@ function location_map_link_ca_google($location = array()) {
   }
 }
 
+/**
+ * MapQuest link.
+ */
 function location_map_link_ca_mapquest($location = array()) {
+  $get_query = '';
   if (isset($location['street'])) {
     $get_query .= 'address=' . urlencode($location['street']) . '&amp;';
   }
@@ -196,46 +199,56 @@ function location_map_link_ca_mapquest($location = array()) {
   }
 }
 
+/**
+ * Providers.
+ */
 function location_map_link_ca_providers() {
   return array(
     'google' => array(
       'name' => t('Google Maps'),
       'url' => 'http://maps.google.ca',
-      'tos' => 'http://www.google.ca/help/terms_local.html'
+      'tos' => 'http://www.google.ca/help/terms_local.html',
     ),
     'yahoo' => array(
       'name' => 'Yahoo! Maps',
       'url' => 'http://ca.maps.yahoo.com',
-      'tos' => 'http://help.yahoo.com/help/ca/maps/maps-25.html'
+      'tos' => 'http://help.yahoo.com/help/ca/maps/maps-25.html',
     ),
     'mapquest' => array(
       'name' => 'MapQuest',
       'url' => 'http://www.mapquest.com',
-      'tos' => 'http://www.mapquest.com/features/main.adp?page=legal'
+      'tos' => 'http://www.mapquest.com/features/main.adp?page=legal',
     )
   );
 }
 
-
+/**
+ * Default providers.
+ */
 function location_map_link_ca_default_providers() {
   return array('google');
 }
 
 /**
- * Parameters:
- *   -> $location_a is an associative array that represents a full location where
+ * Directions link.
+ *
+ * For now, assume site-admin wants driving directions linked to tinfo!
+ * Maybe later, we can add some kind of country-specific settings page that allows the site-admin to
+ * decide which site to link to for driving directions.
+ *
+ * @param array $location_a
+ *   Is an associative array that represents a full location where
  *        'street'       => the street portions of the location
  *        'supplemental' => additional street portion of the location
  *        'province'     => the province, state, or territory
  *        'country'      => lower-cased two-letter ISO code (REQUIRED)
- *   -> $location_b is associative array that represents a full location in the same way that
+ *
+ * @param array $location_b
+ *   Is associative array that represents a full location in the same way that
  *       parameter $location_b does.
  *
- * Returns: a link to driving directions
- *
- * For now, assume site-admin wants American driving directions linked to Yahoo! Driving Directions.
- * Maybe later, we can add some kind of country-specific settings page that allows the site-admin to
- * decide which site to link to for driving directions.
+ * @returns string
+ *   A link to driving directions
  */
 function location_driving_directions_link_ca($location_a, $location_b) {
   return _location_driving_directions_link_ca_yahoo($location_a, $location_b);
@@ -243,15 +256,24 @@ function location_driving_directions_link_ca($location_a, $location_b) {
 
 
 /**
- * Parameters:
- *    Function that is called by location_driving_directions_link_ca() under assumption that it
- *    is the chosen function
+ * Directions link.
  *
- * Returns:
- *    a URL with HTTP GET variables
+ * @param array $location_a
+ *   Is an associative array that represents a full location where
+ *        'street'       => the street portions of the location
+ *        'supplemental' => additional street portion of the location
+ *        'province'     => the province, state, or territory
+ *        'country'      => lower-cased two-letter ISO code (REQUIRED)
+ *
+ * @param array $location_b
+ *   Is associative array that represents a full location in the same way that
+ *       parameter $location_b does.
+ *
+ * @return string
+ *   URL with HTTP GET variables
  *    Depending on how full the locationes are, the URL will either point to the driving directions
- *    on Yahoo! or, if only partial locationes are provided, a URL that points to the *form* for
- *    Yahoo! driving directions where the form is filled with whatever fields have been provided
+ *    on tinfo! or, if only partial locationes are provided, a URL that points to the *form* for
+ *    tinfo! driving directions where the form is filled with whatever fields have been provided
  *    for the partial location(es).
  */
 function _location_driving_directions_link_ca_yahoo($location_a, $location_b) {
@@ -294,6 +316,9 @@ function _location_driving_directions_link_ca_yahoo($location_a, $location_b) {
   return ('http://ca.maps.yahoo.com/' . $yahoo_maps_path . $get_query);
 }
 
+/**
+ * Yahoo fields.
+ */
 function _location_ca_enough_fields_for_yahoo($location) {
   // These are the fields that need to be in each location if we are to provide a direct
   // link to yahoo directions.  If all of these fields don't have values, then we generate
@@ -314,9 +339,12 @@ function _location_ca_enough_fields_for_yahoo($location) {
   return FALSE;
 }
 
-
-// Don't mess with this function unless you understand its logic.  It has to do with
-// the question of "to comma or not to comma?"
+/**
+ * Yahoo fields.
+ *
+ * Don't mess with this function unless you understand its logic.
+ * It has to do with the question of "to comma or not to comma?
+ */
 function _location_ca_yahoo_csz_get_field($location) {
   // For some reasons, to the end of pinpointing a location, Yahoo! Maps and Driving Directions
   // do better a better job with retrieving info based strictly on a Canadian city/province
@@ -352,17 +380,22 @@ function _location_ca_yahoo_csz_get_field($location) {
   return '';
 }
 
+/**
+ * Providers.
+ */
 function location_geocode_ca_providers() {
   return array(
     'geocoder' => array(
       'name' => 'GeoCode.ca geocoding service',
       'url' => 'http://geocoder.ca/?api=1',
-      'tos' => 'http://geocoder.ca/?terms=1http://geocoder.ca/?terms=1'
+      'tos' => 'http://geocoder.ca/?terms=1http://geocoder.ca/?terms=1',
     ),
   );
 }
 
-
+/**
+ * Geocoder settings.
+ */
 function location_geocode_ca_geocoder_settings() {
   $form = array();
 
@@ -376,18 +409,19 @@ function location_geocode_ca_geocoder_settings() {
       'In order to use the Geocoder.ca API geocoding web-service, if you are a commercial entity or wish to use the service without attribution, you will need a Geocoder API Key.  You can obtain one at the !sign_up_link for the !geocoder_api.',
       array(
         '!sign_up_link' => '<a href="http://geocoder.ca/?register=1">sign-up page</a>',
-        '!geocoder_api' => '<a href="http://geocoder.ca/?premium_api=1">Geocoder API</a>'
+        '!geocoder_api' => '<a href="http://geocoder.ca/?premium_api=1">Geocoder API</a>',
       )
-    )
+    ),
   );
 
   return $form;
 }
 
-
 /**
- * This needs some more work to cover errors and such. I think showing a proper
- * Drupal error is a good idea. If an incorrect address is given to geocoder.ca
+ * This needs some more work to cover errors and such.
+ *
+ * I think showing a proper Drupal error is a good idea.
+ * If an incorrect address is given to geocoder.ca
  * it offers a suggestion. If this happens the drupal user should be told.
  */
 function location_geocode_ca_geocoder($location = array()) {
@@ -400,7 +434,7 @@ function location_geocode_ca_geocoder($location = array()) {
     $service_url .= '&locate=';
   }
 
-  // geocoder gives better results when not usong postal code, country and ,
+  // Geocoder gives better results when not usong postal code, country and.
   unset($location['postal_code'], $location['country']);
   $address = strtr(location_address2singleline($location), array(', ' => ' '));
 

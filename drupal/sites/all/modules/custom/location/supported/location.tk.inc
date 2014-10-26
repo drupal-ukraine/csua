@@ -28,4 +28,3 @@ function location_bounds_tk() {
     'maxlat' => -8.43977,
   );
 }
-

@@ -49,6 +49,9 @@ function location_province_list_br() {
   );
 }
 
+/**
+ * Providers.
+ */
 function location_map_link_br_providers() {
   return array(
     'google' => array(
@@ -59,11 +62,16 @@ function location_map_link_br_providers() {
   );
 }
 
+/**
+ * Default providers.
+ */
 function location_map_link_br_default_providers() {
   return array('google');
 }
 
-
+/**
+ * Google link.
+ */
 function location_map_link_br_google($location = array()) {
   $query_params = array();
   $q = NULL;
