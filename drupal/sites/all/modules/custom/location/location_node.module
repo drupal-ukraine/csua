@@ -7,6 +7,7 @@
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
+ *
  * Alter the node forms.
  */
 function location_node_form_node_form_alter(&$form, &$form_state, $form_id) {
@@ -113,7 +114,7 @@ function location_node_node_view($node, $view_mode) {
               $view_mode,
               array(
                 'full',
-                'search_index'
+                'search_index',
               )
             ) && $settings['display']['full'])
         ) {
@@ -143,6 +144,7 @@ function location_node_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NUL
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Alter the node_type_form form.
  */
 function location_node_form_node_type_form_alter(&$form, &$form_state, $form_id) {
@@ -151,7 +153,6 @@ function location_node_form_node_type_form_alter(&$form, &$form_state, $form_id)
   // Hook the form handlers so we can correctly extract our information;
   // the node type form doesn't handle nested values correctly.
   array_unshift($form['#validate'], 'location_node_settings_validate');
-  //array_unshift($form['#submit'], 'node_type_form_submit');
   array_unshift($form['#submit'], '_location_node_type_save_submit');
 
   $settings = variable_get('location_settings_node_' . $type, array());
@@ -209,6 +210,7 @@ function location_node_form_node_type_form_alter(&$form, &$form_state, $form_id)
 
 /**
  * Validation function for node settings form.
+ *
  * Logically, the default number of locations per node cannot
  * be bigger than the max locations.
  *
@@ -283,10 +285,7 @@ function location_node_content_extra_fields($type_name) {
 }
 
 /**
- * Saving the fields management's weight for location node data in forms and node view
- *
- * @param $form
- * @param $form_state
+ * Saving the fields management's weight for location node data in forms and node view.
  */
 function location_node_content_extra_save($form, &$form_state) {
   $type = $form['#type_name'];
@@ -307,10 +306,10 @@ function location_node_content_extra_save($form, &$form_state) {
  * because it is expected that cck locations will be loaded into
  * $node->locations.
  *
- * @param $type
+ * @param string $type
  *   The node type.
  *
- * @return
+ * @return bool
  *   Boolean depending on whether or not node locations are enabled.
  */
 function location_node_node_locations_enabled($type) {

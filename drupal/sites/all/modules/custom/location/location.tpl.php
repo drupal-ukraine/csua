@@ -24,9 +24,12 @@
       <span class="postal-code"><?php print $postal_code; ?></span>
     <?php endif; ?>
     <?php if (!empty($city)): ?>
-      <span class="locality"><?php print $city; ?></span><?php if (!empty($province)) {
-        print ', ';
-      } ?>
+      <span class="locality">
+      <?php print $city; ?>
+      </span>
+      <?php if (!empty($province)) : ?>
+        <?php print ', '; ?>
+      <?php endif; ?>
     <?php endif; ?>
     <?php if (!empty($province)): ?>
       <span class="region"><?php print $province_print; ?></span>

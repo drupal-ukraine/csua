@@ -6,8 +6,8 @@
  */
 
 /**
- * Returns an XML document containing the list of countries supported by the
- * Google geocoder.
+ * Returns an XML document containing the list of countries supported by the Google geocoder.
+ *
  * A cached version is stored in the Drupal cache in case Google is unreachable.
  */
 function google_geocode_country_list_xml() {
@@ -44,6 +44,7 @@ function google_geocode_country_list_xml() {
 
 /**
  * Return the list of ISO3166 codes supported by this geocoder.
+ *
  * Coverage list: http://gmaps-samples.googlecode.com/svn/trunk/mapcoverage_filtered.html
  * Coverage list feed: http://spreadsheets.google.com/feeds/list/p9pdwsai2hDMsLkXsoM05KQ/default/public/values
  */
@@ -110,9 +111,11 @@ function google_geocode_info() {
 
 /**
  * Perform a geocode on a location array.
- * @param $location
+ *
+ * @param array $location
  *   The location array to process.
- * @return
+ *
+ * @return array
  *   an associative array with keys 'lat' and 'lon' containing the coordinates.
  */
 function google_geocode_location($location = array()) {
@@ -181,7 +184,7 @@ function google_geocode_location($location = array()) {
       'Google geocoding returned status code: %status_code for the query url: %url',
       array(
         '%status_code' => $data->status,
-        '%url' => $url
+        '%url' => $url,
       )
     );
 
@@ -208,9 +211,9 @@ function google_geocode_settings() {
       'In order to use the Google Geocoding API web-service, you will need a Google Geocoding API Server Key.  You can obtain one at the !sign_up_link for the !google_maps_api.  Without a key daily requests from a single IP address will be automaticaly limited.  If you do not enter a key here this module will use the Google Maps API Key from gmap if one is present. NOTE: You will <em>not</em> have to re-enter your API key for each country for which you have selected Google Maps for geocoding.  This setting is global.',
       array(
         '!sign_up_link' => '<a href="http://console.developers.google.com/">sign-up page</a>',
-        '!google_maps_api' => '<a href="http://developers.google.com/maps/documentation/geocoding/">Google Geocoding API</a>'
+        '!google_maps_api' => '<a href="http://developers.google.com/maps/documentation/geocoding/">Google Geocoding API</a>',
       )
-    )
+    ),
   );
 
   $form['location_geocode_google_delay'] = array(
@@ -240,8 +243,11 @@ function google_geocode_settings() {
   return $form;
 }
 
+/**
+ * Returns address.
+ */
 function _google_geocode_flatten($location = array()) {
-  // Check if its a valid address
+  // Check if its a valid address.
   if (empty($location)) {
     return '';
   }
@@ -302,7 +308,7 @@ function _google_geocode_flatten($location = array()) {
  *   A components string formatted as per the docs page linked to above.
  */
 function _google_geocode_get_components($location = array()) {
-  // Check if its a valid address
+  // Check if its a valid address.
   if (empty($location)) {
     return '';
   }

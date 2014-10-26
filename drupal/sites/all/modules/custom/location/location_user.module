@@ -27,6 +27,7 @@ function location_user_permission() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Alter the user_admin_settings form.
  */
 function location_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
@@ -111,6 +112,7 @@ function location_user_user_view($account, $view_mode, $langcode) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Alter the user profile form.
  */
 function location_user_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
@@ -130,6 +132,7 @@ function location_user_form_user_profile_form_alter(&$form, &$form_state, $form_
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Alter the user registration form.
  */
 function location_user_form_user_register_form_alter(&$form, &$form_state, $form_id) {
