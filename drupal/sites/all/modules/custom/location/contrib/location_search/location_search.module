@@ -143,7 +143,7 @@ function location_search_search_execute($keys = NULL, $conditions = NULL) {
   }
   else {
     $query = db_select('location', 'l')->extend('PagerDefault');
-    // sid is the alias so that our results match the fulltext search results.
+    // Sid is the alias so that our results match the fulltext search results.
     $query->addField('l', 'lid', 'sid');
     // Add access control.
     if (!location_search_add_access_control($query)) {
@@ -222,10 +222,10 @@ function location_search_search_execute($keys = NULL, $conditions = NULL) {
 /**
  * Add access control for users & nodes to the search query.
  *
- * @param $query
+ * @param object &$query
  *   The query object.
  *
- * @return
+ * @return bool
  *   Boolean for whether or not to run a query at all.
  */
 function location_search_add_access_control(&$query) {
@@ -285,6 +285,9 @@ function location_search_add_access_control(&$query) {
   return TRUE;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function location_search_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'search_form' && arg(1) == 'location' && user_access('use advanced search')) {
     // @@@ Cache this.
@@ -400,6 +403,9 @@ function location_search_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Validate callback.
+ */
 function location_search_validate($form, &$form_state) {
   $values = $form_state['values'];
 
@@ -493,6 +499,9 @@ function location_search_search_page($results) {
   return $output;
 }
 
+/**
+ * Preprocess for search_result_locatio template.
+ */
 function template_preprocess_search_result_location(&$variables) {
   $result = $variables['result'];
 

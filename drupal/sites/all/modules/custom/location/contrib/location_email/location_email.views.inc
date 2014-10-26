@@ -9,15 +9,12 @@
  * Implements hook_views_data().
  */
 function location_email_views_data() {
-  // ----------------------------------------------------------------
   // location_email table -- basic table information.
-
-  // Define the base group of this table. Fields that don't
-  // have a group defined will go into this field by default.
-
+  // Define the base group of this table.
+  // Fields that don't have a group defined will go into this field by default.
   $data['location_email']['table']['group'] = t('Location', array(), array('context' => 'geolocation'));
 
-  // Join location_email to all the tables that would be useful
+  // Join location_email to all the tables that would be useful.
   $data['location_email']['table']['join'] = array(
     // location_email links to location via lid.
     'location' => array(
@@ -44,9 +41,7 @@ function location_email_views_data() {
     ),
   );
 
-  // ----------------------------------------------------------------
-  // location_email table -- fields
-
+  // location_email table -- fields.
   $data['location_email']['email'] = array(
     'title' => t('Email address'),
     'help' => t('The email address of the selected location.'),

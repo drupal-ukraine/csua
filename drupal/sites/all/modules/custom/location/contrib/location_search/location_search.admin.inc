@@ -18,8 +18,8 @@ function location_search_admin_settings($form, &$form_state) {
     '#return_value' => 1,
     '#default_value' => variable_get('location_search_map', 1),
     '#description' => $gmap ? t('Requires the gmap module.') : t(
-        'You must install the gmap module to enable this feature.'
-      ),
+      'You must install the gmap module to enable this feature.'
+    ),
     '#disabled' => !$gmap,
   );
   $form['location_search_map_address'] = array(

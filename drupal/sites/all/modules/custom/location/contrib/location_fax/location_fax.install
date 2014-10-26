@@ -51,6 +51,7 @@ function location_fax_install() {
 
 /**
  * Location 3.0 update 1.
+ *
  * Fix pgsql -- The table definition was broken.
  */
 function location_fax_update_5300() {
@@ -82,6 +83,7 @@ function location_fax_update_5300() {
 
 /**
  * Location 3.0 update 2.
+ *
  * Change weight of module.
  */
 function location_fax_update_5301() {
@@ -90,6 +92,7 @@ function location_fax_update_5301() {
 
 /**
  * Location 3.0 update 2.
+ *
  * Change weight of module.
  */
 function location_fax_update_5302() {

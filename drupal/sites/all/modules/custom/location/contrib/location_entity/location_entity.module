@@ -23,12 +23,11 @@ function location_entity_field_item_location_property_callback(&$info, $entity_t
   $property['setter callback'] = 'entity_metadata_field_verbatim_set';
 
   foreach (location_entity_key_map() as $key => $item) {
-    $property['property info'][$key] =
-      array(
-        'type' => $item['type'],
-        'label' => $item['label'],
-        'getter callback' => 'location_entity_field_verbatim_get',
-      );
+    $property['property info'][$key] = array(
+      'type' => $item['type'],
+      'label' => $item['label'],
+      'getter callback' => 'location_entity_field_verbatim_get',
+    );
   }
 }
 
@@ -45,7 +44,7 @@ function location_entity_field_verbatim_get($item, array $options, $name, $entit
 
 
 /**
- * Helper function that returns location key map array
+ * Helper function that returns location key map array.
  */
 function location_entity_key_map() {
   return array(

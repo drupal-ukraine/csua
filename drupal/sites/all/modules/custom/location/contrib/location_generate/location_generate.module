@@ -15,7 +15,11 @@ function location_generate_node_presave($node) {
     // calls array_rand()...
     // http://bugs.php.net/bug.php?id=45301
     srand((double) microtime() * 1000000);
-    $sources = array(LOCATION_LATLON_USER_SUBMITTED, LOCATION_LATLON_GEOCODED_APPROX, LOCATION_LATLON_GEOCODED_EXACT);
+    $sources = array(
+      LOCATION_LATLON_USER_SUBMITTED,
+      LOCATION_LATLON_GEOCODED_APPROX,
+      LOCATION_LATLON_GEOCODED_EXACT,
+    );
     $results = $node->devel_generate;
     if ($results['add_locations']) {
       $countries = location_get_iso3166_list();
@@ -51,6 +55,7 @@ function location_generate_node_presave($node) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Alter the devel_generate_content_form form.
  */
 function location_generate_form_devel_generate_content_form_alter(&$form, &$form_state) {

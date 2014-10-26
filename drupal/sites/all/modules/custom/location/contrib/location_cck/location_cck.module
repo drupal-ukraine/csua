@@ -237,7 +237,6 @@ function location_cck_field_delete($entity_type, $entity, $field, $instance, $la
     // Use the CCK storage to figure out the vids that need to be deleted,
     // and clean up all the applicable references.
     // $db_info = content_database_info($field);
-    //  $result = db_query('SELECT vid FROM {' . $db_info['table'] . '} WHERE nid = :nid', array(':nid' => $node->nid));
     $result = db_query('SELECT vid FROM {node_revision} WHERE nid = :nid', array(':nid' => $entity->nid));
     foreach ($result as $row) {
       $genid = 'cck:' . $field['field_name'] . ':' . $row->vid;
@@ -502,7 +501,7 @@ function theme_location_cck_field_all($variables) {
     array(
       'locations' => array($variables['location']),
       'field' => $variables['field'],
-      'instance' => $variables['instance']
+      'instance' => $variables['instance'],
     )
   );
 
@@ -510,8 +509,7 @@ function theme_location_cck_field_all($variables) {
 }
 
 /**
- * Alternate function to return a map with all
- * multiple values in the same map.
+ * Alternate function to return a map with all multiple values in the same map.
  */
 function theme_location_cck_formatter_combined($variables) {
   $element = $variables['element'];
@@ -607,7 +605,7 @@ function location_cck_token_info() {
   }
 
   // If we have location fields available, setup our tokens.
-  if (sizeof($entities)) {
+  if (count($entities)) {
     // Get the available location field names.
     $fields = location_field_names(TRUE);
 
