@@ -5,14 +5,11 @@
  * Views 3 support for Location.
  */
 
-/*
-
-TODO:
+/**
+ * @TODO:
  * Finish porting!
  * Write "relationships" -- see book.views.inc, upload.views.inc, nodequeue...
-
-
-*/
+ */
 
 /**
  * Implementation of hook_views_handlers().
@@ -82,15 +79,12 @@ function location_views_handlers() {
  * Implementation of hook_views_data().
  */
 function location_views_data() {
-  // ----------------------------------------------------------------
-  // location table -- basic table information.
-
+  // Location table -- basic table information.
   // Define the base group of this table. Fields that don't
   // have a group defined will go into this field by default.
-
   $data['location']['table']['group'] = t('Location', array(), array('context' => 'geolocation'));
 
-  // Advertise this table as a possible base table
+  // Advertise this table as a possible base table.
   $data['location']['table']['base'] = array(
     'field' => 'lid',
     'title' => t('Location', array(), array('context' => 'geolocation')),
@@ -125,15 +119,12 @@ function location_views_data() {
     ),
   );
 
-  // ----------------------------------------------------------------
-  // location table -- fields
-
-  // lid
+  // Location table -- fields.
   $data['location']['lid'] = array(
     'title' => t('Lid'),
     // The help that appears on the UI.
     'help' => t('The location ID of the location.'),
-    // Information for displaying the lid
+    // Information for displaying the lid.
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => TRUE,
@@ -147,7 +138,7 @@ function location_views_data() {
       'validate type' => 'nid',
     ),
     */
-    // Information for accepting a lid as a filter
+    // Information for accepting a lid as a filter.
     'filter' => array(
       'handler' => 'views_handler_filter_numeric',
       'allow empty' => TRUE,
@@ -234,14 +225,13 @@ function location_views_data() {
     ),
     'argument' => array(
       'handler' => 'location_handler_argument_location_province',
-      //'name field' => 'name',
     ),
     'filter' => array(
       'handler' => 'location_handler_filter_location_province',
     ),
     'sort' => array(
       'handler' => 'views_handler_sort',
-      // TODO: needs handler to sort by name, not code
+      // TODO: needs handler to sort by name, not code.
     ),
   );
 
@@ -269,7 +259,6 @@ function location_views_data() {
     ),
     'argument' => array(
       'handler' => 'location_handler_argument_location_country',
-      //'name field' => 'name',
     ),
     'filter' => array(
       'handler' => 'location_handler_filter_location_country',
@@ -333,7 +322,7 @@ function location_views_data() {
     ),
     'filter' => array(
       'handler' => 'location_views_handler_filter_proximity',
-    )
+    ),
   );
 
   $data['location']['address'] = array(
@@ -398,9 +387,10 @@ function location_views_data() {
 
 /**
  * Helper function for proximity handlers.
+ *
  * Gets a list of available node location and cck location fields.
  *
- * @return
+ * @return array
  *   An array of the location field options.
  */
 function location_views_proximity_get_location_field_options() {
@@ -420,12 +410,13 @@ function location_views_proximity_get_location_field_options() {
 
 /**
  * Helper function for proximity handlers.
+ *
  * Gets available arguments for argument related handler options.
  *
- * @param $view
+ * @param object $view
  *   The view object.
  *
- * @return
+ * @return array
  *   An array containing arrays of the nid arguments and the uid arguments.
  */
 function location_views_proximity_get_argument_options($view) {
@@ -455,14 +446,16 @@ function location_views_proximity_get_argument_options($view) {
 
 /**
  * Helper function for proximity handlers.
+ *
  * Retrieves the coordinates of the location that this field measures distances against.
  *
- * @param $view
+ * @param object $view
  *   The view object.
- * @param $options
+ *
+ * @param array $options
  *   An array of the options (or values in the case of the filter) of the handler.
  *
- * @return
+ * @return array
  *   An array with keys 'latitude' and 'longitude' or an empty array.
  */
 function location_views_proximity_get_reference_location($view, $options) {
@@ -488,7 +481,7 @@ function location_views_proximity_get_reference_location($view, $options) {
 
     case 'static':
     case 'latlon_gmap':
-      // Validate actual values
+      // Validate actual values.
       if (!empty($options['latitude']) && !empty($options['longitude'])) {
         $coordinates['latitude'] = (float) $options['latitude'];
         $coordinates['longitude'] = (float) $options['longitude'];
@@ -507,7 +500,7 @@ function location_views_proximity_get_reference_location($view, $options) {
           }
         }
       }
-      // If at this stage we don't have coordinates then check for a distance contextual filter
+      // If at this stage we don't have coordinates then check for a distance contextual filter.
       if (!count(
           $coordinates
         ) && !empty($view->argument) && !empty($argument->value['latitude']) && !empty($argument->value['longitude'])

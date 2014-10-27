@@ -6,7 +6,6 @@
  */
 
 /**
- * @function
  * Return an array of namespaces needed for a mode.
  */
 function location_rss_namespaces($mode = 'simple') {
@@ -27,14 +26,13 @@ function location_rss_namespaces($mode = 'simple') {
 }
 
 /**
- * @function
  * Return an array of RSS items for a location.
  */
 function _location_rss_item($location, $mode = 'simple') {
   $ret = FALSE;
   if (location_has_coordinates($location, TRUE)) {
     switch ($mode) {
-      // W3C Basic Geo Vocabulary
+      // W3C Basic Geo Vocabulary.
       case 'w3c':
         $ret = array(
           'key' => 'geo:Point',

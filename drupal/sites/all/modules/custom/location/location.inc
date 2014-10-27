@@ -18,10 +18,11 @@
 include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'location') . '/earth.inc';
 
 /**
- * Get a deep-link to a mapping service such as Yahoo! Maps or MapPoint given an location.  The
- * call is delegated based on the 'country' value in the $location parameter.
+ * Get a deep-link to a mapping service such as Yahoo! Maps or MapPoint given an location.
  *
- * @param $location
+ * The call is delegated based on the 'country' value in the $location parameter.
+ *
+ * @param array $location
  *   An associative array where
  *      'street'       => A string representing the street location
  *      'additional'   => A string for any additional portion of the street location
@@ -30,7 +31,10 @@ include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'location') . '/earth
  *      'country'      => The two-letter ISO code for the country of the location (REQUIRED)
  *      'postal_code'  => The international postal code for the location
  *
- * @return
+ * @param string $link_text
+ *   Text for a link.
+ *
+ * @return string
  *   A link to a map provided by a third-party.  The idea is to encode the appropriate
  *   parameters as HTTP GET variables to the URL.
  *
@@ -82,11 +86,12 @@ function location_map_link($location = array(), $link_text = 'See map: ') {
 
 /**
  * Provide default map link providers.
+ *
  * By implementing location_map_link_COUNTRYCODE_providers, individual
  * countries can add to this (they will be merged so this default can also be
  * overridden using those functions).
  *
- * @return
+ * @return array
  *   An array where
  *    - the key is the a descriptive key for the provider.
  *      The key is also used in the function name of the function that
@@ -115,10 +120,11 @@ function location_map_link_providers() {
 
 /**
  * Provide the default map link providers.
+ *
  * This can be overridden by implementing
  * location_map_link_COUNTRYCODE_default_providers for a given country.
  *
- * @return
+ * @return array
  *   An array of values that work as keys to the array returned by
  *   location_map_link_providers (and country versions of that function).
  *   The idea is that if the administrator of the site has not yet had a chance
@@ -130,12 +136,14 @@ function location_map_link_providers() {
  *   For example, in the case of the U.S., 'google' has relatively flexible
  *   Terms Of Service, whereas Yahoo! Maps and MapQuest have more restrictive
  *   Terms Of Service.
- *
  */
 function location_map_link_default_providers() {
   return array('google');
 }
 
+/**
+ * Google link.
+ */
 function location_map_link_google($location = array()) {
   $query_params = array();
 
@@ -154,10 +162,9 @@ function location_map_link_google($location = array()) {
 }
 
 /**
- * Try to extract the the Latitude and Longitude data from the
- * postal code.
+ * Try to extract the the Latitude and Longitude data from the postal code.
  *
- * @param $location
+ * @param array $location
  *   Array. the location data
  *   -> the values are:
  *     'street'         => the string representing the street location (REQUIRED)
@@ -167,7 +174,7 @@ function location_map_link_google($location = array()) {
  *     'country'        => the lower-case of the two-letter ISO code (REQUIRED)
  *     'postal_code'    => the postal-code (REQUIRED)
  *
- * @return
+ * @return array|null
  *   Array or NULL. NULL if the delegated-to function that does the
  *   actual look-up does not exist. If the appropriate function exists,
  *   then this function returns an associative array where
@@ -198,20 +205,20 @@ function location_get_postalcode_data($location = array()) {
 /**
  * Given two points in lat/lon form, returns the distance between them.
  *
- * @param $latlon_a
+ * @param array $latlon_a
  *   An associative array where
  *      'lon' => is a floating point of the longitude coordinate for the point given by latlonA
  *      'lat' => is a floating point of the latitude coordinate for the point given by latlonB
  *
- * @param $latlon_b
- *      Another point formatted like $latlon_b
+ * @param array $latlon_b
+ *   Another point formatted like $latlon_b
  *
- * @param $distance_unit
- *      A string that is either 'km' or 'mile'.
+ * @param string $distance_unit
+ *   A string that is either 'km' or 'mile'.
  *      If neither 'km' or 'mile' is passed, the parameter is forced to 'km'
  *
- * @return
- *    NULL if sense can't be made of the parameters.
+ * @return array|null
+ *   NULL if sense can't be made of the parameters.
  *    An associative array where
  *      'scalar' => Is the distance between the two lat/lon parameter points
  *      'distance_unit' => Is the unit of distance being represented by 'scalar'.
@@ -230,21 +237,20 @@ function location_distance_between($latlon_a = array(), $latlon_b = array(), $di
 
   // $conversion_factor = number to divide by to convert meters to $distance_unit
   // At this point, $distance_unit == 'km' or 'mile' and nothing else
-  //$conversion_factor = ($distance_unit == 'km') ? 1000.0 : 1609.347;
+  // $conversion_factor = ($distance_unit == 'km') ? 1000.0 : 1609.347;
 
   $meters = earth_distance($latlon_a['lon'], $latlon_a['lat'], $latlon_b['lon'], $latlon_b['lat']);
 
   return array(
     'scalar' => round($meters / (($distance_unit == 'km') ? 1000.0 : 1609.347), 1),
-    'distance_unit' => $distance_unit
+    'distance_unit' => $distance_unit,
   );
 }
 
 /**
  * Takes two locations and tries to return a deep-link to driving directions.
  *
- * Parameters:
- * @param $location_a
+ * @param array $location_a
  *   An associative array that represents an location where
  *      'street'       => the street portions of the location
  *      'additional'   => additional street portion of the location
@@ -253,14 +259,14 @@ function location_distance_between($latlon_a = array(), $latlon_b = array(), $di
  *      'country'      => lower-cased two-letter ISO code (REQUIRED)
  *      'postal_code'  => the postal code
  *
- * @param $location_b
+ * @param array $location_b
  *   An associative array that represents an location in the same way that
  *   parameter $location_a does.
  *
- * @param $link_text
+ * @param string $link_text
  *   The text of the HTML link that is to be generated.
  *
- * @return
+ * @return string
  *   A deep-link to driving directions on Yahoo! or some other mapping service, if enough fields are filled in the parameters.
  *   A deep-link to a form for driving directions with information pre-filled if not enough, but some fields are filled in the parameters.
  *   The empty string if no information is provided (or if so little information is provided that there is no function to which to delegate
@@ -283,9 +289,9 @@ function location_driving_directions_link($location_a = array(), $location_b = a
   }
 
   // For now, return empty string if starting-point and destinations are in different countries
-  //if ($location_a['country'] != $location_b['country']) {
-  //  return '';
-  //}
+  // if ($location_a['country'] != $location_b['country']) {
+  // return '';
+  // }
   // Lines above commented out because I want to let the country-specific function of the departure point decide
   // what it will do with driving destination locationes from other countries.  As an example, Yahoo! Maps supports driving
   // direction queries for locations between the U.S. and Canada.
@@ -305,13 +311,15 @@ function location_driving_directions_link($location_a = array(), $location_b = a
 }
 
 /**
- * @param $distance
+ * Convert distances to meter.
+ *
+ * @param int $distance
  *   A number in either miles or km.
  *
- * @param $distance_unit
+ * @param string $distance_unit
  *   String (optional). Either 'mile' or 'km' (default)
  *
- * @return
+ * @return float
  *   A floating point number where the number in meters after the initially passed scalar has been ceil()'d
  *   This is done after the $distance_unit parmeter is forced to be 'km' or 'mile'
  */
@@ -328,17 +336,16 @@ function _location_convert_distance_to_meters($distance, $distance_unit = 'km') 
     $distance_unit = 'km';
   }
 
-  // Convert distance to meters
+  // Convert distance to meters.
   $retval = round(floatval($distance) * (($distance_unit == 'km') ? 1000.0 : 1609.347), 2);
 
   return $retval;
 }
 
 /**
- * Takes an location and returns a "rough" latitude/longitude pair based on the postal code
- * data available for the given country.
+ * Takes an location and returns a "rough" latitude/longitude pair based on the postal code data available for the given country.
  *
- * @param $location
+ * @param array $location
  *   An associative array $location where
  *     'street'       => the street portion of the location
  *     'additional' => additional street portion of the location
@@ -346,8 +353,8 @@ function _location_convert_distance_to_meters($distance, $distance_unit = 'km') 
  *     'country'      => lower-cased two-letter ISO code (REQUIRED)
  *     'postal_code'  => international postal code (REQUIRED)
  *
- * @return
- *   NULL if data cannont be found.
+ * @return array|null
+ *   NULL if data cannot be found.
  *   Otherwise, an associative array where
  *     'lat' => is a floating point of the latitude coordinate of this location
  *     'lon' => is a floating point of the longitude coordinate of this location
@@ -371,10 +378,11 @@ function location_latlon_rough($location = array()) {
 }
 
 /**
- * Returns a lat/lon pair of the approximate center of the given postal code in the given country
+ * Returns a lat/lon pair of the approximate center of the given postal code in the given country.
+ *
  * This function is a default implementation, in case the country support doesn't implement a proper function for this.
  *
- * @param $location
+ * @param array $location
  *   An associative array $location where
  *     'street'       => the street portion of the location
  *     'supplemental' => additional street portion of the location
@@ -382,11 +390,10 @@ function location_latlon_rough($location = array()) {
  *     'country'      => lower-cased two-letter ISO code (REQUIRED)
  *     'postal_code'  => the international postal code for this location (REQUIRED)
  *
- * @return
+ * @return array
  *   An associative array where
  *      'lat' => approximate latitude of the center of the postal code's area
  *      'lon' => approximate longitude of the center of the postal code's area
- *
  */
 function location_latlon_rough_default($location = array()) {
   if (!isset($location['country']) || !isset($location['postal_code'])) {
@@ -404,11 +411,11 @@ function location_latlon_rough_default($location = array()) {
   if ($coords) {
     return $coords;
   }
-  // if nothing found internally (new zipcode, or incomplete zipcodes table)
+  // If nothing found internally (new zipcode, or incomplete zipcodes table).
   elseif (($newlatlong = location_latlon_exact($location)) != NULL) {
-    // try a one-time external geocoding
+    // Try a one-time external geocoding.
     if ($newlatlong['lat']) {
-      // and store results in zipcodes table for next lookups being internally handled
+      // And store results in zipcodes table for next lookups being internally handled
       // (yeah this is missing city/state info a.t.m., but is way better than nothing!)
       db_insert('zipcodes')
         ->fields(
@@ -431,12 +438,14 @@ function location_latlon_rough_default($location = array()) {
 
 /**
  * Get an appropriate bounding box for showing an entire country on a map.
+ *
  * Target is a bounding box large enough to show the country in both spherical
  * mercator and mercator projections.
- * @param $location
+ *
+ * @param array $location
  *   Either a location array or a country code.
  *
- * @return
+ * @return array
  *   An array with 'minlng', 'minlat', 'maxlng', and 'maxlat' elements.
  */
 function location_country_bounds($location = array()) {
@@ -463,14 +472,15 @@ function location_country_bounds($location = array()) {
 }
 
 /**
- * Currently, this is not a priority until there is an implementable use for exact longitude,
- * latitude coordinates for an location.  The idea is that this call will eventually retrieve
+ * Currently, this is not a priority until there is an implementable use for exact longitude latitude coordinates for an location.
+ *
+ * The idea is that this call will eventually retrieve
  * information through a web-service.  Whereas location_latlon_rough() returns an approximate
  * lat/lon pair based strictly on the postal code where this lat/lon pair is pulled from a
  * database table, this function is intended to send the entire location to a web-service and
  * to retrieve exact lat/lon coordinates.
  *
- * @param $location
+ * @param array $location
  *   An array where
  *     -> the key values are 'street', 'additional', 'province', 'country', 'postal_code'
  *     -> the values are:
@@ -481,7 +491,7 @@ function location_country_bounds($location = array()) {
  *         'country'        => the lower-case of the two-letter ISO code (REQUIRED)
  *         'postal_code'    => the postal-code (REQUIRED)
  *
- * @return
+ * @return array|null
  *   NULL if the delegated-to function that does the actual look-up does not exist.
  *   If the appropriate function exists, then this function returns an associative array where
  *      'lon' => A floating point number for the longitude coordinate of the parameter location
@@ -494,12 +504,12 @@ function location_latlon_exact($location = array()) {
   location_standardize_country_code($country);
   $service = variable_get('location_geocode_' . $country, 'none');
   if (!empty($country) && $service != 'none') {
-    // figure out what the exact function should be
+    // Figure out what the exact function should be.
     if (strpos($service, '|')) {
       location_load_country($country);
       // The code change below fixes the problem of the country specific
       // function for geocoding not being correctly called (it removes any
-      // text from the pipe (|) onwards)
+      // text from the pipe (|) onwards).
       $exact_latlon_function = 'location_geocode_' . $country . '_' . substr($service, 0, strpos($service, '|'));
     }
     else {
@@ -518,10 +528,10 @@ function location_latlon_exact($location = array()) {
 }
 
 /**
- * Returns an associative array of countries currently supported
- * by the location system where
- *   -> the keys represent the two-letter ISO code and
- *   -> the values represent the English name of the country.
+ * Returns an associative array of countries currently supported by the location system where.
+ *
+ * -> the keys represent the two-letter ISO code and
+ * -> the values represent the English name of the country.
  * The array is sorted the index (i.e., by the short English name of the country).
  *
  * Please note the different between "supported" countries and "configured"
@@ -676,10 +686,10 @@ function location_standardize_country_code(&$country) {
  *
  * This function will load support for a country identified by its two-letter ISO code.
  *
- * @param $country
+ * @param string $country
  *   Two-letter ISO code for country.
  *
- * @return
+ * @return bool
  *   TRUE if the file was found and loaded, FALSE otherwise.
  */
 function location_load_country($country) {
@@ -706,13 +716,14 @@ function location_load_geocoder($geocoder) {
 /**
  * Create a single line address.
  *
- * @param $location
- *   Array. The address parts
- * @return
- *   String. The single line address
+ * @param array $location
+ *   The address parts
+ *
+ * @return string
+ *   The single line address
  */
 function location_address2singleline($location = array()) {
-  // Check if its a valid address
+  // Check if its a valid address.
   if (empty($location)) {
     return '';
   }
@@ -759,6 +770,9 @@ function location_address2singleline($location = array()) {
   return $address;
 }
 
+/**
+ * Geocoder list.
+ */
 function location_get_general_geocoder_list() {
   $list = & drupal_static(__FUNCTION__, array());
 
@@ -777,7 +791,8 @@ function location_get_general_geocoder_list() {
 }
 
 /**
- * The following is an array of all
+ * The following is an array of all.
+ *
  * countrycode => country-name pairs as layed out in
  * ISO 3166-1 alpha-2
  */

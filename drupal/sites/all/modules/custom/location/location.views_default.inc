@@ -9,7 +9,7 @@
  * Implementation of hook_default_view_views().
  */
 function location_views_default_views() {
-  $view = new view;
+  $view = new view();
   $view->name = 'location_table';
   $view->description = 'Node location table.';
   $view->tag = '';
