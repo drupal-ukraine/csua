@@ -5,12 +5,16 @@
  * General proximity filter for location latitude/longitude.
  */
 
+// @codingStandardsIgnoreStart
 class location_views_handler_filter_proximity extends views_handler_filter {
   /**
    * This is always multiple, because we can have distance, units etc.
    */
   public $always_multiple = TRUE;
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['operator'] = array('default' => 'mbr');
@@ -40,10 +44,16 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function admin_summary() {
     return '';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function operator_options() {
     return array(
       'mbr' => t('Proximity (Rectangular)'),
@@ -51,12 +61,18 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function expose_options() {
     parent::expose_options();
     $this->options['expose']['gmap_macro'] = array('default' => '[gmap ]');
     $this->options['expose']['user_location_choose'] = array('default' => FALSE);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function expose_form_left(&$form, &$form_state) {
     parent::expose_form_left($form, $form_state);
     // @@@ Todo: autohide this.
@@ -78,6 +94,9 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function value_form(&$form, &$form_state) {
     $form['origin'] = array(
       '#type' => 'select',
@@ -113,7 +132,7 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     // [11:46] <Bdragon> So where would I go to clean it up?
     // [11:55] <merlinofchaos> Bdragon: See views_handler_filter_string.inc line 174
     // [11:55] <merlinofchaos> Bdragon: That's how i address this problem.
-    // [11:58] <Bdragon> Hmm, OK
+    // [11:58] <Bdragon> Hmm, OK.
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];
       if (!isset($form_state['input'][$identifier])) {
@@ -132,7 +151,14 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       '#title' => t('Latitude'),
       '#default_value' => $this->value['latitude'],
       '#process' => array('ctools_dependent_process'),
-      '#dependency' => array('edit-options-origin' => array('hybrid', 'static', 'latlon_gmap', 'geoip')),
+      '#dependency' => array(
+        'edit-options-origin' => array(
+          'hybrid',
+          'static',
+          'latlon_gmap',
+          'geoip',
+        ),
+      ),
       '#weight' => 1,
     );
     $form['value']['longitude'] = array(
@@ -140,7 +166,14 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       '#title' => t('Longitude'),
       '#default_value' => $this->value['longitude'],
       '#process' => array('ctools_dependent_process'),
-      '#dependency' => array('edit-options-origin' => array('hybrid', 'static', 'latlon_gmap', 'geoip')),
+      '#dependency' => array(
+        'edit-options-origin' => array(
+          'hybrid',
+          'static',
+          'latlon_gmap',
+          'geoip',
+        ),
+      ),
       '#weight' => 2,
     );
 
@@ -151,7 +184,7 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('postal', 'postal_default')),
       '#weight' => 3,
-      '#maxlength' => 16
+      '#maxlength' => 16,
     );
 
     $form['value']['country'] = array(
@@ -189,9 +222,9 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       '#default_value' => $this->value['nid_arg'],
       '#description' => empty($nid_argument_options) ? t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('nid_arg')),
       '#weight' => 6,
@@ -215,9 +248,9 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       '#default_value' => $this->value['uid_arg'],
       '#description' => empty($uid_argument_options) ? t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('uid_arg')),
       '#weight' => 8,
@@ -241,6 +274,9 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function exposed_form(&$form, &$form_state) {
     parent::exposed_form($form, $form_state);
     $key = $this->options['expose']['identifier'];
@@ -316,7 +352,7 @@ class location_views_handler_filter_proximity extends views_handler_filter {
       unset($form[$key]['country']);
     }
 
-    // And we definitely do not want to expose the php code option when exposing the filter
+    // And we definitely do not want to expose the php code option when exposing the filter.
     unset($form[$key]['php_code']);
     // The nid/uid arg options are not useful on an exposed form.
     unset($form[$key]['nid_arg']);
@@ -326,6 +362,9 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     unset($form['origin']);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query() {
     if (empty($this->value)) {
       return;
@@ -383,3 +422,4 @@ class location_views_handler_filter_proximity extends views_handler_filter {
     }
   }
 }
+// @codingStandardsIgnoreEnd

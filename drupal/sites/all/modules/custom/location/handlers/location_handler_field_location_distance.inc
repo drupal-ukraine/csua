@@ -5,8 +5,12 @@
  * Coordinates field handler.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_field_location_distance extends views_handler_field {
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['origin'] = array('default' => 'user');
@@ -23,10 +27,16 @@ class location_handler_field_location_distance extends views_handler_field {
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function has_extra_options() {
     return TRUE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function extra_options_form(&$form, &$form_state) {
     $form['units'] = array(
       '#type' => 'radios',
@@ -112,9 +122,9 @@ class location_handler_field_location_distance extends views_handler_field {
       '#default_value' => $this->options['nid_arg'],
       '#description' => empty($nid_argument_options) ? t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('nid_arg')),
     );
@@ -136,14 +146,17 @@ class location_handler_field_location_distance extends views_handler_field {
       '#default_value' => $this->options['uid_arg'],
       '#description' => empty($uid_argument_options) ? t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('uid_arg')),
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function click_sort($order) {
     $location = location_views_proximity_get_reference_location($this->view, $this->options);
 
@@ -157,6 +170,9 @@ class location_handler_field_location_distance extends views_handler_field {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function render($values) {
     if (empty($values->{$this->field_alias}) || $values->{$this->field_alias} == 'Unknown') {
       // Unset location, empty display.
@@ -175,6 +191,9 @@ class location_handler_field_location_distance extends views_handler_field {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query() {
     $this->ensure_my_table();
 
@@ -192,3 +211,4 @@ class location_handler_field_location_distance extends views_handler_field {
     }
   }
 }
+// @codingStandardsIgnoreEnd

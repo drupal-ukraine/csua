@@ -5,8 +5,12 @@
  * Argument handler to accept a province code or name.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_argument_location_province extends views_handler_argument {
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['break_phrase'] = array('default' => FALSE);
@@ -14,10 +18,13 @@ class location_handler_argument_location_province extends views_handler_argument
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
-    // allow for , delimited values
+    // Allow for , delimited values.
     $form['break_phrase'] = array(
       '#type' => 'checkbox',
       '#title' => t('Allow multiple terms per argument.'),
@@ -26,6 +33,9 @@ class location_handler_argument_location_province extends views_handler_argument
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query($group_by = FALSE) {
     $this->ensure_my_table();
     if (!empty($this->options['break_phrase'])) {
@@ -69,6 +79,9 @@ class location_handler_argument_location_province extends views_handler_argument
     return substr($title, 0, -2);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function summary_name($data) {
     $value = $data->{$this->name_alias};
     if (empty($value)) {
@@ -85,3 +98,4 @@ class location_handler_argument_location_province extends views_handler_argument
     return location_province_name($country, $value);
   }
 }
+// @codingStandardsIgnoreEnd

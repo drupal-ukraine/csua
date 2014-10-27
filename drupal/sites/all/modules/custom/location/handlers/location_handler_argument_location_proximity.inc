@@ -8,7 +8,12 @@
 /**
  * Argument handler to accept proximity
  */
+// @codingStandardsIgnoreStart
 class location_handler_argument_location_proximity extends views_handler_argument {
+
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     // As only us and uk use miles, make km the default otherwise.
@@ -35,9 +40,8 @@ class location_handler_argument_location_proximity extends views_handler_argumen
       '#default_value' => $this->options['type'],
       '#description' => t('Type of center point.') . '<br />' . t(
           'Postal code argument format: country_postcode_distance or postcode_distance'
-        ) . '<br />' . t('Lat/Lon argument format: lat,lon_distance') . '<br />' . t(
-          'where distance is either a number or a comma delimited pair of decimal degrees'
-        ),
+      ) . '<br />' . t('Lat/Lon argument format: lat,lon_distance') . '<br />' . t(
+      'where distance is either a number or a comma delimited pair of decimal degrees'),
     );
 
     // Units used.
@@ -68,6 +72,9 @@ class location_handler_argument_location_proximity extends views_handler_argumen
     );
   }
 
+  /**
+   * Calculate coords.
+   */
   public function calculate_coords() {
     if (!empty($this->value['latitude']) && !empty($this->value['longitude'])) {
       // If there are already coordinates, there's no work for us.
@@ -209,3 +216,4 @@ class location_handler_argument_location_proximity extends views_handler_argumen
     }
   }
 }
+// @codingStandardsIgnoreEnd

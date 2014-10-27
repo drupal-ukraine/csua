@@ -5,11 +5,15 @@
  * Filter on province.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_filter_location_province extends views_handler_filter {
 
   public $location_country = FALSE;
   public $location_country_identifier = FALSE;
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['operator'] = array('default' => 'is');
@@ -18,14 +22,23 @@ class location_handler_filter_location_province extends views_handler_filter {
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function admin_summary() {
     return '';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function has_extra_options() {
     return TRUE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function extra_options_form(&$form, &$form_state) {
     $form['type'] = array(
       '#type' => 'radios',
@@ -36,7 +49,7 @@ class location_handler_filter_location_province extends views_handler_filter {
   }
 
   /**
-   * Provide a simple textfield for equality
+   * Provide a simple textfield for equality.
    */
   public function value_form(&$form, &$form_state) {
     $country = $this->grovel_country();
@@ -72,13 +85,16 @@ class location_handler_filter_location_province extends views_handler_filter {
           '#title' => t('State/Province'),
           '#options' => $provinces,
           '#default_value' => -1,
-          '#multiple' => isset($this->options['expose']['multiple']) ? $this->options['expose']['multiple'] : FALSE
+          '#multiple' => isset($this->options['expose']['multiple']) ? $this->options['expose']['multiple'] : FALSE,
         );
 
       }
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function operator_options() {
     if ($this->options['expose']['single']) {
       return array(
@@ -94,6 +110,9 @@ class location_handler_filter_location_province extends views_handler_filter {
     }
   }
 
+  /**
+   * Grovel country.
+   */
   public function grovel_country() {
     $country = variable_get('location_default_country', 'us');
     if (!empty($this->view->filter)) {
@@ -121,6 +140,9 @@ class location_handler_filter_location_province extends views_handler_filter {
     return $country;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query() {
     // Normalize values.
     $value = $this->value;
@@ -160,3 +182,4 @@ class location_handler_filter_location_province extends views_handler_filter {
     }
   }
 }
+// @codingStandardsIgnoreEnd

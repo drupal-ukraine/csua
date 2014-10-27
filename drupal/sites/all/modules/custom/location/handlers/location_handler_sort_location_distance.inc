@@ -5,8 +5,12 @@
  * Coordinates sort handler.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_sort_location_distance extends views_handler_sort {
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['origin'] = array('default' => 'user');
@@ -22,10 +26,16 @@ class location_handler_sort_location_distance extends views_handler_sort {
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function has_extra_options() {
     return TRUE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function extra_options_form(&$form, &$form_state) {
     $form['origin'] = array(
       '#type' => 'select',
@@ -67,7 +77,7 @@ class location_handler_sort_location_distance extends views_handler_sort {
       '#default_value' => $this->options['postal_code'],
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('postal', 'postal_default')),
-      '#maxlength' => 16
+      '#maxlength' => 16,
     );
 
     $form['country'] = array(
@@ -100,9 +110,9 @@ class location_handler_sort_location_distance extends views_handler_sort {
       '#default_value' => $this->options['nid_arg'],
       '#description' => empty($nid_argument_options) ? t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the node ID.  The latitude / longitude of the first location of that node will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('nid_arg')),
     );
@@ -124,14 +134,17 @@ class location_handler_sort_location_distance extends views_handler_sort {
       '#default_value' => $this->options['uid_arg'],
       '#description' => empty($uid_argument_options) ? t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID. You must have added arguments to the view to use this option."
-        ) : t(
+      ) : t(
           "Select which of the view's arguments to use as the user ID.  The latitude / longitude of the first location of that user will be used as the origin. Use the 'Global: Null' argument if you don't want to also restrict results to that user ID."
-        ),
+      ),
       '#process' => array('ctools_dependent_process'),
       '#dependency' => array('edit-options-origin' => array('uid_arg')),
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function query() {
     $coordinates = location_views_proximity_get_reference_location($this->view, $this->options);
 
@@ -171,3 +184,4 @@ class location_handler_sort_location_distance extends views_handler_sort {
     }
   }
 }
+// @codingStandardsIgnoreEnd

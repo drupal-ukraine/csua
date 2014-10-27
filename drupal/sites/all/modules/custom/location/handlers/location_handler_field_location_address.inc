@@ -5,6 +5,7 @@
  * Field handler to display a complete address.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_field_location_address extends views_handler_field {
 
   /**
@@ -42,3 +43,4 @@ class location_handler_field_location_address extends views_handler_field {
     }
   }
 }
+// @codingStandardsIgnoreEnd

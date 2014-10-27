@@ -5,8 +5,12 @@
  * Province field handler.
  */
 
+// @codingStandardsIgnoreStart
 class location_handler_field_location_street extends views_handler_field {
 
+  /**
+   * {@inheritdoc}
+   */
   public function construct() {
     parent::construct();
     $this->additional_fields = array(
@@ -14,6 +18,9 @@ class location_handler_field_location_street extends views_handler_field {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['style'] = array('default' => 'both');
@@ -21,6 +28,9 @@ class location_handler_field_location_street extends views_handler_field {
     return $options;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['style'] = array(
@@ -35,6 +45,9 @@ class location_handler_field_location_street extends views_handler_field {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function render($values) {
     $parts = array();
     if ($this->options['style'] != 'additional') {
@@ -51,3 +64,4 @@ class location_handler_field_location_street extends views_handler_field {
     return implode('<br />', $parts);
   }
 }
+// @codingStandardsIgnoreEnd

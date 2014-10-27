@@ -5,6 +5,7 @@
  * Coordinates field handler.
  */
 
+// @codingStandardsIgnoreStart
 class location_views_handler_field_coordinates extends location_views_handler_field_latitude {
   /**
    * {@inheritdoc}
@@ -29,3 +30,4 @@ class location_views_handler_field_coordinates extends location_views_handler_fi
     }
   }
 }
+// @codingStandardsIgnoreEnd
