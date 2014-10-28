@@ -10,7 +10,6 @@
  *
  * Other modules can use this API to add self-validating form elements
  * to their dates, and identify dates that meet the RRULE criteria.
- *
  */
 
 /**
