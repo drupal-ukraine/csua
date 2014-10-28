@@ -176,7 +176,11 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
       // created.
       if (function_exists('date_repeat_build_dates') && !empty($field_info['settings']['repeat']) && $rrule) {
         include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'date_api') . '/date_api_ical.inc';
-        $item = array('value' => $from, 'value2' => $to, 'timezone' => $timezone);
+        $item = array(
+          'value' => $from,
+          'value2' => $to,
+          'timezone' => $timezone,
+        );
         // Can be de-uglified when http://drupal.org/node/1159404 is committed.
         $return[$language] = date_repeat_build_dates($field_info, $item, NULL, date_ical_parse_rrule($field_info, $rrule));
       }
