@@ -1544,7 +1544,14 @@ function date_granularity_names() {
  *   An array of date parts.
  */
 function date_granularity_sorted($granularity) {
-  return array_intersect(array('year', 'month', 'day', 'hour', 'minute', 'second'), $granularity);
+  return array_intersect(array(
+    'year',
+    'month',
+    'day',
+    'hour',
+    'minute',
+    'second',
+  ), $granularity);
 }
 
 /**
