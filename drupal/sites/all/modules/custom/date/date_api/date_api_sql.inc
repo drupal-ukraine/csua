@@ -73,6 +73,7 @@ function date_sql_pad($str, $size = 2, $pad = '0', $side = 'l') {
  */
 // @codingStandardsIgnoreStart
 class date_sql_handler {
+  // @codingStandardsIgnoreEnd
   var $db_type = NULL;
   var $date_type = DATE_DATETIME;
   // A string timezone name.
@@ -101,7 +102,6 @@ class date_sql_handler {
    * See if the db has timezone name support.
    */
   function db_tz_support($reset = FALSE) {
-    // @codingStandardsIgnoreEnd
     $has_support = variable_get('date_db_tz_support', -1);
     if ($has_support == -1 || $reset) {
       $has_support = FALSE;
@@ -141,9 +141,7 @@ class date_sql_handler {
    *   set a fixed offset, not a timezone, so any value other than
    *   '+00:00' should be used with caution.
    */
-  // @codingStandardsIgnoreStart
   function set_db_timezone($offset = '+00:00') {
-    // @codingStandardsIgnoreEnd
     static $already_set = FALSE;
     $type = Database::getConnection()->databaseType();
     if (!$already_set) {
@@ -170,7 +168,6 @@ class date_sql_handler {
   /**
    * Return timezone offset for the date being processed.
    */
-  // @codingStandardsIgnoreStart
   function get_offset($comp_date = NULL) {
     if (!empty($this->db_timezone) && !empty($this->local_timezone)) {
       if ($this->db_timezone != $this->local_timezone) {
@@ -198,7 +195,6 @@ class date_sql_handler {
    *   An appropriate SQL string for the db type and field type.
    */
   function sql_field($field, $offset = NULL, $comp_date = NULL) {
-    // @codingStandardsIgnoreEnd
     if (strtoupper($field) == 'NOW') {
       // NOW() will be in UTC since that is what we set the db timezone to.
       $this->local_timezone = 'UTC';
@@ -270,9 +266,7 @@ class date_sql_handler {
   /**
    * Adjust a field value by an offset in seconds.
    */
-  // @codingStandardsIgnoreStart
   function sql_offset($field, $offset = NULL) {
-    // @codingStandardsIgnoreEnd
     if (!empty($offset)) {
       switch ($this->db_type) {
         case 'mysql':
@@ -304,9 +298,7 @@ class date_sql_handler {
    *   The granularity of the adjustment, should be singular,
    *   like SECOND, MINUTE, DAY, HOUR.
    */
-  // @codingStandardsIgnoreStart
   function sql_date_math($field, $direction, $count, $granularity) {
-    // @codingStandardsIgnoreEnd
     $granularity = strtoupper($granularity);
     switch ($this->db_type) {
       case 'mysql':
@@ -355,7 +347,6 @@ class date_sql_handler {
    *   If set, no timezone conversion will be done and the
    *   offset will be used.
    */
-  // @codingStandardsIgnoreStart
   function sql_tz($field, $offset = NULL, $comp_date = NULL) {
     // If the timezones are values they need to be quoted, but
     // if they are field names they do not.
@@ -380,7 +371,6 @@ class date_sql_handler {
       }
     }
     // Otherwise make a database timezone adjustment to the field.
-    // @codingStandardsIgnoreEnd
     else {
       switch ($this->db_type) {
         case 'mysql':
@@ -405,9 +395,7 @@ class date_sql_handler {
    * @return string
    *   An appropriate SQL string for the db type and field type.
    */
-  // @codingStandardsIgnoreStart
   function sql_format($format, $field) {
-    // @codingStandardsIgnoreEnd
     switch ($this->db_type) {
       case 'mysql':
         $replace = array(
@@ -561,11 +549,9 @@ class date_sql_handler {
    * @return string
    *   An appropriate SQL string for the db type and field type.
    */
-  // @codingStandardsIgnoreStart
   function sql_extract($extract_type, $field) {
     // Note there is no space after FROM to avoid db_rewrite problems
     // see http://drupal.org/node/79904.
-    // @codingStandardsIgnoreEnd
     switch (strtoupper($extract_type)) {
       case 'DATE':
         return $field;
@@ -637,7 +623,6 @@ class date_sql_handler {
    * @return string
    *   SQL for the where clause for this operation.
    */
-  // @codingStandardsIgnoreStart
   function sql_where_date($type, $field, $operator, $value, $adjustment = NULL) {
     $type = strtoupper($type);
     if (strtoupper($value) == 'NOW') {
@@ -839,7 +824,6 @@ class date_sql_handler {
     if (empty($selected)) {
       return '';
     }
-    // @codingStandardsIgnoreEnd
     // Special case for weeks.
     if (array_key_exists('week', $selected)) {
       $dates = date_week_range($selected['week'], $selected['year']);
@@ -881,7 +865,6 @@ class date_sql_handler {
    * @return string
    *   The conveted help text.
    */
-  // @codingStandardsIgnoreStart
   function format_help($format) {
     $replace = array(
       'Y' => 'YYYY',
@@ -938,9 +921,7 @@ class date_sql_handler {
   /**
    * @todo.
    */
-  // @codingStandardsIgnoreStart
   function views_formats($granularity, $type = 'sql') {
-    // @codingStandardsIgnoreEnd
     if (empty($granularity)) {
       return DATE_FORMAT_ISO;
     }
@@ -993,9 +974,7 @@ class date_sql_handler {
   /**
    * @todo.
    */
-  // @codingStandardsIgnoreStart
   function granularity_form($granularity) {
-    // @codingStandardsIgnoreEnd
     $form = array(
       '#title' => t('Granularity'),
       '#type' => 'radios',
@@ -1024,7 +1003,6 @@ class date_sql_handler {
    * @see http://en.wikipedia.org/wiki/ISO_8601#Week_dates
    * @see http://en.wikipedia.org/wiki/ISO_8601#Duration
    */
-  // @codingStandardsIgnoreStart
   function arg_parts($argument) {
     $values = array();
     // Keep mal-formed arguments from creating errors.
@@ -1105,7 +1083,6 @@ class date_sql_handler {
     $direction = $results[1];
     $count = $results[2];
     $item = $results[3];
-    // @codingStandardsIgnoreEnd
     $replace = array(
       'now' => '@',
       '+' => 'P',
@@ -1146,7 +1123,6 @@ class date_sql_handler {
    * Use the parsed values from the ISO argument to determine the
    * granularity of this period.
    */
-  // @codingStandardsIgnoreStart
   function arg_granularity($arg) {
     $granularity = '';
     $parts = $this->arg_parts($arg);
@@ -1229,4 +1205,3 @@ class date_sql_handler {
     return array($now, $now);
   }
 }
-// @codingStandardsIgnoreEnd
