@@ -30,7 +30,7 @@
 <?php if (!empty($pager_prefix)) : ?>
 <?php print $pager_prefix; ?>
 <?php endif; ?>
-<div class="date-nav-wrapper clearfix<?php if (!empty($extra_classes)) { print $extra_classes; } ?>">
+<div class="date-nav-wrapper clearfix<?php if (!empty($extra_classes)): print $extra_classes; endif; ?>">
   <div class="date-nav item-list">
     <div class="date-heading">
       <h3><?php print $nav_title ?></h3>
