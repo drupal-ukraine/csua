@@ -2891,15 +2891,19 @@ function date_is_date($date) {
 }
 
 /**
- * This function will replace ISO values that have the pattern 9999-00-00T00:00:00
- * with a pattern like 9999-01-01T00:00:00, to match the behavior of non-ISO
- * dates and ensure that date objects created from this value contain a valid month
- * and day. Without this fix, the ISO date '2020-00-00T00:00:00' would be created as
+ * Replace specific ISO values using patterns.
+ *
+ * Function will replace ISO values that have the pattern 9999-00-00T00:00:00
+ * with a pattern like 9999-01-01T00:00:00, to match the behavior of non-ISO dates
+ * and ensure that date objects created from this value contain a valid month
+ * and day.
+ * Without this fix, the ISO date '2020-00-00T00:00:00' would be created as
  * November 30, 2019 (the previous day in the previous month).
  *
  * @param string $iso_string
  *   An ISO string that needs to be made into a complete, valid date.
  *
+ * @return mixed|string
  * @TODO Expand on this to work with all sorts of partial ISO dates.
  */
 function date_make_iso_valid($iso_string) {
