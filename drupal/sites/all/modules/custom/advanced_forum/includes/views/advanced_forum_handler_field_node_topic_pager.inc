@@ -5,6 +5,7 @@
  * Field handler to display the topic pager.
  */
 
+// @codingStandardsIgnoreStart
 class advanced_forum_handler_field_node_topic_pager extends views_handler_field {
   /**
    * {@inheritdoc}
@@ -63,3 +64,4 @@ class advanced_forum_handler_field_node_topic_pager extends views_handler_field 
     ));
   }
 }
+// @codingStandardsIgnoreEnd

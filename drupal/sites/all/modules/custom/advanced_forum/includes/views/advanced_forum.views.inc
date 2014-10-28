@@ -51,7 +51,7 @@ function advanced_forum_views_data_alter(&$data) {
 }
 
 /**
- * Implements of hook_views_plugins().
+ * Implements hook_views_plugins().
  */
 function advanced_forum_views_plugins() {
   $path = drupal_get_path('module', 'advanced_forum') . '/includes/views';
@@ -76,7 +76,7 @@ function advanced_forum_views_plugins() {
 }
 
 /**
- * Implementsof hook_views_data().
+ * Implements hook_views_data().
  */
 function advanced_forum_views_data() {
   $data = array();

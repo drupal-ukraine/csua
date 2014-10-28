@@ -9,6 +9,7 @@
  *
  * @ingroup views_style_plugins
  */
+// @codingStandardsIgnoreStart
 class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_table {
   /**
    * {@inheritdoc}
@@ -86,3 +87,4 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
     }
   }
 }
+// @codingStandardsIgnoreEnd

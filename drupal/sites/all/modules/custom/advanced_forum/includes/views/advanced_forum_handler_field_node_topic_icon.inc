@@ -5,6 +5,7 @@
  * Field handler to display the topic icon.
  */
 
+// @codingStandardsIgnoreStart
 class advanced_forum_handler_field_node_topic_icon extends views_handler_field {
   /**
    * {@inheritdoc}
@@ -59,3 +60,4 @@ class advanced_forum_handler_field_node_topic_icon extends views_handler_field {
     ));
   }
 }
+// @codingStandardsIgnoreEnd
