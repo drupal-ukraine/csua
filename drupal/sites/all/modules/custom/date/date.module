@@ -264,13 +264,11 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
           $dates[$processed]['formatted_timezone'] = '';
         }
         elseif (!empty($format)) {
-          $limit_format_date = date_limit_format($format, array('year', 'month', 'day'));
-          $limit_format_time = date_limit_format($format, array('hour', 'minute', 'second'));
-          $limit_format_timezone = date_limit_format($format, array('timezone'));
-          $dates[$processed]['formatted'] = date_format_date($date, 'custom', $format);
-          $dates[$processed]['formatted_date'] = date_format_date($date, 'custom', $limit_format_date);
-          $dates[$processed]['formatted_time'] = date_format_date($date, 'custom', $limit_format_time);
-          $dates[$processed]['formatted_timezone'] = date_format_date($date, 'custom', $limit_format_timezone);
+          $formats = _get_custom_date_format($date, $format);
+          $dates[$processed]['formatted'] = $formats['formatted'];
+          $dates[$processed]['formatted_date'] = $formats['date'];
+          $dates[$processed]['formatted_time'] = $formats['time'];
+          $dates[$processed]['formatted_timezone'] = $formats['zone'];
         }
       }
     }
@@ -295,6 +293,30 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
 
   $dates['format'] = $format;
   return $dates;
+}
+
+/**
+ * Get a custom date format.
+ */
+function _get_custom_date_format($date, $format) {
+  $custom = array();
+  $custom['granularities'] = array(
+    'date' => array('year', 'month', 'day'),
+    'time' => array('hour', 'minute', 'second'),
+    'zone' => array('timezone'),
+  );
+  $custom['limits'] = array(
+    'date' => date_limit_format($format, $custom['granularities']['date']),
+    'time' => date_limit_format($format, $custom['granularities']['time']),
+    'zone' => date_limit_format($format, $custom['granularities']['zone']),
+  );
+
+  return array(
+    'formatted' => date_format_date($date, 'custom', $format),
+    'date'      => date_format_date($date, 'custom', $custom['limits']['date']),
+    'time'      => date_format_date($date, 'custom', $custom['limits']['time']),
+    'zone'      => date_format_date($date, 'custom', $custom['limits']['zone']),
+  );
 }
 
 /**
