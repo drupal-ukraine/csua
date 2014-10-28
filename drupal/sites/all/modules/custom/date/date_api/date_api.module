@@ -1078,7 +1078,7 @@ class DateObject extends DateTime {
           $sign = ($year_diff < 0) ? -1 : 1;
 
           for ($i = 1; $i <= abs($year_diff); $i++) {
-            date_modify($date1, (($sign > 0) ? '+': '-').'1 year');
+            date_modify($date1, (($sign > 0) ? '+' : '-').'1 year');
             $week_diff += (date_iso_weeks_in_year($date1) * $sign);
           }
           return $week_diff;
