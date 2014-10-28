@@ -112,7 +112,8 @@ function date_repeat_field_permission() {
     'view date repeats' => array(
       'title' => t('View Repeating Dates'),
       'description' => t('Allow user to see a page with all the times a date repeats.'),
-  ));
+    ),
+  );
 }
 
 /**
