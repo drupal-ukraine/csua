@@ -1078,7 +1078,7 @@ class DateObject extends DateTime {
           $sign = ($year_diff < 0) ? -1 : 1;
 
           for ($i = 1; $i <= abs($year_diff); $i++) {
-            date_modify($date1, (($sign > 0) ? '+' : '-').'1 year');
+            date_modify($date1, (($sign > 0) ? '+' : '-') . '1 year');
             $week_diff += (date_iso_weeks_in_year($date1) * $sign);
           }
           return $week_diff;
@@ -2259,7 +2259,7 @@ function date_limit_format($format, $granularity) {
     $drupal_static_fast['formats'] = &drupal_static(__FUNCTION__);
   }
   $formats = &$drupal_static_fast['formats'];
-  $format_granularity_cid = $format .'|'. implode(',', $granularity);
+  $format_granularity_cid = $format . '|' . implode(',', $granularity);
   if (isset($formats[$format_granularity_cid])) {
     return $formats[$format_granularity_cid];
   }
