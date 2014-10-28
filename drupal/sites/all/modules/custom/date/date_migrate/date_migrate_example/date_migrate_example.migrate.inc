@@ -111,21 +111,21 @@ class DateExampleMigration extends XMLMigration {
       $current_row->date_range_to[] = (string)$range->to[0];
     }
 
-    $current_row->datestamp_range_from =
-      (string) $current_row->xml->datestamp_range->from[0];
-    $current_row->datestamp_range_to =
-      (string) $current_row->xml->datestamp_range->to[0];
+    $current_row->datestamp_range_from
+      = (string) $current_row->xml->datestamp_range->from[0];
+    $current_row->datestamp_range_to
+      = (string) $current_row->xml->datestamp_range->to[0];
 
-    $current_row->datetime_range_from =
-      (string) $current_row->xml->datetime_range->from[0];
-    $current_row->datetime_range_to =
-      (string) $current_row->xml->datetime_range->to[0];
-    $current_row->datetime_range_timezone =
-      (string) $current_row->xml->datetime_range->timezone[0];
+    $current_row->datetime_range_from
+      = (string) $current_row->xml->datetime_range->from[0];
+    $current_row->datetime_range_to
+      = (string) $current_row->xml->datetime_range->to[0];
+    $current_row->datetime_range_timezone
+      = (string) $current_row->xml->datetime_range->timezone[0];
 
-    $current_row->date_repeat =
-      (string) $current_row->xml->date_repeat->date[0];
-    $current_row->date_repeat_rrule =
-      (string) $current_row->xml->date_repeat->rule[0];
+    $current_row->date_repeat
+      = (string) $current_row->xml->date_repeat->date[0];
+    $current_row->date_repeat_rrule
+      = (string) $current_row->xml->date_repeat->rule[0];
   }
 }
