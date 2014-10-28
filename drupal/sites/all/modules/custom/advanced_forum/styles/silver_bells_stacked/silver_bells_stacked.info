@@ -5,10 +5,3 @@ version = 2.x
 base style = silver_bells
 extra style = naked_stacked
 
-
-; Information added by Drupal.org packaging script on 2014-06-21
-version = "7.x-2.3+6-dev"
-core = "7.x"
-project = "advanced_forum"
-datestamp = "1403367234"
-

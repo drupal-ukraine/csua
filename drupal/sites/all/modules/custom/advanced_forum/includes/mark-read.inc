@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @file
  * Holds functions relating to the Mark Forum/All Read functionality.
@@ -48,7 +49,7 @@ function advanced_forum_markasread($tid = NULL) {
   if (isset($tid)) {
     $query_node->condition('f.tid', $tid);
   }
-
+  
   $query_node->condition('t.vid', $vid);
   $query_node->addField('n', 'nid');
   // Select query objects are one-shot, so clone for INSERT below.
@@ -84,3 +85,4 @@ function advanced_forum_markasread_access() {
   global $user;
   return user_access('access content') && $user->uid;
 }
+

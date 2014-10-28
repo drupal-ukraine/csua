@@ -2,9 +2,9 @@
 
 /**
  * @file
+ *
  * Plugin to provide a user context
  */
-
 /**
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
@@ -28,17 +28,15 @@ $plugin = array(
 /**
  * Create a context, either from manual configuration or from an argument on the URL.
  *
- * @param bool $empty
+ * @param $empty
  *   If true, just return an empty context.
- *
- * @param array|null $data
+ * @param $data
  *   If from settings form, an array as from a form. If from argument, a string.
- *
- * @param array|bool $conf
+ * @param $conf
  *   TRUE if the $data is coming from admin configuration, FALSE if it's from a URL arg.
  *
- * @return object.
- *   a Context object.
+ * @return
+ *   a Context object/
  */
 function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf = FALSE) {
   $context = new ctools_context(array('forum', 'term'));
@@ -73,9 +71,6 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
   }
 }
 
-/**
- * Context settings form.
- */
 function advanced_forum_forum_context_settings_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
@@ -113,13 +108,11 @@ function advanced_forum_forum_context_convert($context, $type) {
   switch ($type) {
     case 'tid':
       return $context->data->tid;
-
     case 'name':
       $forum_term = $context->data;
 
-      if (module_exists('i18n_taxonomy')) {
+      if (module_exists('i18n_taxonomy'))
         $forum_term = i18n_taxonomy_localize_terms($forum_term);
-      }
 
       return $forum_term->name;
   }

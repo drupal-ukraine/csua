@@ -6,9 +6,6 @@
  * to ease memory requirements and having too much code in one file.
  */
 
-/**
- * Preprocess node.
- */
 function _advanced_forum_preprocess_node(&$variables) {
   /* Shortcut variables */
   $node = $variables['node'];
@@ -19,24 +16,25 @@ function _advanced_forum_preprocess_node(&$variables) {
     // We send this to a special .tpl so people can adjust it to their needs.
     advanced_forum_add_template_suggestions("post-repeated", $variables);
   }
-  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add') || !empty($node->in_preview)) {
+  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add') || !empty($node->in_preview) ) {
     // 'reply' deals with the first post being shown when adding a comment.
     // 'node/add' is when previewing a new forum post.
     advanced_forum_add_template_suggestions("post-preview", $variables);
   }
   else {
-    // Use our combined node/comment template file.
+    // Use our combined node/comment template file
     advanced_forum_add_template_suggestions("post", $variables);
   }
 
   /* Topic header */
   $variables['top_post'] = TRUE;
 
-  // Build the topic header.
+  // Build the topic header
   $variables['topic_header'] = theme('advanced_forum_topic_header', array(
     'node' => $node,
     'comment_count' => isset($variables['comment_count']) ? $variables['comment_count'] : 0,
     ));
+
 
   // Add in our classes merging with existing.
   if (!is_array($variables['classes_array'])) {
@@ -51,11 +49,11 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['classes_array'][] = $language->language;
   }
 
-  // Add the poster's UID.
+   // Add the poster's UID
   $variables['classes_array'][] = "posted-by-$node->uid";
 
   /* Post ID */
-  // Set the post ID for theming/targetting.
+  // Set the post ID for theming / targetting
   $variables['post_id'] = "post-$node->nid";
 
   /* Linked post number */
@@ -66,10 +64,9 @@ function _advanced_forum_preprocess_node(&$variables) {
   $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
 
   // If this is the topic starting node, we need to start off the numbering.
-  // Variable changed from post_link to permalink to match core variable.
-  // @codingStandardsIgnoreStart
+  // variable changed from post_link to permalink to match core variable
   $variables['permalink'] = l('#1', "node/$node->nid");
-  // @codingStandardsIgnoreEnd
+
 
   /* In reply to */
   $variables['in_reply_to'] = "";
@@ -103,7 +100,7 @@ function _advanced_forum_preprocess_node(&$variables) {
 
     /* Signatures */
     if (variable_get('user_signatures', 0)) {
-      $variables['signature'] = '<!--post:signature-core-' . $node->uid . '-->';
+      $variables['signature'] =  '<!--post:signature-core-' . $node->uid . '-->';
     }
 
     /* User specific node theming class */
@@ -129,7 +126,7 @@ function _advanced_forum_preprocess_node(&$variables) {
       $variables['post_edited'] = theme('advanced_forum_post_edited', array(
         'who' => $variables['revision_uid'],
         'when' => $variables['revision_timestamp'],
-        'why' => $variables['log'],
+        'why' => $variables['log']
       ));
     }
 

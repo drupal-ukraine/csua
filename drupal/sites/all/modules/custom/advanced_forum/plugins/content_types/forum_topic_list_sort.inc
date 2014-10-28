@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Forum topic sort.
- */
 
 /**
  * Plugins are described by creating a $plugin array which will be used
@@ -41,8 +37,7 @@ function advanced_forum_forum_topic_list_sort_content_type_render($subtype, $con
   $block->module = 'forum-secondary-links';
   $block->delta = $tid;
 
-  // By default this has no title.
-  $block->title = '';
+  $block->title = ''; // by default this has no title.
   _advanced_forum_add_files();
 
   $block->content = advanced_forum_forum_topic_list_sort();
@@ -57,9 +52,6 @@ function advanced_forum_forum_topic_list_sort_content_type_edit_form($form, &$fo
   return $form;
 }
 
-/**
- * Submit callback.
- */
 function advanced_forum_forum_topic_list_sort_content_type_edit_form_submit($form, &$form_state) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
@@ -67,9 +59,6 @@ function advanced_forum_forum_topic_list_sort_content_type_edit_form_submit($for
   }
 }
 
-/**
- * Callback for admin title.
- */
 function advanced_forum_forum_topic_list_sort_content_type_admin_title($subtype, $conf, $context) {
   return t('"@s" topic list sort widget', array('@s' => $context->identifier));
 }

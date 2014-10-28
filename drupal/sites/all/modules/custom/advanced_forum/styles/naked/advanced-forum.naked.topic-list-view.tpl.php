@@ -1,7 +1,6 @@
 <?php
 /**
- * @file
- * views-view-table.tpl.php
+ * @file views-view-table.tpl.php
  * Template to display a view as a table.
  *
  * - $title : The title of this group of rows.  May be empty.
@@ -49,7 +48,7 @@
             <td class="views-field views-field-<?php print $fields['topic_icon']; ?>">
               <?php print $row['topic_icon']; ?>
             </td>
-            <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header) - 1; ?>">
+            <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header)-1; ?>">
                <?php print $shadow[$count]; ?>
             </td>
           <?php endif; ?>

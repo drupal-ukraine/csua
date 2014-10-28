@@ -9,21 +9,14 @@
  *
  * @ingroup views_style_plugins
  */
-// @codingStandardsIgnoreStart
 class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_table {
-  /**
-   * {@inheritdoc}
-   */
-  public function option_definition() {
+  function option_definition() {
     $options = parent::option_definition();
     $options['tid'] = array('default' => '');
     return $options;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function options_form(&$form, &$form_state) {
+  function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $options = array('' => t('None'));
 
@@ -46,22 +39,20 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
   }
 
   /**
-   * {@inheritdoc}
-   *
    * Add a couple of fields to the query that we can later use. We are going to
    * specificly alias them because this style is not meant to be used on relationships.
    */
-  public function query() {
+  function query() {
     $this->view->query->add_field('node', 'sticky', 'topic_is_sticky');
     $this->view->query->add_field('forum', 'tid', 'topic_actual_forum');
   }
 
   /**
-   * Figure out what the forum ID is. It could have come from an argument or a filter or nowhere.
-   *
-   * This source would be set by the user in the options.
+   * Figure out what the forum ID is. It could have come from an argument
+   * or a filter or nowhere. This source would be set by the user in the
+   * options.
    */
-  public function get_forum_ids() {
+  function get_forum_ids() {
     $where = $this->options['tid'];
     if (empty($where)) {
       return;
@@ -75,7 +66,7 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
       return empty($handler->argument) ? array() : array($handler->argument);
     }
     else {
-      $terms = is_array($handler->value) ? $handler->value : array($handler->value);
+      $terms = is_array($handler->value) ? $handler->value : array($handler->value) ;
       if (isset($handler->options['depth'])) {
         foreach ($terms as $tid) {
           $term = taxonomy_term_load($tid);
@@ -87,4 +78,3 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
     }
   }
 }
-// @codingStandardsIgnoreEnd

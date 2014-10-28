@@ -14,10 +14,3 @@ files[] = includes/views/advanced_forum_handler_field_node_topic_pager.inc
 files[] = includes/views/advanced_forum_plugin_style_forum_topic_list.inc
 
 core = 7.x
-
-; Information added by Drupal.org packaging script on 2014-06-21
-version = "7.x-2.3+6-dev"
-core = "7.x"
-project = "advanced_forum"
-datestamp = "1403367234"
-

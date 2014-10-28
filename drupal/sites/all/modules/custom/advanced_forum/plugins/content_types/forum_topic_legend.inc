@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Forum topic legend.
- */
 
 /**
  * Plugins are described by creating a $plugin array which will be used
@@ -37,8 +33,7 @@ function advanced_forum_forum_topic_legend_content_type_render($subtype, $conf, 
   $block->module = 'forum-secondary-links';
   $block->delta = $tid;
 
-  // By default this has no title.
-  $block->title = '';
+  $block->title = ''; // by default this has no title.
   _advanced_forum_add_files();
 
   $block->content = theme('advanced_forum_topic_legend');
@@ -53,9 +48,6 @@ function advanced_forum_forum_topic_legend_content_type_edit_form($form, &$form_
   return $form;
 }
 
-/**
- * Submit callback.
- */
 function advanced_forum_forum_topic_legend_content_type_edit_form_submit($form, &$form_state) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
@@ -63,9 +55,6 @@ function advanced_forum_forum_topic_legend_content_type_edit_form_submit($form, 
   }
 }
 
-/**
- * Callback for admin title.
- */
 function advanced_forum_forum_topic_legend_content_type_admin_title($subtype, $conf, $context) {
   return t('"@s" topic legend', array('@s' => $context->identifier));
 }

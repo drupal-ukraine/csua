@@ -1,7 +1,5 @@
 <?php
-
-/**
- * @file
+/*
  * advanced-forum.naked.post-edited.tpl.php
  */
 ?>

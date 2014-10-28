@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Mark read.
- */
 
 /**
  * Plugins are described by creating a $plugin array which will be used
@@ -37,8 +33,7 @@ function advanced_forum_forum_mark_read_content_type_render($subtype, $conf, $pa
   $block->module = 'forum-mark-read';
   $block->delta = $tid;
 
-  // By default this has no title.
-  $block->title = '';
+  $block->title = ''; // by default this has no title.
   _advanced_forum_add_files();
 
   $mar_link = advanced_forum_get_mark_read_link($tid);
@@ -54,9 +49,6 @@ function advanced_forum_forum_mark_read_content_type_edit_form($form, &$form_sta
   return $form;
 }
 
-/**
- * Submit callback.
- */
 function advanced_forum_forum_mark_read_content_type_edit_form_submit($form, &$form_state) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
@@ -64,9 +56,6 @@ function advanced_forum_forum_mark_read_content_type_edit_form_submit($form, &$f
   }
 }
 
-/**
- * Callback for admin title.
- */
 function advanced_forum_forum_mark_read_content_type_admin_title($subtype, $conf, $context) {
   return t('"@s" mark read', array('@s' => $context->identifier));
 }
