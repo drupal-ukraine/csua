@@ -222,7 +222,6 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     $variables['field_classes'][0][0] = 'views-empty';
   }
 
-
   if (!empty($options['sticky'])) {
     drupal_add_js('misc/tableheader.js');
     $variables['classes_array'][] = "sticky-enabled";

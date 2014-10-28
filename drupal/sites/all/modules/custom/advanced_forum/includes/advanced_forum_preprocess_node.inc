@@ -38,7 +38,6 @@ function _advanced_forum_preprocess_node(&$variables) {
     'comment_count' => isset($variables['comment_count']) ? $variables['comment_count'] : 0,
     ));
 
-
   // Add in our classes merging with existing.
   if (!is_array($variables['classes_array'])) {
     $variables['classes_array'] = array();

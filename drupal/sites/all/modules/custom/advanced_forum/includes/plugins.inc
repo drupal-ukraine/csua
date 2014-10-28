@@ -1,18 +1,17 @@
 <?php
 
-
 /**
  * @file
  * Allows modules to contribute styles.
  */
 
 /**
- * Fetch an advanced forum style plugin
+ * Fetch an advanced forum style plugin.
  *
- * @param $style
+ * @param string $style
  *   Name of the style plugin
  *
- * @return
+ * @return array
  *   An array with information about the requested style plugin.
  */
 function advanced_forum_get_style($style) {
@@ -22,7 +21,7 @@ function advanced_forum_get_style($style) {
 /**
  * Collate information about all available advanced_forum styles.
  *
- * @return
+ * @return array
  *   An array with information about the requested forum style.
  */
 function advanced_forum_get_styles() {
@@ -30,8 +29,7 @@ function advanced_forum_get_styles() {
 }
 
 // -----------------------------------------------------------------------
-// MASTER HANDLER
-
+// MASTER HANDLER.
 /**
  * Fetch a group of plugins by name.
  *

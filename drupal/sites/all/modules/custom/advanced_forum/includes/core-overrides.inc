@@ -54,7 +54,6 @@ function advanced_forum_page($forum_term = NULL) {
     $title = $vocabulary->name;
   }
 
-
   if (!variable_get('advanced_forum_disable_breadcrumbs', FALSE)) {
     drupal_set_breadcrumb($breadcrumb);
   }
@@ -77,7 +76,7 @@ function advanced_forum_page($forum_term = NULL) {
  * This is copied from the forum module and adapted.
  *
  * @param int|null $tid
- *    (optional) Taxonomy ID of the forum, if not givin all forums will be returned.
+ *   (optional) Taxonomy ID of the forum, if not givin all forums will be returned.
  *
  * @return object
  *   A tree of taxonomy objects, with the following additional properties:
@@ -88,7 +87,6 @@ function advanced_forum_page($forum_term = NULL) {
  */
 function advanced_forum_forum_load($tid = NULL) {
   $cache = &drupal_static(__FUNCTION__, array());
-
 
   // Return a cached forum tree if available.
   if (empty($tid)) {

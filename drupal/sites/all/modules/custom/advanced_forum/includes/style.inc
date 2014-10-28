@@ -25,7 +25,7 @@ function advanced_forum_get_style($style) {
  * Returns all styles.
  */
 function advanced_forum_get_all_styles() {
-  ctools_include('plugins') ;
+  ctools_include('plugins');
   return ctools_get_plugins('advanced_forum', 'styles');
 }
 
@@ -68,8 +68,9 @@ function advanced_forum_style_lineage($style = NULL) {
     $all_styles = advanced_forum_get_all_styles();
 
     // Fallback.
-    if (empty($all_styles[$style]))
+    if (empty($all_styles[$style])) {
       $style = "silver_bells";
+    }
 
     // Add the current style to the lineage first.
     $lineage[$style] = $all_styles[$style]['path'];
@@ -231,7 +232,7 @@ function advanced_forum_style_info($style = NULL) {
  * Returns whether forum is styled.
  */
 function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
-  // This is the ID of the topic starting node
+  // This is the ID of the topic starting node.
   static $master_topic_id;
 
   // Give other modules a first crack at making the decision. To keep this
