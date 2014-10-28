@@ -4,6 +4,7 @@
  * @file
  * Theme files for Date Pager.
  */
+
 /**
  * Jump in and move the pager.
  */
@@ -15,9 +16,11 @@ function date_views_preprocess_views_view(&$vars) {
         $vars['header'] .= $vars['pager'];
         $vars['pager'] = '';
         break;
+
       case 'both':
         $vars['header'] .= $vars['pager'];
         break;
+
       default:
         // Already on the bottom.
     }
@@ -78,6 +81,7 @@ function template_preprocess_date_views_pager(&$vars) {
         $next_arg = date_format($next_date, 'o-\W') . date_pad($next_week);
         $prev_arg = date_format($prev_date, 'o-\W') . date_pad($prev_week);
         break;
+
       default:
         $next_arg = date_format($next_date, $format[$granularity]);
         $prev_arg = date_format($prev_date, $format[$granularity]);
@@ -117,14 +121,17 @@ function template_preprocess_date_views_pager(&$vars) {
       $prev_title = t('Navigate to previous year');
       $next_title = t('Navigate to next year');
       break;
+
     case 'month':
       $prev_title = t('Navigate to previous month');
       $next_title = t('Navigate to next month');
       break;
+
     case 'week':
       $prev_title = t('Navigate to previous week');
       $next_title = t('Navigate to next week');
       break;
+
     case 'day':
       $prev_title = t('Navigate to previous day');
       $next_title = t('Navigate to next day');
@@ -157,7 +164,7 @@ function template_preprocess_date_views_pager(&$vars) {
 }
 
 /**
- * Theme the calendar title
+ * Theme the calendar title.
  */
 function theme_date_nav_title($params) {
   $granularity = $params['granularity'];
@@ -172,16 +179,23 @@ function theme_date_nav_title($params) {
       $title = $date_info->year;
       $date_arg = $date_info->year;
       break;
+
     case 'month':
       $format = !empty($format) ? $format : (empty($date_info->mini) ? $format_with_year : $format_without_year);
       $title = date_format_date($date_info->min_date, 'custom', $format);
       $date_arg = $date_info->year . '-' . date_pad($date_info->month);
       break;
+
     case 'day':
       $format = !empty($format) ? $format : (empty($date_info->mini) ? $format_with_year : $format_without_year);
       $title = date_format_date($date_info->min_date, 'custom', $format);
-      $date_arg = $date_info->year . '-' . date_pad($date_info->month) . '-' . date_pad($date_info->day);
+      $date_arg = $date_info->year;
+      $date_arg .= '-';
+      $date_arg .= date_pad($date_info->month);
+      $date_arg .= '-';
+      $date_arg .= date_pad($date_info->day);
       break;
+
     case 'week':
       $format = !empty($format) ? $format : (empty($date_info->mini) ? $format_with_year : $format_without_year);
       $title = t('Week of @date', array('@date' => date_format_date($date_info->min_date, 'custom', $format)));
