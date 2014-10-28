@@ -127,9 +127,11 @@ function date_default_formatter_settings_summary($field, $instance, $view_mode) 
     case 'date_plain':
       $format = t('Plain');
       break;
+
     case 'format_interval':
       $format = t('Interval');
       break;
+
     default:
       if (!empty($format_types[$settings['format_type']])) {
         $format = $format_types[$settings['format_type']];
@@ -191,7 +193,11 @@ function _date_field_instance_settings_form($field, $instance) {
     '#type' => 'select',
     '#title' => t('Default date'),
     '#default_value' => $settings['default_value'],
-    '#options' => array('blank' => t('No default value'), 'now' => t('Now'), 'strtotime' => t('Relative')),
+    '#options' => array(
+      'blank'     => t('No default value'),
+      'now'       => t('Now'),
+      'strtotime' => t('Relative'),
+    ),
     '#weight' => 1,
     '#fieldset' => 'default_values',
   );
@@ -204,8 +210,11 @@ function _date_field_instance_settings_form($field, $instance) {
     '#default_value' => $settings['default_value_code'],
     '#states' => array(
       'visible' => array(
-        ':input[name="instance[settings][default_value]"]' => array('value' => 'strtotime')),
+        ':input[name="instance[settings][default_value]"]' => array(
+          'value' => 'strtotime',
+        ),
       ),
+    ),
     '#weight' => 1.1,
     '#fieldset' => 'default_values',
   );
@@ -213,7 +222,12 @@ function _date_field_instance_settings_form($field, $instance) {
     '#type' => !empty($field['settings']['todate']) ? 'select' : 'hidden',
     '#title' => t('Default end date'),
     '#default_value' => $settings['default_value2'],
-    '#options' => array('same' => t('Same as Default date'), 'blank' => t('No default value'), 'now' => t('Now'), 'strtotime' => t('Relative')),
+    '#options' => array(
+      'same'      => t('Same as Default date'),
+      'blank'     => t('No default value'),
+      'now'       => t('Now'),
+      'strtotime' => t('Relative'),
+    ),
     '#weight' => 2,
     '#fieldset' => 'default_values',
   );
@@ -224,8 +238,11 @@ function _date_field_instance_settings_form($field, $instance) {
     '#default_value' => $settings['default_value_code2'],
     '#states' => array(
       'visible' => array(
-        ':input[name="instance[settings][default_value2]"]' => array('value' => 'strtotime')),
+        ':input[name="instance[settings][default_value2]"]' => array(
+          'value' => 'strtotime',
+        ),
       ),
+    ),
     '#weight' => 2.1,
     '#fieldset' => 'default_values',
   );
@@ -369,11 +386,18 @@ function _date_field_widget_settings_form($field, $instance) {
     '#weight' => 9,
   );
   if (in_array($widget['type'], array('date_select'))) {
-    $options = array('above' => t('Above'), 'within' => t('Within'), 'none' => t('None'));
+    $options = array(
+      'above' => t('Above'),
+      'within' => t('Within'),
+      'none' => t('None'),
+    );
     $description = t("The location of date part labels, like 'Year', 'Month', or 'Day' . 'Above' displays the label as titles above each date part. 'Within' inserts the label as the first option in the select list and in blank textfields. 'None' doesn't visually label any of the date parts. Theme functions like 'date_part_label_year' and 'date_part_label_month' control label text.");
   }
   else {
-    $options = array('above' => t('Above'), 'none' => t('None'));
+    $options = array(
+      'above' => t('Above'),
+      'none' => t('None'),
+    );
     $description = t("The location of date part labels, like 'Year', 'Month', or 'Day' . 'Above' displays the label as titles above each date part. 'None' doesn't visually label any of the date parts. Theme functions like 'date_part_label_year' and 'date_part_label_month' control label text.");
   }
   $form['advanced']['label_position'] = array(
@@ -470,7 +494,9 @@ function _date_field_settings_form($field, $instance, $has_data) {
     '#title' => t('Date attributes to collect'),
     '#default_value' => $granularity,
     '#options' => $options,
-    '#attributes' => array('class' => array('container-inline')),
+    '#attributes' => array(
+      'class' => array('container-inline'),
+    ),
     '#description' => $description,
     'year' => $checkbox_year,
   );
@@ -528,7 +554,9 @@ function _date_field_settings_form($field, $instance, $has_data) {
     '#weight' => 11,
     '#states' => array(
       'visible' => array(
-        'input[name="field[settings][cache_enabled]"]' => array('checked' => TRUE),
+        'input[name="field[settings][cache_enabled]"]' => array(
+          'checked' => TRUE,
+        ),
       ),
     ),
   );
@@ -600,7 +628,7 @@ function date_timezone_handling_options() {
     'site' => t("Site's time zone"),
     'date' => t("Date's time zone"),
     'user' => t("User's time zone"),
-    'utc' => 'UTC',
+    'utc'  => 'UTC',
     'none' => t('No time zone conversion'),
   );
 }
