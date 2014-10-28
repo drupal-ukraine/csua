@@ -40,7 +40,6 @@
  *
  * - In the field's submission processing, the new date values, which are in
  *   the local timezone, are converted back to their UTC values and stored.
- *
  */
 function date_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $base) {
 
@@ -122,7 +121,7 @@ function date_field_widget_form(&$form, &$form_state, $field, $instance, $langco
       '#weight' => $instance['widget']['weight'] + 1,
       '#attributes' => array('class' => array('date-no-float')),
       '#date_label_position' => $instance['widget']['settings']['label_position'],
-      );
+    );
   }
 
   return $element;
@@ -148,6 +147,7 @@ function date_local_date($item, $timezone, $field, $instance, $part = 'value') {
   // @TODO Figure out how to replace date_fuzzy_datetime() function.
   // Special case for ISO dates to create a valid date object for formatting.
   // Is this still needed?
+  // @codingStandardsIgnoreStart
   /*
   if ($field['type'] == DATE_ISO) {
     $value = date_fuzzy_datetime($value);
@@ -157,6 +157,7 @@ function date_local_date($item, $timezone, $field, $instance, $part = 'value') {
     $value = date_convert($value, $field['type'], DATE_DATETIME, $db_timezone);
   }
   */
+  // @codingStandardsIgnoreEnd
 
   $date = new DateObject($value, date_get_timezone_db($field['settings']['tz_handling']));
   $date->limitGranularity($field['settings']['granularity']);
@@ -193,8 +194,7 @@ function date_default_value($field, $instance, $langcode) {
 }
 
 /**
- * Helper function for the date default value callback to set
- * either 'value' or 'value2' to its default value.
+ * Helper function for the date default value callback to set either 'value' or 'value2' to its default value.
  */
 function date_default_value_part($item, $field, $instance, $langcode, $part = 'value') {
   $timezone = date_get_timezone($field['settings']['tz_handling']);
@@ -241,7 +241,6 @@ function date_default_value_part($item, $field, $instance, $langcode, $part = 'v
  * Process an individual date element.
  */
 function date_combo_element_process($element, &$form_state, $form) {
-    
   if (date_hidden_element($element)) {
     // A hidden value for a new entity that had its end date set to blank
     // will not get processed later to populate the end date, so set it here.
@@ -329,9 +328,9 @@ function date_combo_element_process($element, &$form_state, $form) {
     '#date_increment'   => $instance['widget']['settings']['increment'],
     '#date_year_range'  => $instance['widget']['settings']['year_range'],
     '#date_label_position' => $instance['widget']['settings']['label_position'],
-    );
+  );
 
-  $description =  !empty($element['#description']) ? t($element['#description']) : '';
+  $description = !empty($element['#description']) ? t($element['#description']) : '';
   unset($element['#description']);
 
   // Give this element the right type, using a Date API
@@ -347,11 +346,13 @@ function date_combo_element_process($element, &$form_state, $form) {
       $element['#attached']['js'][] = drupal_get_path('module', 'date') . '/date.js';
       $element[$from_field]['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
       break;
+
     case 'date_popup':
       $element[$from_field]['#type'] = 'date_popup';
       $element[$from_field]['#theme_wrappers'] = array('date_popup');
       $element[$from_field]['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
       break;
+
     default:
       $element[$from_field]['#type'] = 'date_text';
       $element[$from_field]['#theme_wrappers'] = array('date_text');
@@ -380,8 +381,11 @@ function date_combo_element_process($element, &$form_state, $form) {
     if ($field['settings']['todate'] == 'optional') {
       $element[$to_field]['#states'] = array(
         'visible' => array(
-          'input[name="' . $show_id . '"]' => array('checked' => TRUE),
-      ));
+          'input[name="' . $show_id . '"]' => array(
+            'checked' => TRUE,
+          ),
+        ),
+      );
     }
   }
   else {
@@ -405,15 +409,18 @@ function date_combo_element_process($element, &$form_state, $form) {
   }
 
   $context = array(
-   'field' => $field,
-   'instance' => $instance,
-   'form' => $form,
+    'field'     => $field,
+    'instance'  => $instance,
+    'form'      => $form,
   );
   drupal_alter('date_combo_process', $element, $form_state, $context);
 
   return $element;
 }
 
+/**
+ * Empty a date element.
+ */
 function date_element_empty($element, &$form_state) {
   $item = array();
   $item['value'] = NULL;
@@ -428,6 +435,7 @@ function date_element_empty($element, &$form_state) {
 
 /**
  * Validate and update a combo element.
+ *
  * Don't try this if there were errors before reaching this point.
  */
 function date_combo_validate($element, &$form_state) {
