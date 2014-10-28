@@ -264,10 +264,13 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
           $dates[$processed]['formatted_timezone'] = '';
         }
         elseif (!empty($format)) {
+          $limit_format_date = date_limit_format($format, array('year', 'month', 'day'));
+          $limit_format_time = date_limit_format($format, array('hour', 'minute', 'second'));
+          $limit_format_timezone = date_limit_format($format, array('timezone'));
           $dates[$processed]['formatted'] = date_format_date($date, 'custom', $format);
-          $dates[$processed]['formatted_date'] = date_format_date($date, 'custom', date_limit_format($format, array('year', 'month', 'day')));
-          $dates[$processed]['formatted_time'] = date_format_date($date, 'custom', date_limit_format($format, array('hour', 'minute', 'second')));
-          $dates[$processed]['formatted_timezone'] = date_format_date($date, 'custom', date_limit_format($format, array('timezone')));
+          $dates[$processed]['formatted_date'] = date_format_date($date, 'custom', $limit_format_date);
+          $dates[$processed]['formatted_time'] = date_format_date($date, 'custom', $limit_format_time);
+          $dates[$processed]['formatted_timezone'] = date_format_date($date, 'custom', $limit_format_timezone);
         }
       }
     }
@@ -307,7 +310,8 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
  */
 function date_granularity($field) {
   if (!is_array($field) || !is_array($field['settings']['granularity'])) {
-    $field['settings']['granularity'] = drupal_map_assoc(array('year', 'month', 'day'));
+    $granularity = drupal_map_assoc(array('year', 'month', 'day'));
+    $field['settings']['granularity'] = $granularity;
   }
   return array_values(array_filter($field['settings']['granularity']));
 }
