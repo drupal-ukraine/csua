@@ -991,7 +991,7 @@ class DateObject extends DateTime {
    *   The stop date.
    * @param string $measure
    *   (optional) A granularity date part. Defaults to 'seconds'.
-   * @param boolean $absolute
+   * @param bool $absolute
    *   (optional) Indicate whether the absolute value of the difference should
    *   be returned or if the sign should be retained. Defaults to TRUE.
    */
@@ -1837,8 +1837,8 @@ function date_format_interval($date, $granularity = 2, $display_ago = TRUE) {
  *   (optional) Optionally force time to a specific timezone, defaults to user
  *   timezone, if set, otherwise site timezone. Defaults to NULL.
  *
- * @param boolean $reset [optional]
- *  Static cache reset
+ * @param bool $reset
+ *   (optional) Static cache reset.
  *
  * @return object
  *   The current time as a date object.
@@ -1929,7 +1929,7 @@ function date_days_in_month($year, $month) {
  * @param mixed $date
  *   (optional) The current date object, or a date string. Defaults to NULL.
  *
- * @return integer
+ * @return int
  *   The number of days in the year.
  */
 function date_days_in_year($date = NULL) {
@@ -1958,7 +1958,7 @@ function date_days_in_year($date = NULL) {
  * @param mixed $date
  *   (optional) The current date object, or a date string. Defaults to NULL.
  *
- * @return integer
+ * @return int
  *   The number of ISO weeks in a year.
  */
 function date_iso_weeks_in_year($date = NULL) {
