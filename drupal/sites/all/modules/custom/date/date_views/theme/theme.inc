@@ -198,7 +198,9 @@ function theme_date_nav_title($params) {
 
     case 'week':
       $format = !empty($format) ? $format : (empty($date_info->mini) ? $format_with_year : $format_without_year);
-      $title = t('Week of @date', array('@date' => date_format_date($date_info->min_date, 'custom', $format)));
+      $title = t('Week of @date', array(
+        '@date' => date_format_date($date_info->min_date, 'custom', $format),
+      ));
       $date_arg = $date_info->year . '-W' . date_pad($date_info->week);
       break;
   }
