@@ -61,7 +61,7 @@
       <td class="forum-topic-icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
 
       <td class="forum-topic-title">
-      <?php print $topic->title . $topic_new; ?>
+      <?php print check_plain($topic->title) . $topic_new; ?>
       <?php if (!empty($topic->pager)): ?>
          <div class="forum-topic-pager"> <?php print $topic->pager ?> </div>
       <?php endif; ?>
