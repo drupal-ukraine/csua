@@ -404,6 +404,7 @@ function date_ical_parse_date($field, $data) {
         // Date.
         $datetime = date_pad($regs[1]) . '-' . date_pad($regs[2]) . '-' . date_pad($regs[3]);
         break;
+
       case 'DATE-TIME':
         preg_match(DATE_REGEX_ICAL_DATETIME, $data, $regs);
         // Date.
