@@ -226,7 +226,7 @@ function date_ical_parse($icaldatafolded = array()) {
               // Make the end date one day earlier.
               $date = new DateObject ($subgroup['DTEND']['datetime'] . ' 00:00:00', $subgroup['DTEND']['tz']);
               date_modify($date, '-1 day');
-              $subgroup['DTEND']['datetime'] = date_format($date,  'Y-m-d');
+              $subgroup['DTEND']['datetime'] = date_format($date, 'Y-m-d');
             }
             // If a start datetime is defined AND there is no definition for
             // the end datetime THEN make the end datetime equal the start
@@ -363,7 +363,7 @@ function date_ical_parse($icaldatafolded = array()) {
  *                      has no timezone; the ical specs say no timezone
  *                      conversion should be done if no timezone info is
  *                      supplied
- *  @todo
+ * @todo
  *   Another option for dates is the format PROPERTY;VALUE=PERIOD:XXXX. The
  *   period may include a duration, or a date and a duration, or two dates, so
  *   would have to be split into parts and run through date_ical_parse_date()
@@ -523,12 +523,12 @@ function date_ical_parse_duration(&$subgroup, $field = 'DURATION') {
   $data  = $items['DATA'];
   preg_match('/^P(\d{1,4}[Y])?(\d{1,2}[M])?(\d{1,2}[W])?(\d{1,2}[D])?([T]{0,1})?(\d{1,2}[H])?(\d{1,2}[M])?(\d{1,2}[S])?/', $data, $duration);
   $items['year'] = isset($duration[1]) ? str_replace('Y', '', $duration[1]) : '';
-  $items['month'] = isset($duration[2]) ?str_replace('M', '', $duration[2]) : '';
-  $items['week'] = isset($duration[3]) ?str_replace('W', '', $duration[3]) : '';
-  $items['day'] = isset($duration[4]) ?str_replace('D', '', $duration[4]) : '';
-  $items['hour'] = isset($duration[6]) ?str_replace('H', '', $duration[6]) : '';
-  $items['minute'] = isset($duration[7]) ?str_replace('M', '', $duration[7]) : '';
-  $items['second'] = isset($duration[8]) ?str_replace('S', '', $duration[8]) : '';
+  $items['month'] = isset($duration[2]) ? str_replace('M', '', $duration[2]) : '';
+  $items['week'] = isset($duration[3]) ? str_replace('W', '', $duration[3]) : '';
+  $items['day'] = isset($duration[4]) ? str_replace('D', '', $duration[4]) : '';
+  $items['hour'] = isset($duration[6]) ? str_replace('H', '', $duration[6]) : '';
+  $items['minute'] = isset($duration[7]) ? str_replace('M', '', $duration[7]) : '';
+  $items['second'] = isset($duration[8]) ? str_replace('S', '', $duration[8]) : '';
   $start_date = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['datetime'] : date_format(date_now(), DATE_FORMAT_ISO);
   $timezone = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['tz'] : variable_get('date_default_timezone');
   if (empty($timezone)) {
@@ -769,7 +769,7 @@ function date_api_ical_build_rrule($form_values) {
     foreach ($form_values['EXDATE'] as $value) {
       if (!empty($value['datetime'])) {
         $date = !is_object($value['datetime']) ? date_ical_date($value, 'UTC') : $value['datetime'];
-        $ex_date = !empty($date) ? date_format($date, DATE_FORMAT_ICAL) . 'Z': '';
+        $ex_date = !empty($date) ? date_format($date, DATE_FORMAT_ICAL) . 'Z' : '';
         if (!empty($ex_date)) {
           $ex_dates[] = $ex_date;
         }
@@ -789,7 +789,7 @@ function date_api_ical_build_rrule($form_values) {
     $ex_dates = array();
     foreach ($form_values['RDATE'] as $value) {
       $date = !is_object($value['datetime']) ? date_ical_date($value, 'UTC') : $value['datetime'];
-      $ex_date = !empty($date) ? date_format($date, DATE_FORMAT_ICAL) . 'Z': '';
+      $ex_date = !empty($date) ? date_format($date, DATE_FORMAT_ICAL) . 'Z' : '';
       if (!empty($ex_date)) {
         $ex_dates[] = $ex_date;
       }
