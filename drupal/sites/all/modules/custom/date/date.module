@@ -112,7 +112,8 @@ function date_theme() {
         'add_rdf' => NULL,
         'microdata' => NULL,
         'add_microdata' => NULL,
-    )),
+      ),
+    ),
     'date_display_combination' => $base + array(
       'variables' => array(
         'entity_type' => NULL,
@@ -145,7 +146,7 @@ function date_theme() {
         'attributes' => array(),
         'rdf_mapping' => NULL,
         'add_rdf' => NULL,
-       ),
+      ),
     ),
   );
 
