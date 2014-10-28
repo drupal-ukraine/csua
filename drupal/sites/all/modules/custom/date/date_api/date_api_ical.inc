@@ -266,12 +266,13 @@ function date_ical_parse($icaldatafolded = array()) {
       $field = !empty($matches[2]) ? $matches[2] : '';
       $data = !empty($matches[3]) ? $matches[3] : '';
       $parse_result = '';
+
       switch ($name) {
         // Keep blank lines out of the results.
         case '':
           break;
 
-          // Lots of properties have date values that must be parsed out.
+        // Lots of properties have date values that must be parsed out.
         case 'CREATED':
         case 'LAST-MODIFIED':
         case 'DTSTART':
@@ -319,9 +320,9 @@ function date_ical_parse($icaldatafolded = array()) {
           $parse_result = date_ical_parse_location($field, $data);
           break;
 
-          // For all other properties, just store the property and the value.
-          // This can be expanded on in the future if other properties should
-          // be given special treatment.
+        // For all other properties, just store the property and the value.
+        // This can be expanded on in the future if other properties should
+        // be given special treatment.
         default:
           $parse_result = $data;
           break;
