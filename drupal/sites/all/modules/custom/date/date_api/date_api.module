@@ -2904,6 +2904,8 @@ function date_is_date($date) {
  *   An ISO string that needs to be made into a complete, valid date.
  *
  * @return mixed|string
+ *   replaced value, or incoming value.
+ *
  * @TODO Expand on this to work with all sorts of partial ISO dates.
  */
 function date_make_iso_valid($iso_string) {
