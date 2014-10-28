@@ -96,7 +96,7 @@ function date_api_uninstall() {
     'date_php_min_year',
     'date_db_tz_support',
     'date_api_use_iso8601',
-    );
+  );
   foreach ($variables as $variable) {
     variable_del($variable);
   }
