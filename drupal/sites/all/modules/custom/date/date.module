@@ -339,8 +339,7 @@ function date_granularity($field) {
 }
 
 /**
- * Helper function to create an array of the date values in a
- * field that need to be processed.
+ * Helper function to create an array of the date values in a field that need to be processed.
  */
 function date_process_values($field) {
   return $field['settings']['todate'] ? array('value', 'value2') : array('value');
@@ -442,6 +441,7 @@ function date_formatter_format($formatter, $settings, $granularity = array(), $l
 
 /**
  * Helper function to get the right format for a format type.
+ *
  * Checks for locale-based format first.
  */
 function date_format_type_format($format_type, $langcode = NULL) {
