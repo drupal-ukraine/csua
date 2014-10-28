@@ -151,6 +151,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
         case 'datestamp':
           // Already done.
           break;
+
         case 'datetime':
           // YYYY-MM-DD HH:MM:SS.
           $from = format_date($from, 'custom', 'Y-m-d H:i:s', $timezone);
@@ -158,6 +159,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
             $to = format_date($to, 'custom', 'Y-m-d H:i:s', $timezone);
           }
           break;
+
         case 'date':
           // ISO date: YYYY-MM-DDTHH:MM:SS.
           $from = format_date($from, 'custom', 'Y-m-d\TH:i:s', $timezone);
@@ -165,6 +167,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
             $to = format_date($to, 'custom', 'Y-m-d\TH:i:s', $timezone);
           }
           break;
+
         default:
           break;
       }
