@@ -77,13 +77,13 @@ function date_repeat_field_menu() {
           $path = field_collection_field_get_path($field);
           $count = count(explode('/', $path));
           $items[$path . '/%field_collection_item/repeats'] = array(
-           'title' => 'Repeats',
-           'page callback' => 'date_repeat_field_page',
-           'page arguments' => array($entity_type, $count),
-           'access callback' => 'date_repeat_field_show',
-           'access arguments' => array($entity_type, $count),
-           'type' => MENU_LOCAL_TASK,
-           'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+            'title' => 'Repeats',
+            'page callback' => 'date_repeat_field_page',
+            'page arguments' => array($entity_type, $count),
+            'access callback' => 'date_repeat_field_show',
+            'access arguments' => array($entity_type, $count),
+            'type' => MENU_LOCAL_TASK,
+            'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
           );
         }
       }
@@ -91,13 +91,13 @@ function date_repeat_field_menu() {
     else {
       $path = $entity_type . '/%' . $entity_type;
       $items[$path . '/repeats'] = array(
-       'title' => 'Repeats',
-       'page callback' => 'date_repeat_field_page',
-       'page arguments' => array($entity_type, 1),
-       'access callback' => 'date_repeat_field_show',
-       'access arguments' => array($entity_type, 1),
-       'type' => MENU_LOCAL_TASK,
-       'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+        'title' => 'Repeats',
+        'page callback' => 'date_repeat_field_page',
+        'page arguments' => array($entity_type, 1),
+        'access callback' => 'date_repeat_field_show',
+        'access arguments' => array($entity_type, 1),
+        'type' => MENU_LOCAL_TASK,
+        'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
       );
     }
   }
