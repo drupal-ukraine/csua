@@ -696,14 +696,14 @@ function date_ical_escape_text($text) {
  *     )
  */
 function date_api_ical_build_rrule($form_values) {
-  $RRULE = '';
+  $rrule = '';
   if (empty($form_values) || !is_array($form_values)) {
-    return $RRULE;
+    return $rrule;
   }
 
   // Grab the RRULE data and put them into iCal RRULE format.
-  $RRULE .= 'RRULE:FREQ=' . (!array_key_exists('FREQ', $form_values) ? 'DAILY' : $form_values['FREQ']);
-  $RRULE .= ';INTERVAL=' . (!array_key_exists('INTERVAL', $form_values) ? 1 : $form_values['INTERVAL']);
+  $rrule .= 'RRULE:FREQ=' . (!array_key_exists('FREQ', $form_values) ? 'DAILY' : $form_values['FREQ']);
+  $rrule .= ';INTERVAL=' . (!array_key_exists('INTERVAL', $form_values) ? 1 : $form_values['INTERVAL']);
 
   // Unset the empty 'All' values.
   if (array_key_exists('BYDAY', $form_values) && is_array($form_values['BYDAY'])) {
@@ -716,14 +716,14 @@ function date_api_ical_build_rrule($form_values) {
     unset($form_values['BYMONTHDAY']['']);
   }
 
-  if (array_key_exists('BYDAY', $form_values) && is_array($form_values['BYDAY']) && $BYDAY = implode(",", $form_values['BYDAY'])) {
-    $RRULE .= ';BYDAY=' . $BYDAY;
+  if (array_key_exists('BYDAY', $form_values) && is_array($form_values['BYDAY']) && $byday = implode(",", $form_values['BYDAY'])) {
+    $rrule .= ';BYDAY=' . $byday;
   }
-  if (array_key_exists('BYMONTH', $form_values) && is_array($form_values['BYMONTH']) && $BYMONTH = implode(",", $form_values['BYMONTH'])) {
-    $RRULE .= ';BYMONTH=' . $BYMONTH;
+  if (array_key_exists('BYMONTH', $form_values) && is_array($form_values['BYMONTH']) && $bymonth = implode(",", $form_values['BYMONTH'])) {
+    $rrule .= ';BYMONTH=' . $bymonth;
   }
-  if (array_key_exists('BYMONTHDAY', $form_values) && is_array($form_values['BYMONTHDAY']) && $BYMONTHDAY = implode(",", $form_values['BYMONTHDAY'])) {
-    $RRULE .= ';BYMONTHDAY=' . $BYMONTHDAY;
+  if (array_key_exists('BYMONTHDAY', $form_values) && is_array($form_values['BYMONTHDAY']) && $bymonthday = implode(",", $form_values['BYMONTHDAY'])) {
+    $rrule .= ';BYMONTHDAY=' . $bymonthday;
   }
   // The UNTIL date is supposed to always be expressed in UTC.
   // The input date values may already have been converted to a date object on a
@@ -752,21 +752,21 @@ function date_api_ical_build_rrule($form_values) {
     else {
       $until = $form_values['UNTIL']['datetime'];
     }
-    $RRULE .= ';UNTIL=' . date_format($until, DATE_FORMAT_ICAL) . 'Z';
+    $rrule .= ';UNTIL=' . date_format($until, DATE_FORMAT_ICAL) . 'Z';
   }
   // Our form doesn't allow a value for COUNT, but it may be needed by
   // modules using the API, so add it to the rule.
   if (array_key_exists('COUNT', $form_values)) {
-    $RRULE .= ';COUNT=' . $form_values['COUNT'];
+    $rrule .= ';COUNT=' . $form_values['COUNT'];
   }
 
   // iCal rules presume the week starts on Monday unless otherwise specified,
   // so we'll specify it.
   if (array_key_exists('WKST', $form_values)) {
-    $RRULE .= ';WKST=' . $form_values['WKST'];
+    $rrule .= ';WKST=' . $form_values['WKST'];
   }
   else {
-    $RRULE .= ';WKST=' . date_repeat_dow2day(variable_get('date_first_day', 0));
+    $rrule .= ';WKST=' . date_repeat_dow2day(variable_get('date_first_day', 0));
   }
 
   // Exceptions dates go last, on their own line.
@@ -785,11 +785,11 @@ function date_api_ical_build_rrule($form_values) {
     }
     if (!empty($ex_dates)) {
       sort($ex_dates);
-      $RRULE .= chr(13) . chr(10) . 'EXDATE:' . implode(',', $ex_dates);
+      $rrule .= chr(13) . chr(10) . 'EXDATE:' . implode(',', $ex_dates);
     }
   }
   elseif (!empty($form_values['EXDATE'])) {
-    $RRULE .= chr(13) . chr(10) . 'EXDATE:' . $form_values['EXDATE'];
+    $rrule .= chr(13) . chr(10) . 'EXDATE:' . $form_values['EXDATE'];
   }
 
   // Exceptions dates go last, on their own line.
@@ -804,12 +804,12 @@ function date_api_ical_build_rrule($form_values) {
     }
     if (!empty($ex_dates)) {
       sort($ex_dates);
-      $RRULE .= chr(13) . chr(10) . 'RDATE:' . implode(',', $ex_dates);
+      $rrule .= chr(13) . chr(10) . 'RDATE:' . implode(',', $ex_dates);
     }
   }
   elseif (!empty($form_values['RDATE'])) {
-    $RRULE .= chr(13) . chr(10) . 'RDATE:' . $form_values['RDATE'];
+    $rrule .= chr(13) . chr(10) . 'RDATE:' . $form_values['RDATE'];
   }
 
-  return $RRULE;
+  return $rrule;
 }
