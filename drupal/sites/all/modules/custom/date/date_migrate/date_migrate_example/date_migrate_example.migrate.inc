@@ -78,7 +78,7 @@ class DateExampleMigration extends XMLMigration {
     $this->addFieldMapping('field_datestamp_range:to', 'datestamp_range_to');
 
     // You can specify a timezone to be applied to all values going into the
-    // field (Tokyo is UTC+9, no DST)
+    // field (Tokyo is UTC+9, no DST).
     $this->addFieldMapping('field_datetime', 'datetime')
       ->xpath('datetime');
     $this->addFieldMapping('field_datetime:timezone')
