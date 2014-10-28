@@ -34,6 +34,9 @@ function date_repeat_element_info() {
   return $type;
 }
 
+/**
+ * Implements hook_theme().
+ */
 function date_repeat_theme() {
   return array(
     'date_repeat_current_exceptions' => array('render element' => 'element'),
@@ -54,6 +57,9 @@ function date_repeat_freq_options() {
   );
 }
 
+/**
+ * Helper function for interval options.
+ */
 function date_repeat_interval_options() {
   $options = range(0, 366);
   unset($options[0]);
