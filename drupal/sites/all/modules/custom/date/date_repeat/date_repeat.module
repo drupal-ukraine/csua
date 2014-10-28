@@ -10,7 +10,6 @@
  *
  * Other modules can use this API to add self-validating form elements
  * to their dates, and identify dates that meet the RRULE criteria.
- *
  */
 
 /**
@@ -35,6 +34,9 @@ function date_repeat_element_info() {
   return $type;
 }
 
+/**
+ * Implements hook_theme().
+ */
 function date_repeat_theme() {
   return array(
     'date_repeat_current_exceptions' => array('render element' => 'element'),
@@ -55,6 +57,9 @@ function date_repeat_freq_options() {
   );
 }
 
+/**
+ * Helper function for interval options.
+ */
 function date_repeat_interval_options() {
   $options = range(0, 366);
   unset($options[0]);
@@ -271,7 +276,7 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
     $description['!byday'] = implode(' ' . t('and') . ' ', $results);
   }
   if (!empty($rrule['BYMONTH'])) {
-    if (sizeof($rrule['BYMONTH']) < 12) {
+    if (count($rrule['BYMONTH']) < 12) {
       $results = array();
       $months = date_month_names();
       foreach ($rrule['BYMONTH'] as $month) {
@@ -287,7 +292,10 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
       }
       else {
         $description['!bymonth'] = trim(t('!repeats_every_interval on !month_names',
-        array('!repeats_every_interval ' => '', '!month_names' => implode(', ', $results))));
+        array(
+          '!repeats_every_interval ' => '',
+          '!month_names' => implode(', ', $results)
+        )));
       }
     }
   }
@@ -315,7 +323,10 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
       $values[] = date_format_date($except, 'custom', $format);
     }
     $description['!except'] = trim(t('!repeats_every_interval except !except_dates',
-    array('!repeats_every_interval ' => '', '!except_dates' => implode(', ', $values))));
+    array(
+      '!repeats_every_interval ' => '',
+      '!except_dates' => implode(', ', $values)
+    )));
   }
   if (!empty($rrule['WKST'])) {
     $day_names = date_repeat_dow_day_options();
@@ -346,8 +357,8 @@ function date_repeat_split_rrule($rrule) {
   $additions = array();
   foreach ($parts as $part) {
     if (strstr($part, 'RRULE')) {
-      $rRulle = str_replace('RRULE:', '', $part);
-      $rrule = (array) date_ical_parse_rrule('RRULE:', $rRulle);
+      $cleanded_part = str_replace('RRULE:', '', $part);
+      $rrule = (array) date_ical_parse_rrule('RRULE:', $cleanded_part);
     }
     elseif (strstr($part, 'EXDATE')) {
       $exdate = str_replace('EXDATE:', '', $part);
