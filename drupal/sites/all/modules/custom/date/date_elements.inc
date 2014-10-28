@@ -330,7 +330,7 @@ function date_combo_element_process($element, &$form_state, $form) {
     '#date_label_position' => $instance['widget']['settings']['label_position'],
   );
 
-  $description =  !empty($element['#description']) ? t($element['#description']) : '';
+  $description = !empty($element['#description']) ? t($element['#description']) : '';
   unset($element['#description']);
 
   // Give this element the right type, using a Date API
@@ -346,11 +346,13 @@ function date_combo_element_process($element, &$form_state, $form) {
       $element['#attached']['js'][] = drupal_get_path('module', 'date') . '/date.js';
       $element[$from_field]['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
       break;
+
     case 'date_popup':
       $element[$from_field]['#type'] = 'date_popup';
       $element[$from_field]['#theme_wrappers'] = array('date_popup');
       $element[$from_field]['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
       break;
+
     default:
       $element[$from_field]['#type'] = 'date_text';
       $element[$from_field]['#theme_wrappers'] = array('date_text');
@@ -379,8 +381,11 @@ function date_combo_element_process($element, &$form_state, $form) {
     if ($field['settings']['todate'] == 'optional') {
       $element[$to_field]['#states'] = array(
         'visible' => array(
-          'input[name="' . $show_id . '"]' => array('checked' => TRUE),
-      ));
+          'input[name="' . $show_id . '"]' => array(
+            'checked' => TRUE,
+          ),
+        ),
+      );
     }
   }
   else {
