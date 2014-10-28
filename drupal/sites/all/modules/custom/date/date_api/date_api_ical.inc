@@ -181,6 +181,7 @@ function date_ical_parse($icaldatafolded = array()) {
               $parent[array_pop($parents)][] = array_pop($subgroups);
             }
             break;
+
           // Add the timezones in with their index their TZID.
           case 'VTIMEZONE':
             $subgroup = end($subgroups);
@@ -196,6 +197,7 @@ function date_ical_parse($icaldatafolded = array()) {
             array_pop($subgroups);
             array_pop($parents);
             break;
+
           // Do some fun stuff with durations and all_day events and then append
           // to parent.
           case 'VEVENT':
