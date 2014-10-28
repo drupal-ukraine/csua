@@ -466,7 +466,14 @@ class DateObject extends DateTime {
     $true = $this->hasGranularity() && (!$granularity || $flexible || $this->hasGranularity($granularity));
     if (!$true && $granularity) {
       foreach ((array) $granularity as $part) {
-        if (!$this->hasGranularity($part) && in_array($part, array('second', 'minute', 'hour', 'day', 'month', 'year'))) {
+        if (!$this->hasGranularity($part) && in_array($part, array(
+          'second',
+          'minute',
+          'hour',
+          'day',
+          'month',
+          'year')
+        )) {
           switch ($part) {
             case 'second':
               $this->errors[$part] = t('The second is missing.');
@@ -550,7 +557,14 @@ class DateObject extends DateTime {
     $temp = date_parse($time);
     // Special case for 'now'.
     if ($time == 'now') {
-      $this->granularity = array('year', 'month', 'day', 'hour', 'minute', 'second');
+      $this->granularity = array(
+        'year',
+        'month',
+        'day',
+        'hour',
+        'minute',
+        'second',
+      );
     }
     else {
       // This PHP date_parse() method currently doesn't have resolution down to
@@ -613,7 +627,14 @@ class DateObject extends DateTime {
       return FALSE;
     }
     $this->granularity = array();
-    $final_date = array('hour' => 0, 'minute' => 0, 'second' => 0, 'month' => 1, 'day' => 1, 'year' => 0);
+    $final_date = array(
+      'hour' => 0,
+      'minute' => 0,
+      'second' => 0,
+      'month' => 1,
+      'day' => 1,
+      'year' => 0,
+    );
     foreach ($letters as $i => $letter) {
       $value = $values[$i];
       switch ($letter) {
@@ -781,10 +802,24 @@ class DateObject extends DateTime {
     // date or we will get date slippage, i.e. a value of 2011-00-00 will get
     // interpreted as November of 2010 by PHP.
     if ($full) {
-      $arr += array('year' => 0, 'month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0);
+      $arr += array(
+        'year' => 0,
+        'month' => 1,
+        'day' => 1,
+        'hour' => 0,
+        'minute' => 0,
+        'second' => 0,
+      );
     }
     else {
-      $arr += array('year' => '', 'month' => '', 'day' => '', 'hour' => '', 'minute' => '', 'second' => '');
+      $arr += array(
+        'year' => '',
+        'month' => '',
+        'day' => '',
+        'hour' => '',
+        'minute' => '',
+        'second' => '',
+      );
     }
     $datetime = '';
     if ($arr['year'] !== '') {
