@@ -357,8 +357,8 @@ function date_repeat_split_rrule($rrule) {
   $additions = array();
   foreach ($parts as $part) {
     if (strstr($part, 'RRULE')) {
-      $rRulle = str_replace('RRULE:', '', $part);
-      $rrule = (array) date_ical_parse_rrule('RRULE:', $rRulle);
+      $cleanded_part = str_replace('RRULE:', '', $part);
+      $rrule = (array) date_ical_parse_rrule('RRULE:', $cleanded_part);
     }
     elseif (strstr($part, 'EXDATE')) {
       $exdate = str_replace('EXDATE:', '', $part);
