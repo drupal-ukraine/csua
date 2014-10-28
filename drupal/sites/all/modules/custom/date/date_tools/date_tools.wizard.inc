@@ -138,8 +138,19 @@ function date_tools_wizard_form() {
 function date_tools_wizard_form_validate(&$form, &$form_state) {
   $bundle = $form_state['values']['bundle'];
   $field_name = 'field_' . $form_state['values']['field_name'];
-  $existing_type = db_query("SELECT type FROM {node_type} WHERE type=:bundle", array(':bundle' => $bundle))->fetchField();
-  $existing_instance = db_query("SELECT field_name FROM {field_config_instance} WHERE field_name=:field_name AND bundle=:bundle AND entity_type=:entity_type", array(':field_name' => $field_name, ':bundle' => $bundle, ':entity_type' => 'node'))->fetchField();
+
+  $args = array(
+    ':field_name' => $field_name,
+    ':bundle' => $bundle,
+    ':entity_type' => 'node',
+  );
+
+  $query = "SELECT type FROM {node_type} WHERE type=:bundle";
+  $existing_type = db_query($query, array(':bundle' => $args[':bundle']))->fetchField();
+
+  $query = "SELECT field_name FROM {field_config_instance} WHERE field_name=:field_name AND bundle=:bundle AND entity_type=:entity_type";
+  $existing_instance = db_query($query, $args)->fetchField();
+
   if ($existing_type) {
     drupal_set_message(t('This content type name already exists, adding new field to existing content type.'));
   }
@@ -332,7 +343,7 @@ function date_tools_wizard_widget_types() {
 }
 
 /**
- * tz handler.
+ * Tz handler.
  *
  * @todo.
  */
