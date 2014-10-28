@@ -2209,7 +2209,8 @@ function date_has_date($granularity) {
   if (!is_array($granularity)) {
     $granularity = array();
   }
-  return (bool) count(array_intersect($granularity, array('year', 'month', 'day')));
+  $options = array('year', 'month', 'day');
+  return (bool) count(array_intersect($granularity, $options));
 }
 
 /**
@@ -2427,7 +2428,16 @@ function date_format_order($format) {
  *   A reduced set of granularitiy elements.
  */
 function date_nongranularity($granularity) {
-  return array_diff(array('year', 'month', 'day', 'hour', 'minute', 'second', 'timezone'), (array) $granularity);
+  $options = array(
+    'year',
+    'month',
+    'day',
+    'hour',
+    'minute',
+    'second',
+    'timezone',
+  );
+  return array_diff($options, (array) $granularity);
 }
 
 /**
@@ -2447,7 +2457,11 @@ function date_api_theme($existing, $type, $theme, $path) {
     'path' => "$path/theme",
   );
   return array(
-    'date_nav_title' => $base + array('variables' => array('granularity' => NULL, 'view' => NULL, 'link' => NULL, 'format' => NULL)),
+    'date_nav_title' => $base + array(
+      'variables' => array(
+        'granularity' => NULL, 'view' => NULL, 'link' => NULL, 'format' => NULL
+      ),
+    ),
     'date_timezone' => $base + array('render element' => 'element'),
     'date_select' => $base + array('render element' => 'element'),
     'date_text' => $base + array('render element' => 'element'),
@@ -2467,7 +2481,11 @@ function date_api_theme($existing, $type, $theme, $path) {
     'date_part_label_time' => $base + array('variables' => array('date_part' => NULL, 'element' => NULL)),
     'date_views_filter_form' => $base + array('template' => 'date-views-filter-form', 'render element' => 'form'),
     'date_calendar_day' => $base + array('variables' => array('date' => NULL)),
-    'date_time_ago' => $base + array('variables' => array('start_date' => NULL, 'end_date' => NULL, 'interval' => NULL)),
+    'date_time_ago' => $base + array(
+      'variables' => array(
+        'start_date' => NULL, 'end_date' => NULL, 'interval' => NULL
+      ),
+    ),
   );
 }
 
