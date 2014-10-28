@@ -126,7 +126,7 @@ function date_repeat_field_date_field_insert(&$items, $context) {
   $rrule = date_api_ical_build_rrule($form_values);
   $items[0]['rrule'] = $rrule;
 
-  $values = date_repeat_build_dates($rrule, $form_values, $field, $item);
+  $values = date_repeat_build_dates($field, $item, $rrule, $form_values);
 
   $items += $values;
 
