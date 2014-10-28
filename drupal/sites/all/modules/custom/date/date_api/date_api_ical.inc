@@ -224,7 +224,7 @@ function date_ical_parse($icaldatafolded = array()) {
             // assumes the end date is inclusive.
             if (!empty($subgroup['DTEND']) && (!empty($subgroup['DTEND']['all_day']))) {
               // Make the end date one day earlier.
-              $date = new DateObject ($subgroup['DTEND']['datetime'] . ' 00:00:00', $subgroup['DTEND']['tz']);
+              $date = new DateObject($subgroup['DTEND']['datetime'] . ' 00:00:00', $subgroup['DTEND']['tz']);
               date_modify($date, '-1 day');
               $subgroup['DTEND']['datetime'] = date_format($date, 'Y-m-d');
             }
@@ -241,7 +241,7 @@ function date_ical_parse($icaldatafolded = array()) {
             if (!empty($subgroup['DTSTART']['all_day'])) {
               $subgroup['all_day'] = TRUE;
             }
-            // Add this element to the parent as an array under the
+            // Add this element to the parent as an array under the.
             prev($subgroups);
             $parent = &$subgroups[key($subgroups)];
 
@@ -546,7 +546,7 @@ function date_ical_parse_duration(&$subgroup, $field = 'DURATION') {
     'datetime' => date_format($date2, DATE_FORMAT_DATETIME),
     'all_day' => isset($subgroup['DTSTART']['all_day']) ? $subgroup['DTSTART']['all_day'] : 0,
     'tz' => $timezone,
-    );
+  );
   $duration = date_format($date2, 'U') - date_format($date, 'U');
   $subgroup['DURATION'] = array('DATA' => $data, 'DURATION' => $duration);
 }
@@ -635,7 +635,6 @@ function date_ical_date($ical_date, $to_tz = FALSE) {
  *
  * @return string
  *   Escaped text
- *
  */
 function date_ical_escape_text($text) {
   $text = drupal_html_to_text($text);
@@ -735,8 +734,17 @@ function date_api_ical_build_rrule($form_values) {
     if (!is_object($form_values['UNTIL']['datetime'])) {
       // If this is a date without time, give it time.
       if (strlen($form_values['UNTIL']['datetime']) < 11) {
+        $granularity_options = drupal_map_assoc(array(
+          'year',
+          'month',
+          'day',
+          'hour',
+          'minute',
+          'second',
+        ));
+
         $form_values['UNTIL']['datetime'] .= ' 23:59:59';
-        $form_values['UNTIL']['granularity'] = serialize(drupal_map_assoc(array('year', 'month', 'day', 'hour', 'minute', 'second')));
+        $form_values['UNTIL']['granularity'] = serialize($granularity_options);
         $form_values['UNTIL']['all_day'] = FALSE;
       }
       $until = date_ical_date($form_values['UNTIL'], 'UTC');
