@@ -292,7 +292,10 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
       }
       else {
         $description['!bymonth'] = trim(t('!repeats_every_interval on !month_names',
-        array('!repeats_every_interval ' => '', '!month_names' => implode(', ', $results))));
+        array(
+          '!repeats_every_interval ' => '',
+          '!month_names' => implode(', ', $results)
+        )));
       }
     }
   }
@@ -320,7 +323,10 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
       $values[] = date_format_date($except, 'custom', $format);
     }
     $description['!except'] = trim(t('!repeats_every_interval except !except_dates',
-    array('!repeats_every_interval ' => '', '!except_dates' => implode(', ', $values))));
+    array(
+      '!repeats_every_interval ' => '',
+      '!except_dates' => implode(', ', $values)
+    )));
   }
   if (!empty($rrule['WKST'])) {
     $day_names = date_repeat_dow_day_options();
