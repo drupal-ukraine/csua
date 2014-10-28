@@ -107,8 +107,8 @@ class DateExampleMigration extends XMLMigration {
     // The date range field can have multiple values.
     $current_row->date_range_from = array();
     foreach ($current_row->xml->date_range as $range) {
-      $current_row->date_range_from[] = (string)$range->from[0];
-      $current_row->date_range_to[] = (string)$range->to[0];
+      $current_row->date_range_from[] = (string) $range->from[0];
+      $current_row->date_range_to[] = (string) $range->to[0];
     }
 
     $current_row->datestamp_range_from
