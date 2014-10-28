@@ -33,3 +33,6 @@ dependencies[] = faq
 ; Captcha 7.x-1.x-dev
 dependencies[] = captcha
 dependencies[] = image_captcha
+
+; Advanced forum 7.x-2.x-dev
+dependencies[] = advanced_forum
