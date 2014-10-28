@@ -197,6 +197,9 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
     return $return;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function fields($migration = NULL) {
     return array(
       'timezone' => t('Timezone'),
