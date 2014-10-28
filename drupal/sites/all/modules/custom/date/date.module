@@ -400,8 +400,10 @@ function date_formatter_format($formatter, $settings, $granularity = array(), $l
   switch ($formatter) {
     case 'format_interval':
       return 'format_interval';
+
     case 'date_plain':
       return 'date_plain';
+
     default:
       $format = date_format_type_format($format_type, $langcode);
       break;
