@@ -475,16 +475,16 @@ function date_format_type_format($format_type, $langcode = NULL) {
         case 'medium':
         default:
           // @todo: If a non-core module provides a date type and does not
-          //   variable_set() a default for it, the default assumed here may
-          //   not be correct (since the default format used by 'medium' may
-          //   not even be one of the allowed formats for the date type in
-          //   question). To fix this properly, we should really call
-          //   system_get_date_formats($format_type) and take the first
-          //   format from that list as the default. However, this function
-          //   is called often (on many different page requests), so calling
-          //   system_get_date_formats() from here would be a performance hit
-          //   since that function writes several records to the database
-          //   during each page request that calls it.
+          // variable_set() a default for it, the default assumed here may
+          // not be correct (since the default format used by 'medium' may
+          // not even be one of the allowed formats for the date type in
+          // question). To fix this properly, we should really call
+          // system_get_date_formats($format_type) and take the first
+          // format from that list as the default. However, this function
+          // is called often (on many different page requests), so calling
+          // system_get_date_formats() from here would be a performance hit
+          // since that function writes several records to the database
+          // during each page request that calls it.
           $default = 'D, m/d/Y - H:i';
           break;
 
@@ -541,7 +541,7 @@ function date_prepare_entity($formatter, $entity_type, $entity, $field, $instanc
         elseif ((!empty($max_count) && is_numeric($max_count) && $count >= $max_count) ||
           (!empty($value['value'])  && $value['value'] < $start) ||
           (!empty($value['value2']) && $value['value2'] > $end)) {
-            unset($entity->{$field_name}[$langcode][$delta]);
+          unset($entity->{$field_name}[$langcode][$delta]);
         }
         else {
           $count++;
