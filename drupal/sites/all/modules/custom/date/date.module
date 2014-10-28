@@ -11,12 +11,16 @@ module_load_include('inc', 'date', 'date_elements');
 
 /**
  * Helper function to figure out the bundle name for an entity.
+ * @param $entity_type
+ * @param $entity
+ * @return
  */
 function date_get_entity_bundle($entity_type, $entity) {
   switch ($entity_type) {
     case 'field_collection_item':
       $bundle = $entity->field_name;
       break;
+
     default:
       $bundle = field_extract_bundle($entity_type, $entity);
       break;
@@ -31,6 +35,8 @@ function date_get_entity_bundle($entity_type, $entity) {
 
 /**
  * Gets the default date format for the given field widget.
+ * @param $type
+ * @return mixed
  */
 function date_default_format($type) {
   // Example input formats must show all possible date parts, so add seconds.
@@ -40,15 +46,22 @@ function date_default_format($type) {
 
 /**
  * Wrapper function around each of the widget types for creating a date object.
+ * @param $field
+ * @param $instance
+ * @param $element
+ * @param $input
+ * @return
  */
 function date_input_date($field, $instance, $element, $input) {
   switch ($instance['widget']['type']) {
     case 'date_text':
       $function = 'date_text_input_date';
       break;
+
     case 'date_popup':
       $function = 'date_popup_input_date';
       break;
+
     default:
       $function = 'date_select_input_date';
   }
@@ -300,6 +313,7 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
  *
  * @param array $field
  *   The field array.
+ * @return array
  */
 function date_granularity($field) {
   if (!is_array($field) || !is_array($field['settings']['granularity'])) {
@@ -311,6 +325,8 @@ function date_granularity($field) {
 /**
  * Helper function to create an array of the date values in a
  * field that need to be processed.
+ * @param $field
+ * @return array
  */
 function date_process_values($field) {
   return $field['settings']['todate'] ? array('value', 'value2') : array('value');
@@ -318,6 +334,9 @@ function date_process_values($field) {
 
 /**
  * Implements hook_form_FORM_ID_alter() for field_ui_field_edit_form().
+ * @param $form
+ * @param $form_state
+ * @param $form_id
  */
 function date_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
   $field = $form['#field'];
@@ -359,6 +378,8 @@ function date_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id
 
 /**
  * Rearrange form elements into fieldsets for presentation only.
+ * @param $form
+ * @return
  */
 function date_field_ui_field_edit_form_pre_render($form) {
   foreach ($form as $name => $element) {
@@ -382,6 +403,10 @@ function date_field_ui_field_edit_form_pre_render($form) {
 
 /**
  * Implements hook_field_widget_error().
+ * @param $element
+ * @param $error
+ * @param $form
+ * @param $form_state
  */
 function date_field_widget_error($element, $error, $form, &$form_state) {
   form_error($element[$error['error']], $error['message']);
@@ -389,6 +414,11 @@ function date_field_widget_error($element, $error, $form, &$form_state) {
 
 /**
  * Retrieve a date format string from formatter settings.
+ * @param $formatter
+ * @param $settings
+ * @param array $granularity
+ * @param null $langcode
+ * @return string
  */
 function date_formatter_format($formatter, $settings, $granularity = array(), $langcode = NULL) {
   $format_type = !empty($settings['format_type']) ? $settings['format_type'] : 'format_interval';
@@ -396,10 +426,8 @@ function date_formatter_format($formatter, $settings, $granularity = array(), $l
   switch ($formatter) {
     case 'format_interval':
       return 'format_interval';
-      break;
     case 'date_plain':
       return 'date_plain';
-      break;
     default:
       $format = date_format_type_format($format_type, $langcode);
       break;
@@ -413,6 +441,9 @@ function date_formatter_format($formatter, $settings, $granularity = array(), $l
 /**
  * Helper function to get the right format for a format type.
  * Checks for locale-based format first.
+ * @param $format_type
+ * @param null $langcode
+ * @return
  */
 function date_format_type_format($format_type, $langcode = NULL) {
   $static = &drupal_static(__FUNCTION__);
@@ -434,9 +465,11 @@ function date_format_type_format($format_type, $langcode = NULL) {
         case 'short':
           $default = 'm/d/Y - H:i';
           break;
+
         case 'long':
           $default = 'l, F j, Y - H:i';
           break;
+
         // If it's not one of the core date types and isn't stored in the
         // database, we'll fall back on using the same default format as the
         // 'medium' type.
@@ -455,6 +488,7 @@ function date_format_type_format($format_type, $langcode = NULL) {
           //   during each page request that calls it.
           $default = 'D, m/d/Y - H:i';
           break;
+
       }
       $format = variable_get('date_format_' . $format_type, $default);
     }
@@ -465,6 +499,15 @@ function date_format_type_format($format_type, $langcode = NULL) {
 
 /**
  * Helper function to adapt entity date fields to formatter settings.
+ * @param $formatter
+ * @param $entity_type
+ * @param $entity
+ * @param $field
+ * @param $instance
+ * @param $langcode
+ * @param $item
+ * @param $display
+ * @return
  */
 function date_prepare_entity($formatter, $entity_type, $entity, $field, $instance, $langcode, $item, $display) {
   // If there are options to limit multiple values,
@@ -524,6 +567,11 @@ function date_prepare_entity($formatter, $entity_type, $entity, $field, $instanc
  * Callback to alter the property info of date fields.
  *
  * @see date_field_info()
+ * @param $info
+ * @param $entity_type
+ * @param $field
+ * @param $instance
+ * @param $field_type
  */
 function date_entity_metadata_property_info_alter(&$info, $entity_type, $field, $instance, $field_type) {
   $name = $field['field_name'];
@@ -586,6 +634,12 @@ function date_entity_metadata_property_info_alter(&$info, $entity_type, $field, 
 
 /**
  * Getter callback to return date values as datestamp in UTC from the field.
+ * @param $entity
+ * @param array $options
+ * @param $name
+ * @param $entity_type
+ * @param $context
+ * @return array
  */
 function date_entity_metadata_field_getter($entity, array $options, $name, $entity_type, &$context) {
   $return = entity_metadata_field_verbatim_get($entity, $options, $name, $entity_type, $context);
@@ -598,8 +652,11 @@ function date_entity_metadata_field_getter($entity, array $options, $name, $enti
 
 /**
  * Getter callback to return date values as datestamp in UTC.
+ * @param $item
+ * @param $name
+ * @return null|string
  */
-function date_entity_metadata_struct_getter($item, array $options, $name, $type, $info) {
+function date_entity_metadata_struct_getter($item, $name) {
   $value = trim($item[$name]);
   if (empty($value)) {
     return NULL;
@@ -612,6 +669,12 @@ function date_entity_metadata_struct_getter($item, array $options, $name, $type,
 
 /**
  * Getter callback to return the duration of the time period given by the dates.
+ * @param $item
+ * @param array $options
+ * @param $name
+ * @param $type
+ * @param $info
+ * @return null|string
  */
 function date_entity_metadata_duration_getter($item, array $options, $name, $type, $info) {
   $value = date_entity_metadata_struct_getter($item, $options, 'value', 'struct', $info);
@@ -626,6 +689,12 @@ function date_entity_metadata_duration_getter($item, array $options, $name, $typ
  *
  * Based on entity_metadata_field_property_set(), the original property setter,
  * adapted to transform non-timestamp date values to timestamps.
+ * @param $entity
+ * @param $name
+ * @param $value
+ * @param $langcode
+ * @param $entity_type
+ * @param $info
  */
 function date_entity_metadata_field_setter(&$entity, $name, $value, $langcode, $entity_type, $info) {
   $field = field_info_field($name);
@@ -650,6 +719,9 @@ function date_entity_metadata_field_setter(&$entity, $name, $value, $langcode, $
 
 /**
  * Auto creation callback for fields which contain two date values in one
+ * @param $name
+ * @param $property_info
+ * @return array
  */
 function date_entity_metadata_struct_create($name, $property_info) {
   return array(
@@ -666,6 +738,12 @@ function date_entity_metadata_struct_create($name, $property_info) {
  * format dependent on the field.
  *
  * $name is either 'value' or 'value2'.
+ * @param $item
+ * @param $name
+ * @param $value
+ * @param $langcode
+ * @param $type
+ * @param $info
  */
 function date_entity_metadata_struct_setter(&$item, $name, $value, $langcode, $type, $info) {
   if (!isset($value)) {
@@ -690,6 +768,11 @@ function date_entity_metadata_struct_setter(&$item, $name, $value, $langcode, $t
  * modules that use this function.
  *
  * DEPRECATED!, will be removed at some time in the future.
+ * @param $field
+ * @param $instance
+ * @param $date1
+ * @param null $date2
+ * @return bool
  */
 function date_field_all_day($field, $instance, $date1, $date2 = NULL) {
   if (empty($date1) || !is_object($date1)) {
@@ -719,6 +802,7 @@ function date_field_all_day($field, $instance, $date1, $date2 = NULL) {
  *   The timezone used for comparison values in the SQL.
  *
  * DEPRECATED!, will be removed at some time in the future.
+ * @return \date_sql_handler
  */
 function date_field_get_sql_handler($field, $compare_tz = NULL) {
   module_load_include('inc', 'date_api', 'date_api_sql');
@@ -754,6 +838,8 @@ function date_field_get_sql_handler($field, $compare_tz = NULL) {
  *
  * Alters the widget properties of a field instance before it gets displayed.
  * Used here to flag new entities so we can later tell if they need default values.
+ * @param $widget
+ * @param $context
  */
 function date_field_widget_properties_alter(&$widget, $context) {
   if (in_array($widget['type'], array('date_select', 'date_text', 'date_popup'))) {
