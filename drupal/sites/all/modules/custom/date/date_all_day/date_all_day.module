@@ -91,14 +91,22 @@ function date_all_day_date_formatter_dates_alter(&$dates, $context) {
 /**
  * Adjust start/end date format to account for 'all day' .
  *
- * @param array $field, the field definition for this date field.
- * @param string $which, which value to return, 'date1' or 'date2' .
- * @param object $date1, a date/time object for the 'start' date.
- * @param object $date2, a date/time object for the 'end' date.
- * @param string $format
- * @param object $entity, the node this date comes from (may be incomplete, always contains nid).
- * @param object $view, the view this node comes from, if applicable.
- * @return formatted date.
+ * @param
+ * array $field, the field definition for this date field.
+ * @param
+ * string $which, which value to return, 'date1' or 'date2' .
+ * @param
+ * object $date1, a date/time object for the 'start' date.
+ * @param
+ * object $date2, a date/time object for the 'end' date.
+ * @param
+ * string $format
+ * @param
+ * object $entity, the node this date comes from (may be incomplete, always contains nid).
+ * @param
+ * object $view, the view this node comes from, if applicable.
+ * @return
+ * formatted date.
  */
 function theme_date_all_day($vars) {
   $field    = $vars['field'];
@@ -142,16 +150,20 @@ function theme_date_all_day($vars) {
  * Theme the way an 'all day' label will look.
  */
 function theme_date_all_day_label() {
-  return '(' . t('All day', array(), array('context' => 'datetime')) .')';
+  return '(' . t('All day', array(), array('context' => 'datetime')) . ')';
 }
 
 /**
  * Determine if a Start/End date combination qualify as 'All day'.
  *
- * @param array $field, the field definition for this date field.
- * @param object $date1, a date/time object for the 'Start' date.
- * @param object $date2, a date/time object for the 'End' date.
- * @return TRUE or FALSE.
+ * @param
+ * array $field, the field definition for this date field.
+ * @param
+ * object $date1, a date/time object for the 'Start' date.
+ * @param
+ * object $date2, a date/time object for the 'End' date.
+ * @return
+ * TRUE or FALSE.
  */
 function date_all_day_field($field, $instance, $date1, $date2 = NULL) {
   if (empty($date1) || !is_object($date1)) {
@@ -237,7 +249,7 @@ function date_all_day_date_select_process_alter(&$element, &$form_state, $contex
   // Hide or show this element in reaction to the all_day status for this element.
   $all_day_id = !empty($element['#date_all_day_id']) ? $element['#date_all_day_id'] : '';
   if ($all_day_id != '') {
-    foreach(array('hour', 'minute', 'second', 'ampm') as $field) {
+    foreach (array('hour', 'minute', 'second', 'ampm') as $field) {
       if (array_key_exists($field, $element)) {
         $element[$field]['#states'] = array(
           'visible' => array(
@@ -302,7 +314,9 @@ function date_all_day_date_popup_pre_validate_alter(&$element, &$form_state, &$i
 }
 
 /**
- * A helper function to check if the all day flag is set on the parent of an
+ * A helper function date_all_day_value().
+ *
+ * To check if the all day flag is set on the parent of an
  * element, and adjust the date_format accordingly so the missing time will
  * not cause validation errors.
  */
@@ -348,11 +362,10 @@ function date_all_day_date_combo_pre_validate_alter(&$element, &$form_state, $co
  * before they are converted back to the database timezone and stored.
  */
 function date_all_day_date_combo_validate_date_start_alter(&$date, &$form_state, $context) {
-
-   // If this is an 'All day' value, set the time to midnight.
-   if (!empty($context['element']['#date_is_all_day'])) {
-     $date->setTime(0, 0, 0);
-   }
+  // If this is an 'All day' value, set the time to midnight.
+  if (!empty($context['element']['#date_is_all_day'])) {
+    $date->setTime(0, 0, 0);
+  }
 }
 
 /**
@@ -362,11 +375,10 @@ function date_all_day_date_combo_validate_date_start_alter(&$date, &$form_state,
  * before they are converted back to the database timezone and stored.
  */
 function date_all_day_date_combo_validate_date_end_alter(&$date, &$form_state, $context) {
-
-   // If this is an 'All day' value, set the time to midnight.
-   if (!empty($context['element']['#date_is_all_day'])) {
-     $date->setTime(0, 0, 0);
-   }
+  // If this is an 'All day' value, set the time to midnight.
+  if (!empty($context['element']['#date_is_all_day'])) {
+    $date->setTime(0, 0, 0);
+  }
 }
 
 /**
