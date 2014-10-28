@@ -93,31 +93,31 @@ function date_views_theme() {
 
   return array(
     'date_nav_title' => $base + array(
-        'variables' => array(
-          'granularity' => NULL,
-          'view' => NULL,
-          'link' => NULL,
-          'format' => NULL,
-        ),
+      'variables' => array(
+        'granularity' => NULL,
+        'view' => NULL,
+        'link' => NULL,
+        'format' => NULL,
       ),
+    ),
     'date_views_filter_form' => $base + array(
-        'template' => 'date-views-filter-form',
-        'render element' => 'form',
-      ),
+      'template' => 'date-views-filter-form',
+      'render element' => 'form',
+    ),
     'date_calendar_day' => $base + array(
-        'variables' => array(
-          'date' => NULL,
-        ),
+      'variables' => array(
+        'date' => NULL,
       ),
+    ),
     'date_views_pager' => $base + array(
-        'variables' => array(
-          'plugin' => NULL,
-          'input' => NULL,
-        ),
-        // Register a pattern so that it can work like all views templates.
-        'pattern' => 'date_views_pager__',
-        'template' => 'date-views-pager',
+      'variables' => array(
+        'plugin' => NULL,
+        'input' => NULL,
       ),
+      // Register a pattern so that it can work like all views templates.
+      'pattern' => 'date_views_pager__',
+      'template' => 'date-views-pager',
+    ),
   );
 }
 
@@ -165,6 +165,7 @@ function date_views_fields($base = 'node', $reset = FALSE) {
 
 /**
  * Implements hook_date_views_entities().
+ *
  * Map extra Views tables to the entity that holds its date fields, needed for Views tables other than the primary tables identified in entity_info().
  */
 function date_views_date_views_extra_tables() {
