@@ -682,7 +682,7 @@ function date_entity_metadata_field_setter(&$entity, $name, $value, $langcode, $
 }
 
 /**
- * Auto creation callback for fields which contain two date values in one
+ * Auto creation callback for fields which contain two date values in one.
  */
 function date_entity_metadata_struct_create($name, $property_info) {
   return array(
@@ -693,10 +693,10 @@ function date_entity_metadata_struct_create($name, $property_info) {
 
 /**
  * Callback for setting an individual field value if a to-date may be there too.
+ *
  * Based on entity_property_verbatim_set().
  *
- * The passed in unix timestamp (UTC) is converted to the right value and
- * format dependent on the field.
+ * The passed in unix timestamp (UTC) is converted to the right value and format dependent on the field.
  *
  * $name is either 'value' or 'value2'.
  */
@@ -718,9 +718,9 @@ function date_entity_metadata_struct_setter(&$item, $name, $value, $langcode, $t
 }
 
 /**
- * Duplicate functionality of what is now date_all_day_field() in
- * the Date All Day module. Copy left here to avoid breaking other
- * modules that use this function.
+ * Duplicate functionality of what is now date_all_day_field() in the Date All Day module.
+ *
+ * Copy left here to avoid breaking other modules that use this function.
  *
  * DEPRECATED!, will be removed at some time in the future.
  */
