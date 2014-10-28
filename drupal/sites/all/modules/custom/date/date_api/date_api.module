@@ -2192,7 +2192,8 @@ function date_has_time($granularity) {
   if (!is_array($granularity)) {
     $granularity = array();
   }
-  return (bool) count(array_intersect($granularity, array('hour', 'minute', 'second')));
+  $options = array('hour', 'minute', 'second');
+  return (bool) count(array_intersect($granularity, $options));
 }
 
 /**
