@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Forum topic legend.
+ */
 
 /**
  * Plugins are described by creating a $plugin array which will be used

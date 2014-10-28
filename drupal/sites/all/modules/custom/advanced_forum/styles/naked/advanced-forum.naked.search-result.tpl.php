@@ -15,7 +15,6 @@
  *   - $field->separator: an optional separator that may appear before a field.
  * - $row: The raw result object from the query, with all data it fetched.
  */
- 
 ?>
 
 <div class="forum-search-result">

@@ -16,7 +16,6 @@
  * - $account: User object of the post author.
  * - $name: User name of post author.
  * - $author_pane: Entire contents of advanced_forum-author-pane.tpl.php.
-
  */
 ?>
 
