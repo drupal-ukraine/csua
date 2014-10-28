@@ -276,7 +276,7 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
     $description['!byday'] = implode(' ' . t('and') . ' ', $results);
   }
   if (!empty($rrule['BYMONTH'])) {
-    if (sizeof($rrule['BYMONTH']) < 12) {
+    if (count($rrule['BYMONTH']) < 12) {
       $results = array();
       $months = date_month_names();
       foreach ($rrule['BYMONTH'] as $month) {
