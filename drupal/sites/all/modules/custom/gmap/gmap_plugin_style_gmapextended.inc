@@ -10,11 +10,13 @@
  *
  * @ingroup views_style_plugins
  */
+
+// @codingStandardsIgnoreStart
 class gmap_plugin_style_gmapextended extends views_plugin_style {
   /**
-   * Set default options
+   * Set default options.
    */
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['fallback_values'] = array('default' => array());
@@ -50,11 +52,15 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
     return $options;
   }
 
-  function purpose_list() {
+  /**
+   * Generate options for the selectlist.
+   */
+  public function purpose_list() {
     return array(
       '' => t('Unused'),
       'text' => t('Marker bubble contents'),
-      'rmt' => t('RMT tail'), // @@@ Stupid title
+      // @@@ Stupid title
+      'rmt' => t('RMT tail'),
       'iwq' => t('Info window query'),
       'iwo' => t('Info window offset'),
       'link' => t('URL to visit when clicking marker'),
@@ -67,7 +73,10 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
     );
   }
 
-  function query() {
+  /**
+   * {@inheritdoc}
+   */
+  public function query() {
     parent::query();
 
     if ($this->options['datasource'] == 'location') {
@@ -98,7 +107,7 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
   /**
    * Render the given style.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $handlers = $this->display->handler->get_handlers('field');
     if (empty($handlers)) {
@@ -129,7 +138,7 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
         '#default_value' => isset($this->options['info'][$field]['separator']) ? $this->options['info'][$field]['separator'] : '',
       );
 
-      // markup for the field name
+      // Markup for the field name.
       $form['info'][$field]['name'] = array(
         '#markup' => $field_names[$field],
       );
@@ -145,7 +154,7 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
       '#options' => array(
         'location' => t('Location.module'),
         'fields' => t('Choose latitude and longitude fields'),
-        //'geocode' => t('Just-in-time geocoding on field named "address"'),
+        // 'geocode' => t('Just-in-time geocoding on field named "address"'),
       ),
       '#default_value' => $this->options['datasource'],
       '#multiple' => FALSE,
@@ -190,7 +199,8 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
     );
 
     $default = $this->options['fallback_values'];
-    $form['fallback_values']['text'] = array( // @@@ Make this #text_format compatible so people can do neat tricks.
+    // @@@ Make this #text_format compatible so people can do neat tricks.
+    $form['fallback_values']['text'] = array(
       '#type' => 'textarea',
       '#title' => t('Marker bubble contents'),
       '#default_value' => isset($default['text']) ? $default['text'] : '',
@@ -257,8 +267,7 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
       '#default_value' => isset($default['offset']) ? $default['offset'] : '',
     );
 
-
-////////////////////////// Form stuff below this line needs attention.
+    // Form stuff below this line needs attention.
 
     $form['macro'] = array(
       '#type' => 'textarea',
@@ -292,6 +301,8 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
       '#title' => t('Marker / fallback marker to use'),
       '#default_value' => $this->options['markertype'],
     );
+
+    // @codingStandardsIgnoreStart
     /*
         $form['center_on_nodearg'] = array(
           '#type' => 'checkbox',
@@ -335,6 +346,7 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
           '#dependency' => array('edit-style-options-highlight-nodearg' => array(TRUE)),
         );
     */
+    // @codingStandardsIgnoreEnd
 
     if (module_exists('location')) {
       $form['center_on_proximityfilter'] = array(
@@ -388,18 +400,23 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
   /**
    * Validate the options form.
    */
-  function options_validate(&$form, &$form_state) {
+  public function options_validate(&$form, &$form_state) {
     parent::options_validate($form, $form_state);
-    // Check if highlight color is a valid hex color
+    // Check if highlight color is a valid hex color.
     if (!preg_match('/^#[a-f0-9]{6}$/i', $form_state['values']['style_options']['highlight_nodearg_color'])) {
       form_error($form['highlight_nodearg_color'], t('Highlight colour must be a valid hex code in the form #FF0000.'));
     }
   }
 
-  function render() {
+  /**
+   * {@inheritdoc}
+   */
+  public function render() {
     if (isset($this->view->live_preview) && $this->view->live_preview) {
       return t('GMap views are not compatible with live preview.');
     }
     return parent::render();
   }
 }
+// @codingStandardsIgnoreEnd
+
