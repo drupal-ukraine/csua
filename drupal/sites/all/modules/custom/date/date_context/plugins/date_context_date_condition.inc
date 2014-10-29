@@ -112,26 +112,31 @@ class date_context_date_condition extends context_condition_node {
                     $this->condition_met($context, $field_name);
                   }
                   break;
+
                 case '>':
                   if ($date1 > $compdate) {
                     $this->condition_met($context, $field_name);
                   }
                   break;
+
                 case '>=':
                   if ($date1 >= $compdate) {
                     $this->condition_met($context, $field_name);
                   }
                   break;
+
                 case '<':
                   if ($date2 < $compdate) {
                     $this->condition_met($context, $field_name);
                   }
                   break;
+
                 case '<=':
                   if ($date2 <= $compdate) {
                     $this->condition_met($context, $field_name);
                   }
                   break;
+
                 case '!=':
                   if ($date1 < $compdate || $date2 > $compdate) {
                     $this->condition_met($context, $field_name);
