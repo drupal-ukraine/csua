@@ -545,7 +545,7 @@ function date_parts_element($element, $date, $format) {
   $sub_element = array('#granularity' => $granularity);
   $order = array_flip($granularity);
 
-  $hours_format  = strpos(strtolower($element['#date_format']), 'a') ? 'g': 'G';
+  $hours_format  = strpos(strtolower($element['#date_format']), 'a') ? 'g' : 'G';
   $month_function  = strpos($element['#date_format'], 'F') !== FALSE ? 'date_month_names' : 'date_month_names_abbr';
   $count = 0;
   $increment = min(intval($element['#date_increment']), 1);
