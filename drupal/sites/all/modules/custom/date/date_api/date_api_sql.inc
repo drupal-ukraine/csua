@@ -30,7 +30,7 @@ function date_sql_concat($array) {
 }
 
 /**
- * Helper function to do cross-database NULL replacements
+ * Helper function to do cross-database NULL replacements.
  *
  * @param array $array
  *   An array of values to test for NULL values.
@@ -73,7 +73,6 @@ function date_sql_pad($str, $size = 2, $pad = '0', $side = 'l') {
  */
 // @codingStandardsIgnoreStart
 class date_sql_handler {
-  // @codingStandardsIgnoreEnd
   var $db_type = NULL;
   var $date_type = DATE_DATETIME;
   // A string timezone name.
@@ -90,7 +89,7 @@ class date_sql_handler {
   /**
    * The object constuctor.
    */
-  function __construct($date_type = DATE_DATETIME, $local_timezone = NULL, $offset = '+00:00') {
+  public function __construct($date_type = DATE_DATETIME, $local_timezone = NULL, $offset = '+00:00') {
     $this->db_type = Database::getConnection()->databaseType();
     $this->date_type = $date_type;
     $this->db_timezone = 'UTC';
@@ -101,7 +100,7 @@ class date_sql_handler {
   /**
    * See if the db has timezone name support.
    */
-  function db_tz_support($reset = FALSE) {
+  public function db_tz_support($reset = FALSE) {
     $has_support = variable_get('date_db_tz_support', -1);
     if ($has_support == -1 || $reset) {
       $has_support = FALSE;
@@ -141,7 +140,7 @@ class date_sql_handler {
    *   set a fixed offset, not a timezone, so any value other than
    *   '+00:00' should be used with caution.
    */
-  function set_db_timezone($offset = '+00:00') {
+  public function set_db_timezone($offset = '+00:00') {
     static $already_set = FALSE;
     $type = Database::getConnection()->databaseType();
     if (!$already_set) {
@@ -168,7 +167,7 @@ class date_sql_handler {
   /**
    * Return timezone offset for the date being processed.
    */
-  function get_offset($comp_date = NULL) {
+  public function get_offset($comp_date = NULL) {
     if (!empty($this->db_timezone) && !empty($this->local_timezone)) {
       if ($this->db_timezone != $this->local_timezone) {
         if (empty($comp_date)) {
@@ -812,8 +811,7 @@ class date_sql_handler {
   }
 
   /**
-   * Create a complete datetime value out of an
-   * incomplete array of selected values.
+   * Create a complete date/time value out of an incomplete array of values.
    *
    * For example, array('year' => 2008, 'month' => 05) will fill
    * in the day, hour, minute and second with the earliest possible
@@ -879,7 +877,7 @@ class date_sql_handler {
   }
 
   /**
-   *  A function to test the validity of various date parts
+   * A function to test the validity of various date parts.
    */
   function part_is_valid($value, $type) {
     if (!preg_match('/^[0-9]*$/', $value)) {
@@ -889,7 +887,6 @@ class date_sql_handler {
     if ($value <= 0) {
       return FALSE;
     }
-    // @codingStandardsIgnoreEnd
     switch ($type) {
       case 'year':
         if ($value < DATE_MIN_YEAR) {
@@ -1120,8 +1117,10 @@ class date_sql_handler {
   }
 
   /**
-   * Use the parsed values from the ISO argument to determine the
-   * granularity of this period.
+   * Granularity arguments handler.
+   *
+   * Use the parsed values from the ISO argument
+   * to determine the granularity of this period.
    */
   function arg_granularity($arg) {
     $granularity = '';
@@ -1205,3 +1204,4 @@ class date_sql_handler {
     return array($now, $now);
   }
 }
+// @codingStandardsIgnoreEnd
