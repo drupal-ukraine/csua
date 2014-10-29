@@ -9,6 +9,10 @@
  * Expose term views/term forms by vocabulary as a context condition.
  */
 class date_context_date_condition extends context_condition_node {
+
+  /**
+   * {@inheritdoc}
+   */
   public function condition_values() {
     $values = array();
     $fields = field_info_fields();
@@ -20,6 +24,9 @@ class date_context_date_condition extends context_condition_node {
     return $values;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function options_form($context) {
     $defaults = $this->fetch_from_context($context, 'options');
     $options = array(
@@ -51,6 +58,9 @@ class date_context_date_condition extends context_condition_node {
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function execute($entity, $op) {
     if (in_array($op, array('view', 'form'))) {
       foreach ($this->get_contexts() as $context) {
