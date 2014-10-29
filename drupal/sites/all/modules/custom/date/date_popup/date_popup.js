@@ -55,7 +55,7 @@ Drupal.behaviors.date_popup = {
             break;
         }
       }
-    })
+    });
   }
   }
 };
