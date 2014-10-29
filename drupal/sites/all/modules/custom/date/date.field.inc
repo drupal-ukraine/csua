@@ -259,21 +259,21 @@ function date_field_info() {
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
     'date' => array(
       'label' => 'Date (ISO format)',
       'description' => t('Store a date in the database as an ISO date, recommended for historical or partial dates.'),
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
     'datestamp' => array(
       'label' => 'Date (Unix timestamp)',
       'description' => t('Store a date in the database as a timestamp, deprecated format to support legacy data.'),
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
   );
 }
 
@@ -304,7 +304,7 @@ function date_field_widget_info() {
     'date_text' => array(
       'label' => t('Text field'),
       'field types' => array('date', 'datestamp', 'datetime'),
-     ) + $settings,
+    ) + $settings,
   );
 
   if (module_exists('date_popup')) {
