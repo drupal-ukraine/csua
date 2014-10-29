@@ -4,7 +4,7 @@
  * Expose term views/term forms by vocabulary as a context condition.
  */
 class date_context_date_condition extends context_condition_node {
-  function condition_values() {
+  public function condition_values() {
     $values = array();
     $fields = field_info_fields();
     foreach ($fields as $field_name => $field) {
@@ -15,7 +15,7 @@ class date_context_date_condition extends context_condition_node {
     return $values;
   }
 
-  function options_form($context) {
+  public function options_form($context) {
     $defaults = $this->fetch_from_context($context, 'options');
     $options = array(
       '<' =>  t('Is less than'),
@@ -46,7 +46,7 @@ class date_context_date_condition extends context_condition_node {
     return $form;
   }
 
-  function execute($entity, $op) {
+  public function execute($entity, $op) {
     if (in_array($op, array('view', 'form'))) {
       foreach ($this->get_contexts() as $context) {
         $options = $this->fetch_from_context($context, 'options');
