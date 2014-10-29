@@ -268,7 +268,7 @@ function date_timezone_element_process($element, &$form_state, $form) {
 }
 
 /**
- *  Validation for timezone input
+ * Validation for timezone input.
  *
  *  Move the timezone value from the nested field back to the original field.
  */
@@ -354,7 +354,7 @@ function date_text_element_process($element, &$form_state, $form) {
 }
 
 /**
- *  Validation for text input.
+ * Validation for text input.
  *
  * When used as a Views widget, the validation step always gets triggered,
  * even with no form submission. Before form submission $element['#value']
