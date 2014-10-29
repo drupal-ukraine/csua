@@ -298,18 +298,18 @@ function date_field_widget_info() {
 
   $info = array(
     'date_select' => array(
-      'label' =>  t('Select list'),
+      'label' => t('Select list'),
       'field types' => array('date', 'datestamp', 'datetime'),
     ) + $settings,
     'date_text' => array(
-      'label' =>  t('Text field'),
+      'label' => t('Text field'),
       'field types' => array('date', 'datestamp', 'datetime'),
      ) + $settings,
   );
 
   if (module_exists('date_popup')) {
     $info['date_popup'] = array(
-      'label' =>  t('Pop-up calendar'),
+      'label' => t('Pop-up calendar'),
       'field types' => array('date', 'datestamp', 'datetime'),
     ) + $settings;
   }
