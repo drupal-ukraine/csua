@@ -1,11 +1,9 @@
 /**
  * Attaches the calendar behavior to all required fields
  */
-(function ($) {
-Drupal.behaviors.date_popup = {
-  attach: function (context) {
-  for (var id in Drupal.settings.datePopup) {
-    $('#'+ id).bind('focus', Drupal.settings.datePopup[id], function(e) {
+(function($) {
+  function makeFocusHandler(e) {
+    return function() {
       if (!$(this).hasClass('date-popup-init')) {
         var datePopup = e.data;
         // Explicitely filter the methods we accept.
@@ -27,6 +25,7 @@ Drupal.behaviors.date_popup = {
               $(this).focus();
             });
             break;
+
           case 'timepicker':
             // Translate the PHP date format into the style the timepicker uses.
             datePopup.settings.timeFormat = datePopup.settings.timeFormat
@@ -55,8 +54,14 @@ Drupal.behaviors.date_popup = {
             break;
         }
       }
-    });
+    };
   }
-  }
-};
+
+  Drupal.behaviors.date_popup = {
+    attach: function (context) {
+      for (var id in Drupal.settings.datePopup) {
+        $('#'+ id).bind('focus', Drupal.settings.datePopup[id], makeFocusHandler(e));
+      }
+    }
+  };
 })(jQuery);
