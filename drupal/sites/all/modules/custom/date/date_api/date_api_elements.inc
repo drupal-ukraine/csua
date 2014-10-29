@@ -327,7 +327,9 @@ function date_text_element_process($element, &$form_state, $form) {
   $now = date_example_date();
   $element['date']['#title'] = t('Date');
   $element['date']['#title_display'] = 'invisible';
-  $element['date']['#description'] = ' ' . t('Format: @date', array('@date' => date_format_date(date_example_date(), 'custom', $element['#date_format'])));
+  $element['date']['#description'] = ' ' . t('Format: @date', array(
+    '@date' => date_format_date(date_example_date(), 'custom', $element['#date_format']
+  )));
   $element['date']['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
 
   // Keep the system from creating an error message for the sub-element.
@@ -425,7 +427,14 @@ function date_text_input_date($element, $input) {
  * Element value callback for date_select element.
  */
 function date_select_element_value_callback($element, $input = FALSE, &$form_state = array()) {
-  $return = array('year' => '', 'month' => '', 'day' => '', 'hour' => '', 'minute' => '', 'second' => '');
+  $return = array(
+    'year' => '',
+    'month' => '',
+    'day' => '',
+    'hour' => '',
+    'minute' => '',
+    'second' => '',
+  );
   $date = NULL;
   if ($input !== FALSE) {
     $return = $input;
@@ -435,7 +444,14 @@ function date_select_element_value_callback($element, $input = FALSE, &$form_sta
     $date = date_default_date($element);
   }
   $granularity = date_format_order($element['#date_format']);
-  $formats = array('year' => 'Y', 'month' => 'n', 'day' => 'j', 'hour' => 'H', 'minute' => 'i', 'second' => 's');
+  $formats = array(
+    'year' => 'Y',
+    'month' => 'n',
+    'day' => 'j',
+    'hour' => 'H',
+    'minute' => 'i',
+    'second' => 's',
+  );
   foreach ($granularity as $field) {
     if ($field != 'timezone') {
       $return[$field] = date_is_date($date) ? $date->format($formats[$field]) : '';
@@ -477,7 +493,14 @@ function date_select_element_process($element, &$form_state, $form) {
 
   // Store a hidden value for all date parts not in the current display.
   $granularity = date_format_order($element['#date_format']);
-  $formats = array('year' => 'Y', 'month' => 'n', 'day' => 'j', 'hour' => 'H', 'minute' => 'i', 'second' => 's');
+  $formats = array(
+    'year' => 'Y',
+    'month' => 'n',
+    'day' => 'j',
+    'hour' => 'H',
+    'minute' => 'i',
+    'second' => 's',
+  );
   foreach (date_nongranularity($granularity) as $field) {
     if ($field != 'timezone') {
       $element[$field] = array(
