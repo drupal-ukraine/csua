@@ -171,7 +171,11 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
             $element[$delta] = array('#markup' => $item['value']);
           }
           else {
-            $element[$delta] = array('#markup' => t('!start-date to !end-date', array('!start-date' => $item['value'], '!end-date' => $item['value2'])));
+            $element[$delta] = array(
+              '#markup' => t('!start-date to !end-date', array(
+                '!start-date' => $item['value'],
+                '!end-date' => $item['value2']
+              )));
           }
         }
       }
@@ -235,10 +239,11 @@ function date_field_is_empty($item, $field) {
  * Implements hook_field_info().
  */
 function date_field_info() {
+  $granularity = array('year', 'month', 'day', 'hour', 'minute');
   $settings = array(
     'settings' => array(
       'todate' => '',
-      'granularity' => drupal_map_assoc(array('year', 'month', 'day', 'hour', 'minute')),
+      'granularity' => drupal_map_assoc($granularity),
       'tz_handling' => 'site',
       'timezone_db' => 'UTC',
     ),
