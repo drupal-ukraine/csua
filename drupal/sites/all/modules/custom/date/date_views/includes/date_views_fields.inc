@@ -7,11 +7,12 @@
 /**
  * Identify all potential date/timestamp fields.
  *
- * @return array
- *  array with fieldname, type, and table.
+ * @return  array
+ * array with fieldname, type, and table.
+ *
  * @see
- *  date_views_date_views_fields() which implements
- *  the hook_date_views_fields() for the core date fields.
+ * date_views_date_views_fields() which implements
+ * the hook_date_views_fields() for the core date fields.
  */
 function _date_views_fields($base = 'node') {
 
