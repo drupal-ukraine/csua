@@ -311,7 +311,6 @@ function date_text_element_value_callback($element, $input = FALSE, &$form_state
  *
  * The exact parts displayed in the field are those in #date_granularity.
  * The display of each part comes from #date_format.
- *
  */
 function date_text_element_process($element, &$form_state, $form) {
   if (date_hidden_element($element)) {
