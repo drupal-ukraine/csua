@@ -48,6 +48,7 @@ function date_field_formatter_settings_form($field, $instance, $view_mode, $form
     case 'format_interval':
       $form = date_interval_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
       break;
+
     default:
       $form = date_default_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
       break;
@@ -72,6 +73,7 @@ function date_field_formatter_settings_summary($field, $instance, $view_mode) {
     case 'format_interval':
       $summary = date_interval_formatter_settings_summary($field, $instance, $view_mode);
       break;
+
     default:
       $summary = date_default_formatter_settings_summary($field, $instance, $view_mode);
       break;
@@ -174,6 +176,7 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
       }
       break;
+
     case 'format_interval':
       foreach ($items as $delta => $item) {
         if (!empty($entity->date_id) && !in_array($delta, $selected_deltas)) {
@@ -188,6 +191,7 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
       }
       break;
+
     default:
       foreach ($items as $delta => $item) {
         if (!empty($entity->date_id) && !in_array($delta, $selected_deltas)) {
