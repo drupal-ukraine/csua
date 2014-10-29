@@ -7,8 +7,9 @@
 /**
  * Identify all potential date/timestamp fields.
  *
- *  @return array
- *    array with fieldname, type, and table.
+ *  @return  array
+ *
+ *  array with fieldname, type, and table.
  *
  *  @see
  *
