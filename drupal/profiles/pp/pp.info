@@ -24,10 +24,28 @@ dependencies[] = location_phone
 dependencies[] = location_search
 dependencies[] = location_taxonomy
 
+; Misc Dev tools
+dependencies[] = admin_menu
+dependencies[] = adminimal_admin_menu
+dependencies[] = module_filter
+dependencies[] = fpa
+;dependencies[] = field_ui
+;dependencies[] = views_ui
+;dependencies[] = context_ui
+
+; FAQ 7.x-1.x-dev
+dependencies[] = faq
+
+; Captcha 7.x-1.x-dev
+dependencies[] = captcha
+dependencies[] = image_captcha
+
+; Advanced forum 7.x-2.x-dev
+dependencies[] = advanced_forum
+
 ; GMap 7.x-2.x-dev
 dependencies[] = gmap
 dependencies[] = gmap_location
 dependencies[] = gmap_macro_builder
 dependencies[] = gmap_style_bubbles
 dependencies[] = location_gmap_find_address
-
