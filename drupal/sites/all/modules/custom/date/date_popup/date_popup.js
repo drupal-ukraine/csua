@@ -13,7 +13,7 @@ Drupal.behaviors.date_popup = {
           case 'datepicker':
             $(this)
               .datepicker(datePopup.settings)
-              .addClass('date-popup-init')
+              .addClass('date-popup-init');
             $(this).click(function(){
               $(this).focus();
             });
@@ -22,7 +22,7 @@ Drupal.behaviors.date_popup = {
           case 'timeEntry':
             $(this)
               .timeEntry(datePopup.settings)
-              .addClass('date-popup-init')
+              .addClass('date-popup-init');
             $(this).click(function(){
               $(this).focus();
             });
@@ -55,7 +55,7 @@ Drupal.behaviors.date_popup = {
             break;
         }
       }
-    });
+    })
   }
   }
 };
