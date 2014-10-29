@@ -31,7 +31,7 @@ function date_tools_help($section, $arg) {
  */
 function date_tools_permission() {
   return array(
-    'administer date tools' =>  array(
+    'administer date tools' => array(
       'title' => t('Administer date tools'),
     ),
   );
