@@ -116,15 +116,19 @@ function date_default_date($element) {
       case 16:
         $format = 'Y-m-d H:i';
         break;
+
       case 13:
         $format = 'Y-m-d H';
         break;
+
       case 10:
         $format = 'Y-m-d';
         break;
+
       case 7:
         $format = 'Y-m';
         break;
+
       case 4:
         $format = 'Y';
         break;
@@ -547,18 +551,21 @@ function date_parts_element($element, $date, $format) {
           $sub_element[$field]['#options'] = drupal_map_assoc(date_years($min_year, $max_year, $part_required));
         }
         break;
+
       case 'month':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('n') : '';
         if ($part_type == 'select') {
           $sub_element[$field]['#options'] = $month_function($part_required);
         }
         break;
+
       case 'day':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('j') : '';
         if ($part_type == 'select') {
           $sub_element[$field]['#options'] = drupal_map_assoc(date_days($part_required));
         }
         break;
+
       case 'hour':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format($hours_format) : '';
         if ($part_type == 'select') {
@@ -566,6 +573,7 @@ function date_parts_element($element, $date, $format) {
         }
         $sub_element[$field]['#prefix'] = theme('date_part_hour_prefix', $element);
         break;
+
       case 'minute':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('i') : '';
         if ($part_type == 'select') {
@@ -573,6 +581,7 @@ function date_parts_element($element, $date, $format) {
         }
         $sub_element[$field]['#prefix'] = theme('date_part_minsec_prefix', $element);
         break;
+
       case 'second':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('s') : '';
         if ($part_type == 'select') {
