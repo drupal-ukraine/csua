@@ -68,6 +68,7 @@ function date_tools_menu() {
     'file' => 'date_tools.wizard.inc',
   );
 
+  // @codingStandardsIgnoreStart
   /**
   $items['admin/config/date/tools/change'] = array(
     'title'    => 'Change type',
@@ -79,6 +80,7 @@ function date_tools_menu() {
     'file' => 'date_tools.change_type.inc',
   );
   */
+  // @codingStandardsIgnoreEnd
 
   return $items;
 }
