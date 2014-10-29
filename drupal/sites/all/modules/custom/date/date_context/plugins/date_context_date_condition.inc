@@ -30,7 +30,7 @@ class date_context_date_condition extends context_condition_node {
   public function options_form($context) {
     $defaults = $this->fetch_from_context($context, 'options');
     $options = array(
-      '<' =>  t('Is less than'),
+      '<' => t('Is less than'),
       '<=' => t('Is less than or equal to'),
       '>=' => t('Is greater than or equal to'),
       '>' => t('Is greater than'),
@@ -108,7 +108,7 @@ class date_context_date_condition extends context_condition_node {
               str_replace('now', 'today', $options['value']);
               $date = date_create($options['value'], date_default_timezone_object());
               $compdate = $date->format(DATE_FORMAT_DATETIME);
-              switch($options['operation']) {
+              switch ($options['operation']) {
                 case '=':
                   if ($date2 >= $compdate && $date1 <= $compdate) {
                     $this->condition_met($context, $field_name);
