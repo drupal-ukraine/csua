@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Context date condition plugin.
+ */
+
+/**
  * Expose term views/term forms by vocabulary as a context condition.
  */
 class date_context_date_condition extends context_condition_node {
