@@ -48,6 +48,7 @@ function date_field_formatter_settings_form($field, $instance, $view_mode, $form
     case 'format_interval':
       $form = date_interval_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
       break;
+
     default:
       $form = date_default_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
       break;
@@ -72,6 +73,7 @@ function date_field_formatter_settings_summary($field, $instance, $view_mode) {
     case 'format_interval':
       $summary = date_interval_formatter_settings_summary($field, $instance, $view_mode);
       break;
+
     default:
       $summary = date_default_formatter_settings_summary($field, $instance, $view_mode);
       break;
@@ -169,11 +171,16 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
             $element[$delta] = array('#markup' => $item['value']);
           }
           else {
-            $element[$delta] = array('#markup' => t('!start-date to !end-date', array('!start-date' => $item['value'], '!end-date' => $item['value2'])));
+            $element[$delta] = array(
+              '#markup' => t('!start-date to !end-date', array(
+                '!start-date' => $item['value'],
+                '!end-date' => $item['value2']
+              )));
           }
         }
       }
       break;
+
     case 'format_interval':
       foreach ($items as $delta => $item) {
         if (!empty($entity->date_id) && !in_array($delta, $selected_deltas)) {
@@ -188,6 +195,7 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
       }
       break;
+
     default:
       foreach ($items as $delta => $item) {
         if (!empty($entity->date_id) && !in_array($delta, $selected_deltas)) {
@@ -231,10 +239,11 @@ function date_field_is_empty($item, $field) {
  * Implements hook_field_info().
  */
 function date_field_info() {
+  $granularity = array('year', 'month', 'day', 'hour', 'minute');
   $settings = array(
     'settings' => array(
       'todate' => '',
-      'granularity' => drupal_map_assoc(array('year', 'month', 'day', 'hour', 'minute')),
+      'granularity' => drupal_map_assoc($granularity),
       'tz_handling' => 'site',
       'timezone_db' => 'UTC',
     ),
@@ -255,21 +264,21 @@ function date_field_info() {
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
     'date' => array(
       'label' => 'Date (ISO format)',
       'description' => t('Store a date in the database as an ISO date, recommended for historical or partial dates.'),
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
     'datestamp' => array(
       'label' => 'Date (Unix timestamp)',
       'description' => t('Store a date in the database as a timestamp, deprecated format to support legacy data.'),
       'default_widget' => 'date_select',
       'default_formatter' => 'date_default',
       'default_token_formatter' => 'date_plain',
-      ) + $settings,
+    ) + $settings,
   );
 }
 
@@ -294,18 +303,18 @@ function date_field_widget_info() {
 
   $info = array(
     'date_select' => array(
-      'label' =>  t('Select list'),
+      'label' => t('Select list'),
       'field types' => array('date', 'datestamp', 'datetime'),
     ) + $settings,
     'date_text' => array(
-      'label' =>  t('Text field'),
+      'label' => t('Text field'),
       'field types' => array('date', 'datestamp', 'datetime'),
-     ) + $settings,
+    ) + $settings,
   );
 
   if (module_exists('date_popup')) {
     $info['date_popup'] = array(
-      'label' =>  t('Pop-up calendar'),
+      'label' => t('Pop-up calendar'),
       'field types' => array('date', 'datestamp', 'datetime'),
     ) + $settings;
   }
