@@ -8,6 +8,7 @@
 /**
  * Expose term views/term forms by vocabulary as a context condition.
  */
+// @codingStandardsIgnoreStart
 class date_context_date_condition extends context_condition_node {
 
   /**
@@ -152,3 +153,4 @@ class date_context_date_condition extends context_condition_node {
     }
   }
 }
+// @codingStandardsIgnoreEnd
