@@ -360,7 +360,6 @@ function date_text_element_process($element, &$form_state, $form) {
  * When used as a Views widget, the validation step always gets triggered,
  * even with no form submission. Before form submission $element['#value']
  * contains a string, after submission it contains an array.
- *
  */
 function date_text_validate($element, &$form_state) {
   if (date_hidden_element($element)) {
@@ -469,7 +468,6 @@ function date_select_element_value_callback($element, $input = FALSE, &$form_sta
  *
  * The exact parts displayed in the field are those in #date_granularity.
  * The display of each part comes from ['#date_settings']['format'].
- *
  */
 function date_select_element_process($element, &$form_state, $form) {
   if (date_hidden_element($element)) {
