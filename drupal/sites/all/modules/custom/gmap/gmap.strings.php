@@ -63,4 +63,3 @@ $label_container .= '}';
 if (fwrite($gmap_strings_inc_handle, $label_container) !== 'FALSE') {
   drupal_set_message(t('File gmap_strings.inc successfully created.'));
 }
-?>
