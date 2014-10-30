@@ -7,7 +7,10 @@ dependencies[] = block
 dependencies[] = dblog
 dependencies[] = taxonomy
 
-; Contrib modules
+; Contrib module related dependencies
+dependencies[] = context
+dependencies[] = migrate
+dependencies[] = views
 dependencies[] = libraries
 
 ; Location 7.x-3.x-dev
@@ -29,6 +32,7 @@ dependencies[] = admin_menu
 dependencies[] = adminimal_admin_menu
 dependencies[] = module_filter
 dependencies[] = fpa
+dependencies[] = rel_to_abs
 ;dependencies[] = field_ui
 ;dependencies[] = views_ui
 ;dependencies[] = context_ui
@@ -42,6 +46,18 @@ dependencies[] = image_captcha
 
 ; Advanced forum 7.x-2.x-dev
 dependencies[] = advanced_forum
+
+; Date 7.x-2.x
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_tools
+dependencies[] = date_all_day
+dependencies[] = date_popup
+dependencies[] = date_repeat
+dependencies[] = date_repeat_field
+dependencies[] = date_views
+dependencies[] = date_context
+dependencies[] = date_migrate
 
 ; GMap 7.x-2.x-dev
 dependencies[] = gmap

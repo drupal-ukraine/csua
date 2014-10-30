@@ -37,3 +37,12 @@ If ```xip.io``` not working - create row with
 
 in ```/etc/hosts```
 
+## How to work with repository
+* [How to work at CodeSprint](https://www.drupal.org/node/2366003)
+* [Setup local environment](https://www.drupal.org/node/2365529)
+  * [Windows users how-to start using vagrant](https://www.drupal.org/node/2366111)
+* [How to make pull request from a custom branch to master branch](https://www.drupal.org/node/2366127)
+* [Using CI bot](https://www.drupal.org/node/2366145)
+* [How to fix merge conflicts](https://www.drupal.org/node/2366341)
+* [How to make patch from Pull Request](https://www.drupal.org/node/2366379)
+* [Use the issue queue on drupal.org](https://www.drupal.org/node/2366385)
