@@ -38,7 +38,7 @@ function gmap_location_update_2() {
 }
 
 /**
- * 5.x-0.8 first update.
+ * Gmap 5.x-0.8 first update.
  */
 function gmap_location_update_5080() {
   // Convert role markers to single variable.
@@ -89,7 +89,7 @@ function gmap_location_update_5080() {
 }
 
 /**
- * 5.x-1.0 update 1.
+ * Gmap 5.x-1.0 update 1.
  */
 function gmap_location_update_5100() {
   $ret = array();
@@ -165,7 +165,7 @@ function gmap_location_update_5100() {
 }
 
 /**
- * 5.x-1.0 update 2.
+ * Gmap 5.x-1.0 update 2.
  *
  * (Post-release)
  * Delete unneeded variable.
@@ -177,7 +177,7 @@ function gmap_location_update_5101() {
 }
 
 /**
- * 5.x-1.1 update 1.
+ * Gmap 5.x-1.1 update 1.
  *
  * (Still haven't diverged for 6.x.)
  * #392130: Use better permission names.
