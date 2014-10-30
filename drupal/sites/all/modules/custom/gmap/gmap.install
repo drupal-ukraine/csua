@@ -109,7 +109,7 @@ function gmap_update_5003() {
 function gmap_update_7000() {
   $ret = array();
   variable_del('gmap_private_markerfile');
-  
+
   return $ret;
 }
 */
