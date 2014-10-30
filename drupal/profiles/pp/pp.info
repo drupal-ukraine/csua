@@ -28,6 +28,7 @@ dependencies[] = admin_menu
 dependencies[] = adminimal_admin_menu
 dependencies[] = module_filter
 dependencies[] = fpa
+dependencies[] = rel_to_abs
 ;dependencies[] = field_ui
 ;dependencies[] = views_ui
 ;dependencies[] = context_ui
