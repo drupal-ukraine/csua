@@ -5,7 +5,6 @@
  * Relative Paths to Absolute URLs
  *
  * Filter for converting relative paths to absolute URLs.
- *
  */
 
 /**
@@ -38,6 +37,8 @@ function rel_to_abs_filter_html($text, $filter, $format) {
 }
 
 /**
+ * Absolute url callback.
+ *
  * @param string $txt
  *   Text to be parsed.
  * @param string $base_url
