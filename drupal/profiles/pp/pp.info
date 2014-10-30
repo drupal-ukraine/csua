@@ -1,8 +1,13 @@
 name = PP
-description = Start with only a few modules enabled.
+description = Start with all contrib modules for sprint issues.
 core = 7.x
 dependencies[] = block
 dependencies[] = dblog
+
+; Contrib module related dependencies
+dependencies[] = context
+dependencies[] = migrate
+dependencies[] = views
 
 ; Location 7.x-3.x-dev
 dependencies[] = location
@@ -37,3 +42,15 @@ dependencies[] = image_captcha
 
 ; Advanced forum 7.x-2.x-dev
 dependencies[] = advanced_forum
+
+; Date 7.x-2.x
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_tools
+dependencies[] = date_all_day
+dependencies[] = date_popup
+dependencies[] = date_repeat
+dependencies[] = date_repeat_field
+dependencies[] = date_views
+dependencies[] = date_context
+dependencies[] = date_migrate
