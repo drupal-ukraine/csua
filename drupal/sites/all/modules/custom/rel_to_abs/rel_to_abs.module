@@ -7,6 +7,10 @@
  * Filter for converting relative paths to absolute URLs.
  *
  */
+
+/**
+ * Implements hook_filter_info().
+ */
 function rel_to_abs_filter_info() {
   $filters['rel_to_abs'] = array(
     'title' => t('Relative Paths to Absolute URLs'),
@@ -19,8 +23,9 @@ function rel_to_abs_filter_info() {
   return $filters;
 }
 
-// Filter callbacks.
-
+/**
+ * Calback for filter.
+ */
 function rel_to_abs_filter_html($text, $filter, $format) {
   $lang = language_default();
   $front = url('<front>', array(
@@ -32,6 +37,15 @@ function rel_to_abs_filter_html($text, $filter, $format) {
   return $text;
 }
 
+/**
+ * @param string $txt
+ *   Text to be parsed.
+ * @param string $base_url
+ *   Base url of the site to prefix.
+ *
+ * @return string
+ *   Processed text.
+ */
 function _absolute_url($txt, $base_url) {
   $needles = array('href="', 'src="', 'background="');
   $new_txt = '';
@@ -58,11 +72,16 @@ function _absolute_url($txt, $base_url) {
   return $txt;
 }
 
+/**
+ * Implements hook_filter_html_settings().
+ */
 function rel_to_abs_filter_html_settings($format) {
 
 }
 
+/**
+ * Implements hook_filter_html_tips().
+ */
 function rel_to_abs_filter_html_tips($filter, $format, $long = FALSE) {
 
 }
-
