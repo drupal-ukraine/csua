@@ -10,11 +10,12 @@
  *
  * @ingroup views_style_plugins
  */
+// @codingStandardsIgnoreStart
 class gmap_plugin_style_gmap extends views_plugin_style {
   /**
-   * Set default options
+   * Set default options.
    */
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['macro'] = array(
@@ -61,7 +62,10 @@ class gmap_plugin_style_gmap extends views_plugin_style {
     return $options;
   }
 
-  function query() {
+  /**
+   * Query method.
+   */
+  public function query() {
     parent::query();
 
     if ($this->options['datasource'] == 'location') {
@@ -88,7 +92,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
   /**
    * Render the display in this style.
    */
-  function render() {
+  public function render() {
 
     if (isset($this->view->live_preview) && $this->view->live_preview) {
       return t('GMap views are not compatible with live preview.');
@@ -107,19 +111,25 @@ class gmap_plugin_style_gmap extends views_plugin_style {
     }
     else {
       if ($this->options['datasource'] == 'geofield') {
-        $lat_field = 'field_' . $this->options['geofield']; // "[0]['raw']['lat']";
-        $lon_field = 'field_' . $this->options['geofield']; // "[0]['raw']['lon']";
+        // "[0]['raw']['lat']";
+        $lat_field = 'field_' . $this->options['geofield'];
+        // "[0]['raw']['lon']";
+        $lon_field = 'field_' . $this->options['geofield'];
       }
       else {
         if ($this->options['datasource'] == 'geolocation') {
-          $lat_field = 'field_' . $this->options['geolocation']; // "[0]['raw']['lat']";
-          $lon_field = 'field_' . $this->options['geolocation']; // "[0]['raw']['lng']";
+          // "[0]['raw']['lat']";
+          $lat_field = 'field_' . $this->options['geolocation'];
+          // "[0]['raw']['lng']";
+          $lon_field = 'field_' . $this->options['geolocation'];
         }
         // Determine fieldname for latitude and longitude fields.
         else {
           if ($this->options['datasource'] == 'fields') {
-            $lat_field = 'field_' . $this->options['latfield']; // "[0]['raw']['value']";
-            $lon_field = 'field_' . $this->options['lonfield']; // "[0]['raw']['value']";
+            // "[0]['raw']['value']";
+            $lat_field = 'field_' . $this->options['latfield'];
+            // "[0]['raw']['value']";
+            $lon_field = 'field_' . $this->options['lonfield'];
           }
         }
       }
@@ -148,11 +158,12 @@ class gmap_plugin_style_gmap extends views_plugin_style {
     // Group the rows according to the grouping field, if specified.
     $sets = $this->render_grouping($this->view->result, $this->options['grouping']);
 
-    // Let's make sure the individual fields are rendered
+    // Let's make sure the individual fields are rendered.
     $this->render_fields($this->view->result);
 
-    // Render each group separately and concatenate.  Plugins may override this
-    // method if they wish some other way of handling grouping.
+    // Render each group separately and concatenate.
+    // Plugins may override this method if they wish
+    // some other way of handling grouping.
     $output = '';
     foreach ($sets as $title => $records) {
       $markername = isset($this->options['markertype']) ? $this->options['markertype'] : 'drupal';
@@ -168,9 +179,9 @@ class gmap_plugin_style_gmap extends views_plugin_style {
       if ($this->options['center_on_nodearg'] && $nodehandler = $this->view->display_handler->get_handler('argument', $this->options['center_on_nodearg_arg'])) {
         $center_nid = $nodehandler->get_value();
       }
-      // Use the distance contextual filter argument to center the map
+      // Use the distance contextual filter argument to center the map.
       if ($this->options['center_on_proximityarg'] && $this->options['datasource'] == 'location' && module_exists('location')) {
-        // Just grab this straight from the view
+        // Just grab this straight from the view.
         $distance_contextual_filter = $this->view->display_handler->get_handler('argument', 'distance');
 
         $center_lat = $distance_contextual_filter->value['latitude'];
@@ -202,20 +213,21 @@ class gmap_plugin_style_gmap extends views_plugin_style {
           $lat = isset($row->{$lat_field}[0]['raw']['value']) ? (float) $row->{$lat_field}[0]['raw']['value'] : NULL;
           $lon = isset($row->{$lon_field}[0]['raw']['value']) ? (float) $row->{$lon_field}[0]['raw']['value'] : NULL;
 
-          // Field is Location CCK
+          // Field is Location CCK.
           if (!$lat || !$lon) {
             $lat = isset($row->{$lat_field}[0]['raw']['latitude']) ? $row->{$lat_field}[0]['raw']['latitude'] : NULL;
             $lon = isset($row->{$lon_field}[0]['raw']['longitude']) ? $row->{$lon_field}[0]['raw']['longitude'] : NULL;
           }
         }
 
-        // $row->nid is present in node views, views without node as the base table must include the nid field,
+        // $row->nid is present in node views, views without node
+        // as the base table must include the nid field,
         // which will be in $row->node_nid if present.
         // If nid for a row is required use $row_nid.
         $row_nid = isset($row->nid) ? $row->nid : (isset($row->node_nid) ? $row->node_nid : NULL);
 
-        // If this row will be used as center map then we keep its lon/lat
-        // If there are multiple points on a single node take the first match
+        // If this row will be used as center map then we keep its lon/lat.
+        // If there are multiple points on a single node take the first match.
         if (!empty($center_nid) && !empty($row_nid) && $center_nid == $row_nid && ($center_lon === NULL || $center_lat === NULL)) {
           $center_lon = $lon;
           $center_lat = $lat;
@@ -302,13 +314,14 @@ class gmap_plugin_style_gmap extends views_plugin_style {
           $offsets[$markername]++;
         }
       }
-      if (!empty($markers)) { // Don't draw empty maps.
+      // Don't draw empty maps.
+      if (!empty($markers)) {
         $map = gmap_parse_macro($this->options['macro']);
         if ($this->options['enablermt']) {
           $map['rmtcallback'] = $this->options['rmtcallback'];
         }
 
-        // If center lon/lat are not empty they are used to center map
+        // If center lon/lat are not empty they are used to center map.
         if (!empty($center_lon) && !empty($center_lat)) {
           $map['longitude'] = $center_lon;
           $map['latitude'] = $center_lat;
@@ -319,7 +332,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
           'view' => $this->view,
           'options' => $this->options,
           'rows' => $map,
-          'title' => $title
+          'title' => $title,
         ));
       }
     }
@@ -331,7 +344,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
   /**
    * Render the given style.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $field_options = array();
@@ -362,7 +375,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
         'geofield' => t('Geofield.module'),
         'geolocation' => t('Geolocation.module'),
         'fields' => t('Choose latitude and longitude fields'),
-        //'geocode' => t('Just-in-time geocoding on field named "address"'),
+        // 'geocode' => t('Just-in-time geocoding on field named "address"'),
       ),
       '#default_value' => $this->options['datasource'],
       '#multiple' => FALSE,
@@ -499,7 +512,8 @@ class gmap_plugin_style_gmap extends views_plugin_style {
       );
     }
 
-    // Use the values from google.maps.Animation. See https://developers.google.com/maps/documentation/javascript/reference
+    // Use the values from google.maps.Animation.
+    // See https://developers.google.com/maps/documentation/javascript/reference
     $form['animation'] = array(
       '#type' => 'select',
       '#options' => array(0 => 'None', 1 => 'Bounce', 2 => 'Drop'),
@@ -567,7 +581,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
       '#type' => 'checkbox',
       '#title' => t('Display a popup bubble with additional information when a marker is clicked.'),
       '#default_value' => $this->options['bubbletextenabled'],
-      '#description' => t('<strong>NOTE:</strong> This feauture is <strong>not compatible</strong> with the RMT option offered above.  Do not use them together.')
+      '#description' => t('<strong>NOTE:</strong> This feauture is <strong>not compatible</strong> with the RMT option offered above.  Do not use them together.'),
     );
     $form['bubbletextfield'] = array(
       '#title' => t('Bubble pop-up field'),
@@ -584,11 +598,12 @@ class gmap_plugin_style_gmap extends views_plugin_style {
   /**
    * Validate the options form.
    */
-  function options_validate(&$form, &$form_state) {
+  public function options_validate(&$form, &$form_state) {
     parent::options_validate($form, $form_state);
-    // Check if highlight color is a valid hex color
+    // Check if highlight color is a valid hex color.
     if (!preg_match('/^#[a-f0-9]{6}$/i', $form_state['values']['style_options']['highlight_nodearg_color'])) {
       form_error($form['highlight_nodearg_color'], t('Highlight colour must be a valid hex code in the form #FF0000.'));
     }
   }
 }
+// @codingStandardsIgnoreEnd
