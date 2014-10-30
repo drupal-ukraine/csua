@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Created by PhpStorm.
  * User: podarokua
  * Date: 18.12.13
@@ -11,4 +12,4 @@ namespace Drupal\gmap;
 
 class GmapMarkerInfo {
 
-} 
+}
