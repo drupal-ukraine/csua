@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * GMap style plugin.
@@ -302,51 +301,49 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
       '#default_value' => $this->options['markertype'],
     );
 
-    // @codingStandardsIgnoreStart
     /*
-        $form['center_on_nodearg'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('Center on node argument'),
-          '#default_value' => $this->options['center_on_nodearg'],
-          '#description' => ($this->view->base_table == 'node') ? t('Note: The view must contain an argument whose value is a node ID.') : t('Note: The view must contain an argument whose value is a node ID.') . '<br />' . t("The view must contain 'Node: nid' as one of its fields because the view type is not 'Node'."),
-        );
-        $form['center_on_nodearg_arg'] = array(
-          '#title' => t('Argument'),
-          '#description' => empty($argument_options) ? t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID.  You must have added arguments to the view to use this option.") : t("The selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."),
-          '#type' => 'select',
-          '#options' => $argument_options,
-          '#default_value' => $this->options['center_on_nodearg_arg'],
-    //      '#process' => array('views_process_dependency'),
-          '#dependency' => array('edit-style-options-center-on-nodearg' => array(TRUE)),
-        );
+    $form['center_on_nodearg'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Center on node argument'),
+      '#default_value' => $this->options['center_on_nodearg'],
+      '#description' => ($this->view->base_table == 'node') ? t('Note: The view must contain an argument whose value is a node ID.') : t('Note: The view must contain an argument whose value is a node ID.') . '<br />' . t("The view must contain 'Node: nid' as one of its fields because the view type is not 'Node'."),
+    );
+    $form['center_on_nodearg_arg'] = array(
+      '#title' => t('Argument'),
+      '#description' => empty($argument_options) ? t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID.  You must have added arguments to the view to use this option.") : t("The selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."),
+      '#type' => 'select',
+      '#options' => $argument_options,
+      '#default_value' => $this->options['center_on_nodearg_arg'],
+      // '#process' => array('views_process_dependency'),
+      '#dependency' => array('edit-style-options-center-on-nodearg' => array(TRUE)),
+    );
 
-        $form['highlight_nodearg'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('Highlight marker for node argument'),
-          '#default_value' => $this->options['highlight_nodearg'],
-          '#description' => ($this->view->base_table == 'node') ? t('Note: The view must contain an argument whose value is a node ID.') : t('Note: The view must contain an argument whose value is a node ID.') . '<br />' . t("The view must contain 'Node: nid' as one of its fields because the view type is not 'Node'."),
-        );
-        $form['highlight_nodearg_arg'] = array(
-          '#title' => t('Argument'),
-          '#description' => empty($argument_options) ? t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID.  You must have added arguments to the view to use this option.") : t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."),
-          '#type' => 'select',
-          '#options' => $argument_options,
-          '#default_value' => $this->options['highlight_nodearg_arg'],
-    //      '#process' => array('views_process_dependency'),
-          '#dependency' => array('edit-style-options-highlight-nodearg' => array(TRUE)),
-        );
-        $form['highlight_nodearg_color'] = array(
-          '#title' => t('Highlight color'),
-          '#description' => t("A 6 digit hex color value to use for the highlight. Include preceding hash. Example #FF0000"),
-          '#type' => 'textfield',
-          '#size' => 7,
-          '#maxlength' => 7,
-          '#default_value' => $this->options['highlight_nodearg_color'],
-    //      '#process' => array('views_process_dependency'),
-          '#dependency' => array('edit-style-options-highlight-nodearg' => array(TRUE)),
-        );
+    $form['highlight_nodearg'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Highlight marker for node argument'),
+      '#default_value' => $this->options['highlight_nodearg'],
+      '#description' => ($this->view->base_table == 'node') ? t('Note: The view must contain an argument whose value is a node ID.') : t('Note: The view must contain an argument whose value is a node ID.') . '<br />' . t("The view must contain 'Node: nid' as one of its fields because the view type is not 'Node'."),
+    );
+    $form['highlight_nodearg_arg'] = array(
+      '#title' => t('Argument'),
+      '#description' => empty($argument_options) ? t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID.  You must have added arguments to the view to use this option.") : t("The value of the selected argument must be a number that matches a node ID.  Use the 'Global: Null' argument if you don't want to also restrict results to that node ID."),
+      '#type' => 'select',
+      '#options' => $argument_options,
+      '#default_value' => $this->options['highlight_nodearg_arg'],
+      // '#process' => array('views_process_dependency'),
+      '#dependency' => array('edit-style-options-highlight-nodearg' => array(TRUE)),
+    );
+    $form['highlight_nodearg_color'] = array(
+      '#title' => t('Highlight color'),
+      '#description' => t("A 6 digit hex color value to use for the highlight. Include preceding hash. Example #FF0000"),
+      '#type' => 'textfield',
+      '#size' => 7,
+      '#maxlength' => 7,
+      '#default_value' => $this->options['highlight_nodearg_color'],
+      // '#process' => array('views_process_dependency'),
+      '#dependency' => array('edit-style-options-highlight-nodearg' => array(TRUE)),
+    );
     */
-    // @codingStandardsIgnoreEnd
 
     if (module_exists('location')) {
       $form['center_on_proximityfilter'] = array(
@@ -419,4 +416,3 @@ class gmap_plugin_style_gmapextended extends views_plugin_style {
   }
 }
 // @codingStandardsIgnoreEnd
-
