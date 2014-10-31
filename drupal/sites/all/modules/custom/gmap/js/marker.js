@@ -7,12 +7,13 @@
 
 Drupal.gmap.addHandler('gmap', function (elem) {
     var obj = this;
+    var infowindow;
 
     if (obj.vars.styleBubble && obj.vars.styleBubble.enableBubbleStyle == 1) {
-        var infowindow = new InfoBubble(obj.vars.styleBubble.styleBubbleOptions);
+        infowindow = new InfoBubble(obj.vars.styleBubble.styleBubbleOptions);
     }
     else {
-        var infowindow = new google.maps.InfoWindow();
+        infowindow = new google.maps.InfoWindow();
     }
 
     obj.bind('init', function () {

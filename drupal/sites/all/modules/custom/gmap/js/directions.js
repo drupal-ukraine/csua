@@ -127,7 +127,7 @@ Drupal.gmap.addHandler('directions', function (element) {
 
         if (directionsRequest.waypoints.length === 0) {
             delete directionsRequest.waypoints;
-        }; // don't send waypoints if there aren't any
+        } // don't send waypoints if there aren't any
         obj.directionsservice.route(directionsRequest, function (directions, status) {
             route.status = status;
             if (status == google.maps.DirectionsStatus.OK) {

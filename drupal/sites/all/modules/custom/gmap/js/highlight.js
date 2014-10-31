@@ -213,7 +213,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
         var marker;
         while (marker = highlightedMarkers.pop()) {
             obj.change('highlightRemove', -1, marker);
-        };
+        }
     });
 
     /**

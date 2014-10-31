@@ -135,7 +135,7 @@
                 .addClass('gmap-' + mapid + '-gmap')
                 .addClass('gmap-processed')
                 .each(function () {
-                    Drupal.gmap.setup.call(this, settings)
+                    Drupal.gmap.setup.call(this, settings);
                 });
         });
     };
@@ -276,6 +276,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
             opts.keyboardShortcuts = false;
         }
 
+        /* falls through */
         // Set default map type (set to road map if nothing selected)
         switch (obj.vars.maptype) {
             case 'Hybrid':
@@ -601,7 +602,7 @@ Drupal.gmap.addHandler('controltype', function (elem) {
     });
     // Send out outgoing height changes.
     jQuery(elem).change(function () {
-        obj.vars.controltype = elem.value
+        obj.vars.controltype = elem.value;
         obj.change("controltypechange", binding);
     });
 });
@@ -619,10 +620,10 @@ Drupal.behaviors.GMap = {
             });
         }
         jQuery('.gmap-gmap:not(.gmap-processed)', context).addClass('gmap-processed').each(function () {
-            Drupal.gmap.setup.call(this)
+            Drupal.gmap.setup.call(this);
         });
         jQuery('.gmap-control:not(.gmap-processed)', context).addClass('gmap-processed').each(function () {
-            Drupal.gmap.setup.call(this)
+            Drupal.gmap.setup.call(this);
         });
     },
     detach: function (context, settings) {

@@ -18,8 +18,9 @@
 
                 var address_string = address_parts.join(', ');
                 var gmap_id = $("fieldset#" + $(this).val() + " .gmap-map").attr('id');
+                var geocoder;
                 if (google.maps.version !== 'undefined') { // assume Google Maps API v3 as API v2 did not have this variable
-                    var geocoder = new google.maps.Geocoder();
+                    geocoder = new google.maps.Geocoder();
                     geocoder.geocode({'address': address_string}, function (results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             var m = Drupal.gmap.getMap(gmap_id);
@@ -34,7 +35,7 @@
                     });
                 }
                 else {
-                    var geocoder = new GClientGeocoder();
+                    geocoder = new GClientGeocoder();
                     geocoder.reset(); // Clear the client-side cache
                     geocoder.getLatLng(address_string, function (point) {
                         if (!point) {
