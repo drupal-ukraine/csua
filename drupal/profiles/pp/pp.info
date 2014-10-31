@@ -4,6 +4,7 @@ core = 7.x
 dependencies[] = block
 dependencies[] = dblog
 dependencies[] = menu
+dependencies[] = contact
 
 ; Contrib module related dependencies
 dependencies[] = context
