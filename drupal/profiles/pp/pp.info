@@ -34,6 +34,8 @@ dependencies[] = rel_to_abs
 dependencies[] = field_ui
 dependencies[] = views_ui
 dependencies[] = context_ui
+dependencies[] = devel
+dependencies[] = devel_generate
 
 ; FAQ 7.x-1.x-dev
 dependencies[] = faq
