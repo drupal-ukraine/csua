@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Gmap feature.
+ */
+
+include_once 'csua_gmap.features.inc';
