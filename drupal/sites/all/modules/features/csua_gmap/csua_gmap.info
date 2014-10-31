@@ -1,0 +1,10 @@
+name = Gmap
+description = Provides base content type for gmap module.
+core = 7.x
+package = CSUA
+dependencies[] = features
+dependencies[] = location_cck
+features[features_api][] = api:2
+features[field_base][] = field_gmap
+features[field_instance][] = node-gmap-field_gmap
+features[node][] = gmap

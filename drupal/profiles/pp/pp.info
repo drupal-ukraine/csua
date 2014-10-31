@@ -41,6 +41,7 @@ dependencies[] = views_ui
 dependencies[] = context_ui
 dependencies[] = devel
 dependencies[] = devel_generate
+dependencies[] = strongarm
 
 ; FAQ 7.x-1.x-dev
 dependencies[] = faq
@@ -74,3 +75,4 @@ dependencies[] = location_gmap_find_address
 ; Features
 dependencies[] = csua_date
 dependencies[] = csua_location
+dependencies[] = csua_gmap
