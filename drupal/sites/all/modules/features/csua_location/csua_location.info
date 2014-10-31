@@ -1,0 +1,10 @@
+name = Location
+description = Provides base content type for location module.
+core = 7.x
+package = CSUA
+dependencies[] = features
+dependencies[] = location_cck
+features[features_api][] = api:2
+features[field_base][] = field_location
+features[field_instance][] = node-csua_location-field_location
+features[node][] = csua_location
