@@ -4,10 +4,10 @@
 
             $("button.location-gmap-find-address-button").click(function (e) {
                 e.preventDefault();
-                var address_parts = new Array();
+                var address_parts = [];
                 $("fieldset#" + $(this).val() + " .form-item input[type=text]," +
                     "fieldset#" + $(this).val() + " .form-item select > option:selected").each(function () {
-                        if (!$(this).hasClass('gmap-control') && $(this).val() != '') {
+                        if (!$(this).hasClass('gmap-control') && $(this).val() !== '') {
                             if ($(this).is('option')) {
                                 address_parts.push($(this).text());
                             } else {
@@ -54,6 +54,6 @@
 
         }
 
-    }
+    };
 })(jQuery);
 

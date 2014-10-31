@@ -8,6 +8,7 @@
 /*global G_PHYSICAL_MAP, G_SATELLITE_MAP, GHierarchicalMapTypeControl */
 /*global GKeyboardHandler, GLatLngBounds, GMenuMapTypeControl, GEvent */
 /*global GOverviewMapControl, GScaleControl, GUnload */
+/*jshint -W069 */
 
 (function () { // BEGIN closure
     var handlers = {};

@@ -54,7 +54,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
     // Default marker actions.
     obj.bind('clickmarker', function (marker) {
         // Close infowindow if open to prevent multiple windows
-        if (infowindow != null) {
+        if (infowindow !== null) {
             infowindow.close();
         }
         if (marker.text) {
@@ -128,7 +128,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
                 obj.map.fitBounds(obj.bounds);
                 var listener = google.maps.event.addListener(obj.map, "idle", function () {
                     if (obj.vars.maxzoom) {
-                        var maxzoom = parseInt(obj.vars.maxzoom)
+                        var maxzoom = parseInt(obj.vars.maxzoom);
                         if (obj.map.getZoom() > maxzoom) obj.map.setZoom(maxzoom);
                         google.maps.event.removeListener(listener);
                     }
