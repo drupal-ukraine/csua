@@ -80,18 +80,5 @@ function csua_captcha_strongarm() {
   $strongarm->value = '1';
   $export['captcha_persistence'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'captcha_placement_map_cache';
-  $strongarm->value = array(
-    'contact_site_form' => array(
-      'path' => array(),
-      'key' => 'actions',
-      'weight' => 99,
-    ),
-  );
-  $export['captcha_placement_map_cache'] = $strongarm;
-
   return $export;
 }

@@ -28,7 +28,7 @@ function csua_gmap_node_info() {
     'gmap' => array(
       'name' => t('Gmap'),
       'base' => 'node_content',
-      'description' => t('Gmap'),
+      'description' => t('Base content type for gmap module.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
