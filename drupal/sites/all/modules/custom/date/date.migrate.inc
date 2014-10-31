@@ -182,7 +182,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
           'timezone' => $timezone,
         );
         // Can be de-uglified when http://drupal.org/node/1159404 is committed.
-        $return[$language] = date_repeat_build_dates($field_info, $item, NULL, date_ical_parse_rrule($field_info, $rrule));
+        $return[$language] = date_repeat_build_dates(NULL, date_ical_parse_rrule($field_info, $rrule), $field_info, $item);
       }
       else {
         $return[$language][$delta]['value'] = $from;
