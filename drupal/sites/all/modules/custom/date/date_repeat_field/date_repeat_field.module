@@ -393,7 +393,7 @@ function date_repeat_field_widget_validate($element, &$form_state) {
       $rrule_values['UNTIL']['granularity'] = serialize(drupal_map_assoc($gran));
       $rrule_values['UNTIL']['all_day'] = 0;
     }
-    $value = date_repeat_build_dates($field, $item, $rrule, $rrule_values);
+    $value = date_repeat_build_dates($rrule, $rrule_values, $field, $item);
     // Unset the delta value of the parents.
     array_pop($element['#parents']);
     // Set the new delta values for this item to the array of values returned by the repeat rule.
@@ -425,8 +425,9 @@ function date_repeat_after_build(&$element, &$form_state) {
  * Pass in either the RRULE or the $form_values array for the RRULE,
  * whichever is missing will be created when needed.
  */
-function date_repeat_build_dates($field, $item, $rrule = NULL, $rrule_values = NULL) {
-
+// @codingStandardsIgnoreStart
+function date_repeat_build_dates($rrule = NULL, $rrule_values = NULL, $field, $item) {
+// @codingStandardsIgnoreEnd
   include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'date_api') . '/date_api_ical.inc';
   $field_name = $field['field_name'];
 
