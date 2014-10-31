@@ -3,11 +3,14 @@ description = Start with all contrib modules for sprint issues.
 core = 7.x
 dependencies[] = block
 dependencies[] = dblog
+dependencies[] = menu
 
 ; Contrib module related dependencies
 dependencies[] = context
 dependencies[] = migrate
 dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = features
 
 ; Location 7.x-3.x-dev
 dependencies[] = location
@@ -54,3 +57,5 @@ dependencies[] = date_repeat_field
 dependencies[] = date_views
 dependencies[] = date_context
 dependencies[] = date_migrate
+
+; Features
