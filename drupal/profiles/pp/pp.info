@@ -9,7 +9,6 @@ dependencies[] = menu
 dependencies[] = context
 dependencies[] = migrate
 dependencies[] = views
-dependencies[] = views_ui
 dependencies[] = features
 
 ; Location 7.x-3.x-dev
@@ -32,9 +31,9 @@ dependencies[] = adminimal_admin_menu
 dependencies[] = module_filter
 dependencies[] = fpa
 dependencies[] = rel_to_abs
-;dependencies[] = field_ui
-;dependencies[] = views_ui
-;dependencies[] = context_ui
+dependencies[] = field_ui
+dependencies[] = views_ui
+dependencies[] = context_ui
 
 ; FAQ 7.x-1.x-dev
 dependencies[] = faq
@@ -59,3 +58,4 @@ dependencies[] = date_context
 dependencies[] = date_migrate
 
 ; Features
+dependencies[] = csua_date
