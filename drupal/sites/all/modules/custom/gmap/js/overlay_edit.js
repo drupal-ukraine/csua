@@ -200,6 +200,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                 }
                 else if (point && !obj._oe.editing) {
                     obj._oe.editing = true;
+                    var p;
                     switch (obj.vars.overlay_add_mode) {
                         case 'Points':
                             var m = elem.value; // @@@ It's kinda silly to be binding the whole shebang to this dropdown..
@@ -210,7 +211,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                             //p = new GMarker(point, {icon: Drupal.gmap.getIcon(m, obj._oe.markerseq[m])});
                             //obj.map.addOverlay(p);
                             var icon = Drupal.gmap.getIcon(m);
-                            var p = new google.maps.Marker({
+                            p = new google.maps.Marker({
                                 position: point,
                                 map: obj.map,
                                 icon: (icon ? icon.url : null)
@@ -264,7 +265,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                              obj.map.addOverlay(p);
                              */
                             var coord = [ new google.maps.LatLng(point) ];
-                            var p = new google.maps.Polyline({path: coord, strokeColor: "#" + s[0], strokeOpacity: s[2] / 100, strokeWeight: Number(s[1])});
+                            p = new google.maps.Polyline({path: coord, strokeColor: "#" + s[0], strokeOpacity: s[2] / 100, strokeWeight: Number(s[1])});
                             p.setMap(obj.map);
 
                             ctx.overlay = p;

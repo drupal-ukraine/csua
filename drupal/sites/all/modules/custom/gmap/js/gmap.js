@@ -276,7 +276,6 @@ Drupal.gmap.addHandler('gmap', function (elem) {
             opts.keyboardShortcuts = false;
         }
 
-        /* falls through */
         // Set default map type (set to road map if nothing selected)
         switch (obj.vars.maptype) {
             case 'Hybrid':
@@ -288,7 +287,9 @@ Drupal.gmap.addHandler('gmap', function (elem) {
             case 'Satellite':
                 opts.mapTypeId = google.maps.MapTypeId.SATELLITE;
                 break;
+            /* falls through */
             case 'Map':
+            /* falls through */
             default:
                 opts.mapTypeId = google.maps.MapTypeId.ROADMAP;
                 break;

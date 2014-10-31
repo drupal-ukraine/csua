@@ -211,7 +211,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
     });
     obj.bind('markerUnHighlightActive', function () {
         var marker;
-        while (marker = highlightedMarkers.pop()) {
+        while (!!(marker = highlightedMarkers.pop())) {
             obj.change('highlightRemove', -1, marker);
         }
     });
