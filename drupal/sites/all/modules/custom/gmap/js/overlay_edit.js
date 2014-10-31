@@ -200,7 +200,6 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                 }
                 else if (point && !obj._oe.editing) {
                     obj._oe.editing = true;
-                    var p;
                     switch (obj.vars.overlay_add_mode) {
                         case 'Points':
                             var m = elem.value; // @@@ It's kinda silly to be binding the whole shebang to this dropdown..
