@@ -67,6 +67,7 @@ function pp_install() {
     'access content',
     'view faq page',
     'access site-wide contact form',
+    'access comments',
   );
   foreach ($permissions as $permission) {
     user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array($permission));
