@@ -93,7 +93,7 @@ function pp_install() {
       'weight' => 2,
     ),
     array(
-      'link_title' => $t('Contact'),
+      'link_title' => $t('Captcha'),
       'link_path' => 'contact',
       'weight' => 3,
     ),

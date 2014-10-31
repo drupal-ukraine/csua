@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Captcha feature.
+ */
+
+include_once 'csua_captcha.features.inc';

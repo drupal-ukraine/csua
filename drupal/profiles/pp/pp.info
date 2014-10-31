@@ -76,3 +76,4 @@ dependencies[] = location_gmap_find_address
 dependencies[] = csua_date
 dependencies[] = csua_location
 dependencies[] = csua_gmap
+dependencies[] = csua_captcha
