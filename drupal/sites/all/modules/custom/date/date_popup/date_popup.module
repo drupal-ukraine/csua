@@ -590,8 +590,8 @@ function date_popup_input_date($element, $input, $auto_complete = FALSE) {
 
   $format = date_popup_date_format($element);
   $format .= $has_time ? ' ' . date_popup_time_format($element) : '';
-  $datetime = $input['date'];
-  $datetime .= $has_time ? ' ' . $input['time'] : '';
+  $datetime = trim($input['date']);
+  $datetime .= $has_time ? ' ' . trim($input['time']) : '';
   $date = new DateObject($datetime, $element['#date_timezone'], $format);
   if (is_object($date)) {
     $date->limitGranularity($granularity);
