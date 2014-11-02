@@ -39,7 +39,7 @@ class location_handler_field_location_address extends views_handler_field {
   }
 
   function query() {
-    if (!empty($this->options['exclude_cck'])) {
+    if (empty($this->options['exclude_cck'])) {
       parent::query();
       return;
     }
