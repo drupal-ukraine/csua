@@ -552,3 +552,46 @@ function date_old_formatter_get_settings($field_name, $type_name, $context) {
   $options['fromto'] = variable_get($value . '_fromto', 'both');
   return $options;
 }
+
+/**
+ * Implements hook_field_update_instance().
+ *
+ * Fix date field minutes and seconds rounding after update/save.
+ */
+function date_field_update_instance($instance, $prior_instance) {
+  if (empty($instance['widget']['module']) || $instance['widget']['module'] != 'date') {
+    return;
+  }
+
+  if ($instance['widget']['type'] == $prior_instance['widget']['type']) {
+    return;
+  }
+
+  if ($instance['widget']['type'] != 'date_text') {
+    return;
+  }
+
+  $instance['widget']['settings']['increment'] = 1;
+  $field = field_read_field($instance['field_name']);
+  if (empty($field)) {
+    throw new FieldException(t('Attempt to update an instance of a nonexistent field @field.', array('@field' => $instance['field_name'])));
+  }
+
+  // Check that the field instance exists (even if it is inactive, since we
+  // want to be able to replace inactive widgets with new ones).
+  $prior_instance = field_read_instance($instance['entity_type'], $instance['field_name'], $instance['bundle'], array('include_inactive' => TRUE));
+  if (empty($prior_instance)) {
+    throw new FieldException(t("Attempt to update an instance of field @field on bundle @bundle that doesn't exist.", array(
+          '@field' => $instance['field_name'],
+          '@bundle' => $instance['bundle']
+        )));
+  }
+
+  $instance['id'] = $prior_instance['id'];
+  $instance['field_id'] = $prior_instance['field_id'];
+
+  _field_write_instance($instance, TRUE);
+
+  // Clear caches.
+  field_cache_clear();
+}
