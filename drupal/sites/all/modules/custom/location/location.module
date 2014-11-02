@@ -487,6 +487,12 @@ function _location_process_location($element, $form_state) {
   }
 
   if (isset($defaults['lid']) && !empty($defaults['lid'])) {
+    $element['re_geocode_location'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Re geocode'),
+      '#default_value' => isset($fdefaults['re_geocode_location']) ? $fdefaults['re_geocode_location'] : FALSE,
+      '#description' => t('Check this box to re-geocode location.'),
+    );
     $element['delete_location'] = array(
       '#type' => 'checkbox',
       '#title' => t('Delete'),
@@ -737,6 +743,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
         'longitude' => array('default' => 0),
         'source' => array('default' => LOCATION_LATLON_UNDEFINED),
         'is_primary' => array('default' => 0),
+        're_geocode_location' => array('default' => FALSE, 'nodiff' => TRUE),
         'delete_location' => array('default' => FALSE, 'nodiff' => TRUE),
       );
     // @codingStandardsIgnoreEnd
@@ -1456,7 +1463,7 @@ function location_save(&$location, $cow = TRUE, $criteria = array()) {
   }
 
   $changed = array();
-  if (!location_calc_difference($oldloc, $location, $changed)) {
+  if (!location_calc_difference($oldloc, $location, $changed) && !$location['re_geocode_location']) {
     // We didn't actually need to save anything.
     if (!empty($location['lid'])) {
       return $location['lid'];
