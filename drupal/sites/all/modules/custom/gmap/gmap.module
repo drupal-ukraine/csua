@@ -1510,14 +1510,15 @@ function gmap_views_protocol() {
   return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
 }
 
-
+/**
+ * Gmap style.
+ */
 function theme_gmap_style($element) {
 }
- 
+
 /**
  * Theme a gmap marker popup.
  */
 function theme_gmap_popup($marker) {
   return '<div class="gmap-popup">' . $marker['text'] . '</div>';
 }
-
