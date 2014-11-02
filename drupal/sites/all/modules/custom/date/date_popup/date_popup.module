@@ -619,7 +619,13 @@ function date_popup_time_formats($with_seconds = FALSE) {
  * TODO Remove any formats not supported by the widget, if any.
  */
 function date_popup_formats() {
-  $formats = str_replace('i', 'i:s', array_keys(system_get_date_formats('short')));
+  // Load short date formats
+  $formats_short = system_get_date_formats('short');
+  // Load custom date formats
+  $formats_custom = system_get_date_formats('custom');
+  // Combine formats
+  $formats = array_merge($formats_short, $formats_custom);
+  $formats = str_replace('i', 'i:s', array_keys($formats));
   $formats = drupal_map_assoc($formats);
   return $formats;
 }
