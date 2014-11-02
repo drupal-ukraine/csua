@@ -554,12 +554,7 @@ function date_old_formatter_get_settings($field_name, $type_name, $context) {
 }
 
 /**
- * Fix date field minutes and seconds rounding after update/save
- * https://www.drupal.org/node/1355256
- * 
- * @param $instance
- * @param $prior_instance
- * @throws FieldException
+ * Fix date field minutes and seconds rounding after update/save.
  */
 function date_field_update_instance($instance, $prior_instance) {
   if (!empty($instance['widget']['module']) && $instance['widget']['module'] == 'date') {
