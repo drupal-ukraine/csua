@@ -73,7 +73,7 @@ function date_help($path, $arg) {
 }
 
 /**
- * Helper function to retun the status of required date variables.
+ * Helper function to return the status of required date variables.
  */
 function date_api_status() {
   $t = get_t();
