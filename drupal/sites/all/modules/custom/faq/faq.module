@@ -234,7 +234,8 @@ function faq_form($node, $form_state) {
  *   The node object.
  */
 function faq_insert($node) {
-  $detailed_question = reset(field_get_items('node', $node, 'field_detailed_question'));
+  $items = field_get_items('node', $node, 'field_detailed_question');
+  $detailed_question = reset($items);
   db_insert('faq_questions')
     ->fields(array(
       'nid' => $node->nid,
