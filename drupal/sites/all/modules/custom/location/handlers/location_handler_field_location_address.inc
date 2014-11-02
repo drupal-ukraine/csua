@@ -40,10 +40,11 @@ class location_handler_field_location_address extends views_handler_field {
 
   function query() {
     if (!empty($this->options['exclude_cck'])) {
-      $genid_field = $this->query->ensure_table('location_instance', $this->relationship) . ".genid";
-      $this->query->add_where(0, "$genid_field NOT LIKE '%cck%' OR $genid_field IS NULL");
+      parent::query();
+      return;
     }
-    parent::query();
+    $genid_field = $this->query->ensure_table('location_instance', $this->relationship) . ".genid";
+    $this->query->add_where(0, "$genid_field NOT LIKE '%cck%' OR $genid_field IS NULL");
   }
 
   /**
