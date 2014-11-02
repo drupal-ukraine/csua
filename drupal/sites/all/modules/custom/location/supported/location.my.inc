@@ -93,13 +93,15 @@ function location_map_link_my_google($location = array()) {
 
   if (location_has_coordinates($location)) {
     $q = urlencode($location['latitude'] . ' ' . $location['longitude'] . ' (' . implode(', ', $query_params) . ')');
-  } else if (count($query_params) > 0) {
+  }
+  elseif (count($query_params) > 0) {
     $q = urlencode(implode(", ", $query_params));
   }
 
   if ($q != NULL) {
-    return ('http://maps.google.com.my?q='. $q);
-  } else {
+    return ('http://maps.google.com.my?q=' . $q);
+  }
+  else {
     return NULL;
   }
 }
@@ -110,7 +112,8 @@ function location_map_link_my_google($location = array()) {
 function location_map_link_my_mapquest($location = array()) {
   if (location_has_coordinates($location)) {
     return 'http://www.mapquest.com/maps?l=' . urlencode($location['latitude']) . '&amp;g=' . urlencode($location['longitude']);
-  } else if (count($query_params) > 0) {
+  }
+  elseif (count($query_params) > 0) {
     return NULL;
   }
 }
