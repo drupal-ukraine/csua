@@ -572,7 +572,6 @@ function date_field_update_instance($instance, $prior_instance) {
   }
 
   $instance['widget']['settings']['increment'] = 1;
-  
   $field = field_read_field($instance['field_name']);
   if (empty($field)) {
     throw new FieldException(t('Attempt to update an instance of a nonexistent field @field.', array('@field' => $instance['field_name'])));
