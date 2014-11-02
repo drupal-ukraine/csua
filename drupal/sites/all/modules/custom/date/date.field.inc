@@ -554,6 +554,8 @@ function date_old_formatter_get_settings($field_name, $type_name, $context) {
 }
 
 /**
+ * Implements hook_field_update_instance().
+ *
  * Fix date field minutes and seconds rounding after update/save.
  */
 function date_field_update_instance($instance, $prior_instance) {
@@ -568,7 +570,7 @@ function date_field_update_instance($instance, $prior_instance) {
   if ($instance['widget']['type'] != 'date_text') {
     return;
   }
-  
+
   $instance['widget']['settings']['increment'] = 1;
 
   // Check that the specified field exists.
