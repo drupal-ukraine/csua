@@ -1,0 +1,45 @@
+diff --git a/faq.admin.inc b/faq.admin.inc
+index 72cccac..2defc79 100644
+--- a/faq.admin.inc
++++ b/faq.admin.inc
+@@ -491,7 +491,7 @@ function faq_order_settings_form($form, $form_state, $category = NULL) {
+   if ($step == "categories") {
+ 
+     // Get list of categories.
+-    $vocabularies = taxonomy_get_vocabularies('faq');
++    $vocabularies = faq_get_vocabularies(array('faq'));
+     $options = array();
+     foreach ($vocabularies as $vid => $vobj) {
+       $tree = taxonomy_get_tree($vid);
+diff --git a/faq.module b/faq.module
+index 7682926..baeb443 100644
+--- a/faq.module
++++ b/faq.module
+@@ -1633,3 +1633,27 @@ function theme_faq_draggable_question_order_table($variables) {
+   return $output;
+ }
+ 
++/**
++ * Get all vocabularies for a content type
++ */
++function faq_get_vocabularies($types = array()) {
++  if (empty($types) || !is_array($types)) {
++    return FALSE;
++  }
++
++  $return = array();
++  foreach (field_info_fields() as $field) {
++    if ($field['type'] == 'taxonomy_term_reference' && is_array($field['bundles']['node'])) {
++      foreach ($field['bundles']['node'] as $content_type) {
++        if (in_array($content_type, $types)) {
++          foreach ($field['settings']['allowed_values'] as $value) {
++            $vocabulary = taxonomy_vocabulary_machine_name_load($value['vocabulary']);
++            $return[$vocabulary->vid] = $vocabulary;
++          }
++        }
++      }
++    }
++  }
++
++  return $return;
++}
