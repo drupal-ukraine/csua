@@ -343,7 +343,12 @@ function date_repeat_rrule_description($rrule, $format = 'D M d Y') {
     $description['!additional'] = trim(t('Also includes !additional_dates.',
     array('!additional_dates' => implode(', ', $values))));
   }
-  return t('Repeats !interval !bymonth !byday !count !until !except. !additional', $description);
+  $output = t('Repeats !interval !bymonth !byday !count !until !except. !additional', $description);
+  // Removes double whitespaces from Repeat tile.
+  $output = preg_replace('/\s+/', ' ', $output);
+  // Removes whitespace before full stop ".", at the end of the title.
+  $output = str_replace(' .', '.', $output);
+  return $output;
 }
 
 /**
