@@ -73,7 +73,7 @@ function date_help($path, $arg) {
 }
 
 /**
- * Helper function to retun the status of required date variables.
+ * Helper function to return the status of required date variables.
  */
 function date_api_status() {
   $t = get_t();
@@ -101,7 +101,7 @@ function date_api_status() {
   $value = variable_get('date_format_medium');
   if (isset($value)) {
     $now = date_now();
-    $success_messages[] = $t('The medium date format type has been set to to @value. You may find it helpful to add new format types like Date, Time, Month, or Year, with appropriate formats, at <a href="@regional_date_time">Date and time</a> settings.', array('@value' => $now->format($value), '@regional_date_time' => url('admin/config/regional/date-time')));
+    $success_messages[] = $t('The medium date format type has been set to @value. You may find it helpful to add new format types like Date, Time, Month, or Year, with appropriate formats, at <a href="@regional_date_time">Date and time</a> settings.', array('@value' => $now->format($value), '@regional_date_time' => url('admin/config/regional/date-time')));
   }
   else {
     $error_messages[] = $t('The Date API requires that you set up the <a href="@regional_date_time">system date formats</a> to function correctly.', array('@regional_date_time' => url('admin/config/regional/date-time')));
