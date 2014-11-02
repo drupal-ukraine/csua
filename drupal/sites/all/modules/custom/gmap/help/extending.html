@@ -43,8 +43,8 @@ sequence = "my1.png,my2.png"  ; The list of image files to use. Specifying multi
 <h3></h3>
 <p>To use this handlers create a js file and use insert this example code. This example prints a alert, everytime a user clicks on a marker.</p>
 <pre>
-  // Add a gmap handler
-  Drupal.gmap.addHandler('gmap', function(elem) {
+	// Add a gmap handler
+	Drupal.gmap.addHandler('gmap', function(elem) {
 		var obj = this;
 		obj.bind('zoom', function() {
 			var zoom = obj.vars.zoom;
