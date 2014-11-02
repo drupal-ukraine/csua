@@ -47,8 +47,10 @@ function gmap_theme() {
     // 'gmap_overlay_edit' => array('render element' => 'element'),
     // 'gmap_macrotext' => array('render element' => 'element'),
     'gmap_dimension' => array('render element' => 'element'),
-    // 'gmap_address' => array('render element' => 'element'),
-    // 'gmap_align' => array('render element' => 'element'),
+    'gmap_address' => array('render element' => 'element'),
+    'gmap_align' => array('render element' => 'element'),
+    'gmap_style' => array('render element' => array('element')),
+    'gmap_popup' => array('render element' => array('marker')),
     'gmap' => array('render element' => 'element'),
   );
 }
@@ -1507,3 +1509,15 @@ function template_preprocess_gmap_view_gmap(&$vars) {
 function gmap_views_protocol() {
   return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
 }
+
+
+function theme_gmap_style($element) {
+}
+ 
+/**
+ * Theme a gmap marker popup.
+ */
+function theme_gmap_popup($marker) {
+  return '<div class="gmap-popup">' . $marker['text'] . '</div>';
+}
+
