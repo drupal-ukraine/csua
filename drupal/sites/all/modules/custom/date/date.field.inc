@@ -320,7 +320,7 @@ function date_field_widget_info() {
   }
 
   // The date text widget should use an increment of 1.
-  $info['date_text']['settings']['increment'] = 1;
+  $info['date_text']['increment'] = 1;
 
   return $info;
 }
