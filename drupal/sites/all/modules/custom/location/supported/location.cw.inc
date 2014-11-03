@@ -13,7 +13,7 @@ function location_province_list_cw() {
 }
 
 /**
- * Returns minimum and maximum latitude and longitude needed to create a bounding box.
+ * Returns minimum and maximum latitude and longitude needed for bounding box.
  */
 function location_bounds_cw() {
   return array(
