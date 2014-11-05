@@ -1463,7 +1463,7 @@ function location_save(&$location, $cow = TRUE, $criteria = array()) {
   }
 
   $changed = array();
-  if (!location_calc_difference($oldloc, $location, $changed) && !$location['re_geocode_location']) {
+  if (!location_calc_difference($oldloc, $location, $changed) && empty($location['re_geocode_location'])) {
     // We didn't actually need to save anything.
     if (!empty($location['lid'])) {
       return $location['lid'];
