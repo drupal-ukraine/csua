@@ -121,10 +121,12 @@ function theme_date_display_combination($variables) {
       $date1 = $dates['value']['formatted'];
       $date2 = $date1;
       break;
+
     case 'value2':
       $date2 = $dates['value2']['formatted'];
       $date1 = $date2;
       break;
+
     default:
       $date1 = $dates['value']['formatted'];
       $date2 = $dates['value2']['formatted'];
@@ -236,12 +238,12 @@ function template_preprocess_date_display_single(&$variables) {
     // Because the Entity API integration for Date has a variable data
     // structure depending on whether there is an end value, the attributes
     // could be attached to the field or to the value property.
-    if(!empty($variables['microdata']['#attributes']['itemprop'])) {
+    if (!empty($variables['microdata']['#attributes']['itemprop'])) {
       $variables['microdata']['value']['#attributes'] = $variables['microdata']['#attributes'];
     }
 
     // Add the machine readable time using the content attribute.
-    if(!empty($variables['microdata']['value']['#attributes'])) {
+    if (!empty($variables['microdata']['value']['#attributes'])) {
       $variables['microdata']['value']['#attributes']['content'] = $variables['dates']['value']['formatted_iso'];
     }
     else {
@@ -396,7 +398,11 @@ function theme_date_text_parts($variables) {
       $rows[] = drupal_render($element[$key]);
     }
     else {
-      $rows[] = array($part, drupal_render($element[$key][0]), drupal_render($element[$key][1]));
+      $rows[] = array(
+        $part,
+        drupal_render($element[$key][0]),
+        drupal_render($element[$key][1]),
+      );
     }
   }
   if ($element['year']['#type'] == 'hidden') {
