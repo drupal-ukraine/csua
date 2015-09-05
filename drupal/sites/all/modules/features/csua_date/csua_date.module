@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Date feature.
- */
-
-include_once 'csua_date.features.inc';

@@ -1,6 +1,0 @@
-name = Relative to Absolute Filter
-description = "Filter for convertion of relative paths to absolute URLs"
-core = 7.x
-package = "Input filters"
-dependencies[] = filter
-files[] = rel_to_abs.test
