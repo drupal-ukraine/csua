@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Location feature.
- */
-
-include_once 'csua_location.features.inc';
